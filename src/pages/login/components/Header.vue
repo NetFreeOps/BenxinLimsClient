@@ -1,38 +1,25 @@
 <template>
   <header class="login-header">
-    <logo-full-icon class="logo" />
+    <div><img class="logo" src="@/assets/assets-logo-full.png" /></div>
     <div class="operations-container">
       <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
         <t-icon name="logo-github" class="icon" />
       </t-button>
-      <t-button theme="default" shape="square" variant="text" @click="navToHelper">
-        <t-icon name="help-circle" class="icon" />
-      </t-button>
-      <t-button theme="default" shape="square" variant="text" @click="toggleSettingPanel">
-        <t-icon name="setting" class="icon" />
-      </t-button>
+
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import LogoFullIcon from '@/assets/assets-logo-full.svg?component';
 import { useSettingStore } from '@/store';
 
 const settingStore = useSettingStore();
-const toggleSettingPanel = () => {
-  settingStore.updateConfig({
-    showSettingPanel: true,
-  });
-};
+
 
 const navToGitHub = () => {
-  window.open('https://github.com/tencent/tdesign-vue-next-starter');
+  window.open('hhttps://github.com/NetFreeOps/BenxinLimsClient');
 };
 
-const navToHelper = () => {
-  window.open('http://tdesign.tencent.com/starter/docs/get-started');
-};
 </script>
 
 <style lang="less" scoped>
@@ -45,12 +32,14 @@ const navToHelper = () => {
   color: var(--td-text-color-primary);
 
   .logo {
-    width: 188px;
+    margin-top: 24px;
+    width: 40px;
   }
 
   .operations-container {
     display: flex;
     align-items: center;
+
     .t-button {
       margin-left: 16px;
     }
