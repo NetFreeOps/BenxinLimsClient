@@ -22,7 +22,7 @@
         </t-input>
       </t-form-item>
 
-      <t-form-item label="选择角色">
+      <t-form-item label="选择角色" v-if="loginStatus">
         <!-- 角色列表 -->
         <t-select v-model="userRole" size="large" placeholder="请选择角色" :options="userRoles" clearable>
           <template #prefix-icon>
@@ -35,7 +35,8 @@
     </template>
 
     <t-form-item v-if="type !== 'qrcode'" class="btn-container">
-      <t-button block size="large" type="submit"> 登录 </t-button>
+      <t-button v-if="!loginStatus" block size="large" type="submit"> 登录 </t-button>
+      <t-button v-if="loginStatus" block size="large" type="button" @click="onEnterSystem"> 进入系统 </t-button>
     </t-form-item>
 
 
@@ -93,7 +94,7 @@ const sendCode = () => {
     }
   });
 };
-
+// 认证登录
 const onSubmit = async ({ validateResult }) => {
   if (validateResult === true) {
     try {
@@ -102,14 +103,24 @@ const onSubmit = async ({ validateResult }) => {
       loginStatus.value = true;
 
       MessagePlugin.success('登陆成功');
-      const redirect = route.query.redirect as string;
-      const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
-      router.push(redirectUrl);
+
     } catch (e) {
       console.log(e);
       MessagePlugin.error(e.message);
     }
   }
+
+};
+// 选择角色后进入系统
+const onEnterSystem = () => {
+  // 判断角色是否为空
+  if (!userRole.value) {
+    MessagePlugin.error('请选择角色');
+    return;
+  }
+  const redirect = route.query.redirect as string;
+  const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
+  router.push(redirectUrl);
 };
 </script>
 
