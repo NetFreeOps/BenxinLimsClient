@@ -3,10 +3,10 @@ import DashboardIcon from '@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
-    path: '/system',
+    path: '/systemManager',
     component: Layout,
-    //redirect: '/dashboard/base',
-    name: 'dashboard',
+    redirect: '/systemManager/analysis',
+    name: 'systemManager',
     meta: { title: '系统管理', icon: DashboardIcon },
     children: [
       {

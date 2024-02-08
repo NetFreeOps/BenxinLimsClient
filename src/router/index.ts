@@ -57,8 +57,11 @@ export const getRoutesExpanded = () => {
   return uniq(expandedRoutes);
 };
 
-export const getActive = (maxLevel = 3): string => {
+export const getActive = (maxLevel = 5): string => {
   const route = useRoute();
+  if (!route) { // 防止 route 未定义或为 null
+    return '';
+  }
   if (!route.path) {
     return '';
   }
