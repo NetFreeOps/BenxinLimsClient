@@ -35,6 +35,7 @@ import isObject from 'lodash/isObject';
 import type { MenuRoute } from '@/types/interface';
 import { getActive } from '@/router';
 
+// 定义props
 const props = defineProps({
   navData: {
     type: Array as PropType<MenuRoute[]>,
@@ -42,6 +43,7 @@ const props = defineProps({
   },
 });
 
+// 定义computed
 const active = computed(() => getActive());
 const list = computed(() => {
   const { navData } = props;
@@ -50,6 +52,7 @@ const list = computed(() => {
 
 type ListItemType = MenuRoute & { icon?: string };
 
+// 获取菜单列表
 const getMenuList = (list: MenuRoute[], basePath?: string): ListItemType[] => {
   if (!list) {
     return [];
@@ -73,6 +76,7 @@ const getMenuList = (list: MenuRoute[], basePath?: string): ListItemType[] => {
     .filter((item) => item.meta && item.meta.hidden !== true);
 };
 
+// 获取链接
 const getHref = (item: MenuRoute) => {
   const { frameSrc, frameBlank } = item.meta;
   if (frameSrc && frameBlank) {
@@ -81,6 +85,7 @@ const getHref = (item: MenuRoute) => {
   return null;
 };
 
+// 获取路径
 const getPath = (item) => {
   if (active.value.startsWith(item.path)) {
     return active.value;
@@ -88,10 +93,12 @@ const getPath = (item) => {
   return item.meta?.single ? item.redirect : item.path;
 };
 
+// 判断是否为图标
 const beIcon = (item: MenuRoute) => {
   return item.icon && typeof item.icon === 'string';
 };
 
+// 判断是否为渲染
 const beRender = (item: MenuRoute) => {
   if (isObject(item.icon) && typeof item.icon.render === 'function') {
     return {
@@ -105,6 +112,7 @@ const beRender = (item: MenuRoute) => {
   };
 };
 
+// 打开链接
 const openHref = (url: string) => {
   window.open(url);
 };

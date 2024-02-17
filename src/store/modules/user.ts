@@ -2,21 +2,28 @@ import { defineStore } from 'pinia';
 import { TOKEN_NAME } from '@/config/global';
 import { store, usePermissionStore } from '@/store';
 
+// 初始化用户信息
 const InitUserInfo = {
   roles: [],
 };
 
+// 使用 Pinia 定义用户 store
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    token: localStorage.getItem(TOKEN_NAME) || 'main_token', // 默认token不走权限
-    userInfo: { ...InitUserInfo },
-  }),
+  state: () => {
+    // 保存用户 token 和信息
+    return {
+      token: localStorage.getItem(TOKEN_NAME) || 'main_token', // 默认 token 不走权限
+      userInfo: { ...InitUserInfo },
+    };
+  },
   getters: {
+    // 获取用户角色列表
     roles: (state) => {
       return state.userInfo?.roles;
     },
   },
   actions: {
+    // 用户登录
     async login(userInfo: Record<string, unknown>) {
       const mockLogin = async (userInfo: Record<string, unknown>) => {
         // 登录请求流程
@@ -52,6 +59,7 @@ export const useUserStore = defineStore('user', {
         throw res;
       }
     },
+    // 获取用户信息
     async getUserInfo() {
       const mockRemoteUserInfo = async (token: string) => {
         if (token === 'main_token') {
@@ -70,15 +78,18 @@ export const useUserStore = defineStore('user', {
 
       this.userInfo = res;
     },
+    // 用户登出
     async logout() {
       localStorage.removeItem(TOKEN_NAME);
       this.token = '';
       this.userInfo = { ...InitUserInfo };
     },
+    // 删除 token
     async removeToken() {
       this.token = '';
     },
   },
+  // 使用 Pinia 持久化 store
   persist: {
     afterRestore: (ctx) => {
       if (ctx.store.roles && ctx.store.roles.length > 0) {
@@ -89,6 +100,7 @@ export const useUserStore = defineStore('user', {
   },
 });
 
+// 获取用户 store
 export function getUserStore() {
   return useUserStore(store);
 }

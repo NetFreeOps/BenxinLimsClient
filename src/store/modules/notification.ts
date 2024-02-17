@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { NotificationItem } from '@/types/interface';
 
+// 定义消息数据模型
 const msgData = [
   {
     id: '123',
@@ -58,20 +59,32 @@ const msgData = [
   },
 ];
 
+// 定义消息数据模型的类型
 type MsgDataType = typeof msgData;
 
+// 使用pinia定义store
 export const useNotificationStore = defineStore('notification', {
+  // 定义store的状态
   state: () => ({
     msgData,
   }),
+
+  // 定义store的getter
   getters: {
+    // 获取未读消息
     unreadMsg: (state) => state.msgData.filter((item: NotificationItem) => item.status),
+    // 获取已读消息
     readMsg: (state) => state.msgData.filter((item: NotificationItem) => !item.status),
   },
+
+  // 定义store的action
   actions: {
+    // 设置消息数据
     setMsgData(data: MsgDataType) {
       this.msgData = data;
     },
   },
+
+  // 设置store的持久化
   persist: true,
 });
