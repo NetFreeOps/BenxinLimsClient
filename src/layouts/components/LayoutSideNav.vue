@@ -11,6 +11,7 @@ import { storeToRefs } from 'pinia';
 import { usePermissionStore, useSettingStore } from '@/store';
 import LSideNav from './SideNav.vue';
 
+//debugger
 // 使用路由钩子函数获取当前路由
 const route = useRoute();
 

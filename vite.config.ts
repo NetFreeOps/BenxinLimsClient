@@ -19,6 +19,17 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       },
     },
 
+    optimizeDeps: {
+      include: ['vue'],
+      esbuildOptions: {
+        define: {
+          '__VUE_PROD_DEVTOOLS__': 'false',
+          // 如果需要禁用此特定警告，则设置为false
+          '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': 'false',
+        },
+      },
+    },
+
     css: {
       preprocessorOptions: {
         less: {

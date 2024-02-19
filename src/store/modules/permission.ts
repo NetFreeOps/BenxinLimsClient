@@ -48,14 +48,16 @@ export const usePermissionStore = defineStore('permission', {
       let accessedRouters = [];
 
       let removeRoutes = [];
-      // 特殊token
-      if (roles.includes('all')) {
-        accessedRouters = asyncRouterList;
-      } else {
-        const res = filterPermissionsRouters(asyncRouterList, roles);
-        accessedRouters = res.accessedRouters;
-        removeRoutes = res.removeRoutes;
-      }
+      // // 特殊token
+      // if (roles.includes('all')) {
+      //   accessedRouters = asyncRouterList;
+      // } else {
+      //   const res = filterPermissionsRouters(asyncRouterList, roles);
+      //   accessedRouters = res.accessedRouters;
+      //   removeRoutes = res.removeRoutes;
+      // }
+
+      accessedRouters = asyncRouterList;
 
       this.routers = accessedRouters;
       this.removeRoutes = removeRoutes;

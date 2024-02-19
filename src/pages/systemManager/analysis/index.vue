@@ -4,7 +4,7 @@
       <div class="user-left-greeting">
         <div>
           Hi，Image
-          <span class="regular"> 下午好，今天是你加入鹅厂的第 100 天～</span>
+          <span class="regular"> analysis</span>
         </div>
         <img src="@/assets/assets-tencent-logo.png" class="logo" />
       </div>
@@ -35,13 +35,8 @@
           <t-tab-panel value="second" label="内容列表">
             <t-card :bordered="false" class="card-padding-no" title="主页访问数据" describe="（次）">
               <template #actions>
-                <t-date-range-picker
-                  class="card-date-picker-container"
-                  :default-value="LAST_7_DAYS"
-                  theme="primary"
-                  mode="date"
-                  @change="onLineChange"
-                />
+                <t-date-range-picker class="card-date-picker-container" :default-value="LAST_7_DAYS" theme="primary"
+                  mode="date" @change="onLineChange" />
               </template>
               <div id="lineContainer" style="width: 100%; height: 330px" />
             </t-card>
