@@ -2,7 +2,24 @@ import { useRoute, createRouter, createWebHashHistory, RouteRecordRaw } from 'vu
 import uniq from 'lodash/uniq';
 
 // 自动导入modules文件夹下所有ts文件
-const modules = import.meta.globEager('./modules/**/*.ts');
+//const modules = import.meta.globEager('./modules/**/*.ts');
+
+const system = import.meta.globEager('./modules/system.ts');
+const  base = import.meta.globEager('./modules/base.ts');
+const components = import.meta.globEager('./modules/components.ts');
+const iframe = import.meta.globEager('./modules/iframe.ts');
+const others = import.meta.globEager('./modules/others.ts');
+
+const modules = {
+  ...system,
+  ...base,
+  ...components,
+  ...iframe,
+  ...others,
+};
+
+console.warn('modules', modules);
+//debugger;
 
 // 路由暂存
 const routeModuleList: Array<RouteRecordRaw> = [];
