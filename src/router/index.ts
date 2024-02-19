@@ -4,6 +4,7 @@ import uniq from 'lodash/uniq';
 // 自动导入modules文件夹下所有ts文件
 //const modules = import.meta.globEager('./modules/**/*.ts');
 
+const permission = import.meta.globEager('./modules/permission.ts');
 const system = import.meta.globEager('./modules/system.ts');
 const  base = import.meta.globEager('./modules/base.ts');
 const components = import.meta.globEager('./modules/components.ts');
@@ -11,6 +12,7 @@ const iframe = import.meta.globEager('./modules/iframe.ts');
 const others = import.meta.globEager('./modules/others.ts');
 
 const modules = {
+  ...permission,
   ...system,
   ...base,
   ...components,
