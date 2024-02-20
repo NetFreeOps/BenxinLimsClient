@@ -72,7 +72,7 @@ import { DialogPlugin, Tag } from "tdesign-vue-next";
 
 const INITIAL_DATA = {
     userName: '',
-    userId: -1
+    userId: ''
 }
 
 const data = reactive({
@@ -109,8 +109,6 @@ const columns = [
         type: "single",
         // 允许单选(Radio)取消行选中
         checkProps: { allowUncheck: true },
-
-
         width: 50,
     },
     { colKey: "id", title: "序号", width: 100 },

@@ -30,12 +30,12 @@ export const TestApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiTestItemToTestAnalysisnamePost: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiTestItemtotestAnalysisnamePost: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'analysisname' is not null or undefined
             if (analysisname === null || analysisname === undefined) {
-                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiTestItemToTestAnalysisnamePost.');
+                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiTestItemtotestAnalysisnamePost.');
             }
-            const localVarPath = `/api/test/item-to-test/{analysisname}`
+            const localVarPath = `/api/test/itemtotest/{analysisname}`
                 .replace(`{${"analysisname"}}`, encodeURIComponent(String(analysisname)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -221,8 +221,8 @@ export const TestApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiTestTestListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/test/test-list`;
+        apiTestTestlistGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/test/testlist`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -264,12 +264,12 @@ export const TestApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiTestTestStatusAnalysisnamePut: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiTestTeststatusAnalysisnamePut: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'analysisname' is not null or undefined
             if (analysisname === null || analysisname === undefined) {
-                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiTestTestStatusAnalysisnamePut.');
+                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiTestTeststatusAnalysisnamePut.');
             }
-            const localVarPath = `/api/test/test-status/{analysisname}`
+            const localVarPath = `/api/test/teststatus/{analysisname}`
                 .replace(`{${"analysisname"}}`, encodeURIComponent(String(analysisname)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -321,8 +321,8 @@ export const TestApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestItemToTestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestItemToTestAnalysisnamePost(analysisname, options);
+        async apiTestItemtotestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestItemtotestAnalysisnamePost(analysisname, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -372,8 +372,8 @@ export const TestApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestTestListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestTestListGet(options);
+        async apiTestTestlistGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestTestlistGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -385,8 +385,8 @@ export const TestApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestTestStatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestTestStatusAnalysisnamePut(analysisname, options);
+        async apiTestTeststatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await TestApiAxiosParamCreator(configuration).apiTestTeststatusAnalysisnamePut(analysisname, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -407,8 +407,8 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestItemToTestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return TestApiFp(configuration).apiTestItemToTestAnalysisnamePost(analysisname, options).then((request) => request(axios, basePath));
+        async apiTestItemtotestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return TestApiFp(configuration).apiTestItemtotestAnalysisnamePost(analysisname, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -442,8 +442,8 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestTestListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return TestApiFp(configuration).apiTestTestListGet(options).then((request) => request(axios, basePath));
+        async apiTestTestlistGet(options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return TestApiFp(configuration).apiTestTestlistGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -451,8 +451,8 @@ export const TestApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTestTestStatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return TestApiFp(configuration).apiTestTestStatusAnalysisnamePut(analysisname, options).then((request) => request(axios, basePath));
+        async apiTestTeststatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return TestApiFp(configuration).apiTestTeststatusAnalysisnamePut(analysisname, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -471,8 +471,8 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public async apiTestItemToTestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return TestApiFp(this.configuration).apiTestItemToTestAnalysisnamePost(analysisname, options).then((request) => request(this.axios, this.basePath));
+    public async apiTestItemtotestAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return TestApiFp(this.configuration).apiTestItemtotestAnalysisnamePost(analysisname, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -510,8 +510,8 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public async apiTestTestListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return TestApiFp(this.configuration).apiTestTestListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiTestTestlistGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return TestApiFp(this.configuration).apiTestTestlistGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -520,7 +520,7 @@ export class TestApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof TestApi
      */
-    public async apiTestTestStatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return TestApiFp(this.configuration).apiTestTestStatusAnalysisnamePut(analysisname, options).then((request) => request(this.axios, this.basePath));
+    public async apiTestTeststatusAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return TestApiFp(this.configuration).apiTestTeststatusAnalysisnamePut(analysisname, options).then((request) => request(this.axios, this.basePath));
     }
 }

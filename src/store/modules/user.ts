@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 import { TOKEN_NAME } from '@/config/global';
 import { store, usePermissionStore } from '@/store';
+import { feature,getAPI } from '@/axios-utils';
+import{SysAuthApi, SysauthApi } from '@/api-services';
+
 
 // 初始化用户信息
 const InitUserInfo = {
@@ -25,39 +28,46 @@ export const useUserStore = defineStore('user', {
   actions: {
     // 用户登录
     async login(userInfo: Record<string, unknown>) {
-      const mockLogin = async (userInfo: Record<string, unknown>) => {
-        // 登录请求流程
-        console.log(userInfo);
-        // const { account, password } = userInfo;
-        // if (account !== 'td') {
-        //   return {
-        //     code: 401,
-        //     message: '账号不存在',
-        //   };
-        // }
-        // if (['main_', 'dev_'].indexOf(password) === -1) {
-        //   return {
-        //     code: 401,
-        //     message: '密码错误',
-        //   };
-        // }
-        // const token = {
-        //   main_: 'main_token',
-        //   dev_: 'dev_token',
-        // }[password];
-        return {
-          code: 200,
-          message: '登陆成功',
-          data: 'main_token',
-        };
-      };
+      const [err,res] = await feature(getAPI(SysauthApi).apiSysauthWebloginPost(userInfo));
 
-      const res = await mockLogin(userInfo);
-      if (res.code === 200) {
-        this.token = res.data;
-      } else {
-        throw res;
+      if(err){
+        throw err;
       }
+      this.token = res.data.data.token;
+
+      // const mockLogin = async (userInfo: Record<string, unknown>) => {
+      //   // 登录请求流程
+      //   console.log(userInfo);
+      //   // const { account, password } = userInfo;
+      //   // if (account !== 'td') {
+      //   //   return {
+      //   //     code: 401,
+      //   //     message: '账号不存在',
+      //   //   };
+      //   // }
+      //   // if (['main_', 'dev_'].indexOf(password) === -1) {
+      //   //   return {
+      //   //     code: 401,
+      //   //     message: '密码错误',
+      //   //   };
+      //   // }
+      //   // const token = {
+      //   //   main_: 'main_token',
+      //   //   dev_: 'dev_token',
+      //   // }[password];
+      //   return {
+      //     code: 200,
+      //     message: '登陆成功',
+      //     data: 'main_token',
+      //   };
+      // };
+
+      // const res = await mockLogin(userInfo);
+      // if (res.code === 200) {
+      //   this.token = res.data;
+      // } else {
+      //   throw res;
+      // }
     },
     // 获取用户信息
     async getUserInfo() {

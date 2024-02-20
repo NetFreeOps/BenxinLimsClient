@@ -13,8 +13,9 @@
  */
 export * from './apis/analysis-api';
 export * from './apis/sample-api';
-export * from './apis/sys-auth-api';
-export * from './apis/sys-role-api';
+export * from './apis/sysauth-api';
+export * from './apis/sysdynamicsub-api';
+export * from './apis/sysrole-api';
 export * from './apis/system-api';
 export * from './apis/test-api';
 

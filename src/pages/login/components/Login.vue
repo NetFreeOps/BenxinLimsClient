@@ -2,8 +2,8 @@
   <t-form ref="form" :class="['item-container', `login-${type}`]" :data="formData" :rules="FORM_RULES" label-width="0"
     @submit="onSubmit">
     <template v-if="type == 'password'">
-      <t-form-item name="account">
-        <t-input v-model="formData.account" size="large" placeholder="请输入账号：admin">
+      <t-form-item name="userId">
+        <t-input v-model="formData.userId" size="large" placeholder="请输入账号：admin">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
@@ -55,7 +55,7 @@ const userStore = useUserStore();
 
 const INITIAL_DATA = {
   phone: '',
-  account: 'admin',
+  userId: 'admin',
   password: 'admin',
   verifyCode: '',
   checked: false,
@@ -63,7 +63,7 @@ const INITIAL_DATA = {
 
 const FORM_RULES: Record<string, FormRule[]> = {
   phone: [{ required: true, message: '手机号必填', type: 'error' }],
-  account: [{ required: true, message: '账号必填', type: 'error' }],
+  userId: [{ required: true, message: '账号必填', type: 'error' }],
   password: [{ required: true, message: '密码必填', type: 'error' }],
   verifyCode: [{ required: true, message: '验证码必填', type: 'error' }],
 };

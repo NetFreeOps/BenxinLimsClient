@@ -13,6 +13,8 @@
     "types": ["vite/client"],
     "noEmit": true,
     "baseUrl": "./",
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false,
     "paths": {
       "@/*": ["src/*"]
     }

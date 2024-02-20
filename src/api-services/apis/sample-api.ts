@@ -30,12 +30,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleActiveSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleActivesampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleActiveSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleActivesampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/active-sample/{sample_number}`
+            const localVarPath = `/api/sample/activesample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -79,16 +79,16 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleAuditSampleSampleNumberAuditgradePost: async (sampleNumber: string, auditgrade: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleAuditsampleSampleNumberAuditgradePost: async (sampleNumber: string, auditgrade: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleAuditSampleSampleNumberAuditgradePost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleAuditsampleSampleNumberAuditgradePost.');
             }
             // verify required parameter 'auditgrade' is not null or undefined
             if (auditgrade === null || auditgrade === undefined) {
-                throw new RequiredError('auditgrade','Required parameter auditgrade was null or undefined when calling apiSampleAuditSampleSampleNumberAuditgradePost.');
+                throw new RequiredError('auditgrade','Required parameter auditgrade was null or undefined when calling apiSampleAuditsampleSampleNumberAuditgradePost.');
             }
-            const localVarPath = `/api/sample/audit-sample/{sample_number}/{auditgrade}`
+            const localVarPath = `/api/sample/auditsample/{sample_number}/{auditgrade}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)))
                 .replace(`{${"auditgrade"}}`, encodeURIComponent(String(auditgrade)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -133,12 +133,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleLoginSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleLoginsampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleLoginSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleLoginsampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/login-sample/{sample_number}`
+            const localVarPath = `/api/sample/loginsample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -181,12 +181,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSamplePackageSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSamplePackagesampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSamplePackageSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSamplePackagesampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/package-sample/{sample_number}`
+            const localVarPath = `/api/sample/packagesample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -229,12 +229,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleReceiveSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleReceivesampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleReceiveSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleReceivesampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/receive-sample/{sample_number}`
+            const localVarPath = `/api/sample/receivesample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -277,12 +277,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleRejectSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleRejectsampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleRejectSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleRejectsampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/reject-sample/{sample_number}`
+            const localVarPath = `/api/sample/rejectsample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -325,12 +325,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleRetainSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleRetainsampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleRetainSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleRetainsampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/retain-sample/{sample_number}`
+            const localVarPath = `/api/sample/retainsample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -421,12 +421,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleSampleStatusSampleNumberPut: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleSamplestatusSampleNumberPut: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleSampleStatusSampleNumberPut.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleSamplestatusSampleNumberPut.');
             }
-            const localVarPath = `/api/sample/sample-status/{sample_number}`
+            const localVarPath = `/api/sample/samplestatus/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -469,12 +469,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleTestFromSampleSampleNumberDelete: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleTestfromsampleSampleNumberDelete: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleTestFromSampleSampleNumberDelete.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleTestfromsampleSampleNumberDelete.');
             }
-            const localVarPath = `/api/sample/test-from-sample/{sample_number}`
+            const localVarPath = `/api/sample/testfromsample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -517,12 +517,12 @@ export const SampleApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSampleTestToSampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSampleTesttosampleSampleNumberPost: async (sampleNumber: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'sampleNumber' is not null or undefined
             if (sampleNumber === null || sampleNumber === undefined) {
-                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleTestToSampleSampleNumberPost.');
+                throw new RequiredError('sampleNumber','Required parameter sampleNumber was null or undefined when calling apiSampleTesttosampleSampleNumberPost.');
             }
-            const localVarPath = `/api/sample/test-to-sample/{sample_number}`
+            const localVarPath = `/api/sample/testtosample/{sample_number}`
                 .replace(`{${"sample_number"}}`, encodeURIComponent(String(sampleNumber)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -574,8 +574,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleActiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleActiveSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleActivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleActivesampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -588,8 +588,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options);
+        async apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -602,8 +602,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleLoginSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleLoginSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleLoginsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleLoginsampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -615,8 +615,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSamplePackageSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSamplePackageSampleSampleNumberPost(sampleNumber, options);
+        async apiSamplePackagesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSamplePackagesampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -628,8 +628,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleReceiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleReceiveSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleReceivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleReceivesampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -641,8 +641,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleRejectSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleRejectSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleRejectsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleRejectsampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -654,8 +654,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleRetainSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleRetainSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleRetainsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleRetainsampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -680,8 +680,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleSampleStatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleSampleStatusSampleNumberPut(sampleNumber, options);
+        async apiSampleSamplestatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleSamplestatusSampleNumberPut(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -693,8 +693,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleTestFromSampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleTestFromSampleSampleNumberDelete(sampleNumber, options);
+        async apiSampleTestfromsampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleTestfromsampleSampleNumberDelete(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -706,8 +706,8 @@ export const SampleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleTestToSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleTestToSampleSampleNumberPost(sampleNumber, options);
+        async apiSampleTesttosampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SampleApiAxiosParamCreator(configuration).apiSampleTesttosampleSampleNumberPost(sampleNumber, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -728,8 +728,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleActiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleActiveSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleActivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleActivesampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -738,8 +738,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options).then((request) => request(axios, basePath));
+        async apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -748,8 +748,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleLoginSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleLoginSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleLoginsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleLoginsampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -757,8 +757,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSamplePackageSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSamplePackageSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSamplePackagesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSamplePackagesampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -766,8 +766,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleReceiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleReceiveSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleReceivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleReceivesampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -775,8 +775,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleRejectSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleRejectSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleRejectsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleRejectsampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -784,8 +784,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleRetainSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleRetainSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleRetainsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleRetainsampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -802,8 +802,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleSampleStatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleSampleStatusSampleNumberPut(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleSamplestatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleSamplestatusSampleNumberPut(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -811,8 +811,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleTestFromSampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleTestFromSampleSampleNumberDelete(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleTestfromsampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleTestfromsampleSampleNumberDelete(sampleNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -820,8 +820,8 @@ export const SampleApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSampleTestToSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SampleApiFp(configuration).apiSampleTestToSampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
+        async apiSampleTesttosampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SampleApiFp(configuration).apiSampleTesttosampleSampleNumberPost(sampleNumber, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -840,8 +840,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleActiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleActiveSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleActivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleActivesampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -851,8 +851,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleAuditSampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber: string, auditgrade: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleAuditsampleSampleNumberAuditgradePost(sampleNumber, auditgrade, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -862,8 +862,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleLoginSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleLoginSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleLoginsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleLoginsampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -872,8 +872,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSamplePackageSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSamplePackageSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSamplePackagesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSamplePackagesampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -882,8 +882,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleReceiveSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleReceiveSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleReceivesampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleReceivesampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -892,8 +892,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleRejectSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleRejectSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleRejectsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleRejectsampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -902,8 +902,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleRetainSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleRetainSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleRetainsampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleRetainsampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -922,8 +922,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleSampleStatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleSampleStatusSampleNumberPut(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleSamplestatusSampleNumberPut(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleSamplestatusSampleNumberPut(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -932,8 +932,8 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleTestFromSampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleTestFromSampleSampleNumberDelete(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleTestfromsampleSampleNumberDelete(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleTestfromsampleSampleNumberDelete(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -942,7 +942,7 @@ export class SampleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SampleApi
      */
-    public async apiSampleTestToSampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SampleApiFp(this.configuration).apiSampleTestToSampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
+    public async apiSampleTesttosampleSampleNumberPost(sampleNumber: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SampleApiFp(this.configuration).apiSampleTesttosampleSampleNumberPost(sampleNumber, options).then((request) => request(this.axios, this.basePath));
     }
 }
