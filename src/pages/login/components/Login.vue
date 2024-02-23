@@ -108,6 +108,7 @@ const onSubmit = async ({ validateResult }) => {
 
       var userid = Number(formData.value.userId);
 
+
       getAPI(SysroleApi).apiSysroleUserroleUseridGet(userid).then((res) => {
         console.warn(res.data.data)
         if (res.data.data.length > 0) {
@@ -131,6 +132,8 @@ const onEnterSystem = () => {
     MessagePlugin.error('请选择角色');
     return;
   }
+  var roleinfo = JSON.stringify(userRoles.value[userRole.value])
+  window.localStorage.setItem('selectedRole', roleinfo)
   // 请求该角色具有的菜单权限、按钮权限、数据权限
   Promise.all([
     getAPI(SysroleApi).apiSysroleRolemenuRoleidGet(Number(userRole.value)),

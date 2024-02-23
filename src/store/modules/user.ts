@@ -33,6 +33,7 @@ export const useUserStore = defineStore('user', {
       if(err){
         throw err;
       }
+      window.localStorage.setItem('userinfo',JSON.stringify(res.data.data))
       this.token = res.data.data.token;
 
       // const mockLogin = async (userInfo: Record<string, unknown>) => {
