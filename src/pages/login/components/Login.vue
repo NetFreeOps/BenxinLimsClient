@@ -50,13 +50,15 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import type { FormInstanceFunctions, FormRule } from 'tdesign-vue-next';
 import { useCounter } from '@/hooks';
 import { useUserStore } from '@/store';
+import { getAPI } from '@/axios-utils';
+import { SysroleApi } from '@/api-services'
 
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
   phone: '',
-  userId: 'admin',
-  password: 'admin',
+  userId: '100000',
+  password: '123456',
   verifyCode: '',
   checked: false,
 };
@@ -102,7 +104,18 @@ const onSubmit = async ({ validateResult }) => {
 
       loginStatus.value = true;
 
-      MessagePlugin.success('登陆成功');
+      MessagePlugin.success('登陆成功,正在加载角色');
+
+      var userid = Number(formData.value.userId);
+
+      getAPI(SysroleApi).apiSysroleUserroleUseridGet(userid).then((res) => {
+        console.warn(res.data.data)
+        if (res.data.data.length > 0) {
+          userRoles.value = res.data.data.map((item) => {
+            return { value: item.roleCode, label: item.roleName };
+          });
+        }
+      });
 
     } catch (e) {
       console.log(e);

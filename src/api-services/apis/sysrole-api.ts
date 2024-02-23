@@ -22,7 +22,6 @@ import { RESTfulResultListSyRoleButtonEntry } from '../models';
 import { RESTfulResultListSysRoleDataEntry } from '../models';
 import { RESTfulResultListSysRoleMenuEntry } from '../models';
 import { RESTfulResultListSysRolesEntry } from '../models';
-import { RESTfulResultListSysUserRoleEntry } from '../models';
 import { SysRoleMenuEntry } from '../models';
 import { SysRolesEntry } from '../models';
 /**
@@ -33,6 +32,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary 添加角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -80,6 +80,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 修改角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -127,6 +128,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 删除角色
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -175,6 +177,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 获取角色按钮
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -223,6 +226,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 获取角色数据权限
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -314,6 +318,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 添加角色菜单
          * @param {SysRoleMenuEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -361,6 +366,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 获取角色菜单
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -409,6 +415,7 @@ export const SysroleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 获取用户角色
          * @param {number} userid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -466,6 +473,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary 添加角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -479,6 +487,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 修改角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -492,6 +501,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 删除角色
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -505,6 +515,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取角色按钮
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -518,6 +529,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取角色数据权限
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -544,6 +556,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 添加角色菜单
          * @param {SysRoleMenuEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -557,6 +570,7 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取角色菜单
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -570,11 +584,12 @@ export const SysroleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取用户角色
          * @param {number} userid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>>> {
+        async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysRolesEntry>>> {
             const localVarAxiosArgs = await SysroleApiAxiosParamCreator(configuration).apiSysroleUserroleUseridGet(userid, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -592,6 +607,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary 添加角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -601,6 +617,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 修改角色
          * @param {SysRolesEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -610,6 +627,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 删除角色
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -619,6 +637,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 获取角色按钮
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -628,6 +647,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 获取角色数据权限
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -646,6 +666,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 添加角色菜单
          * @param {SysRoleMenuEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -655,6 +676,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 获取角色菜单
          * @param {number} roleid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -664,11 +686,12 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 获取用户角色
          * @param {number} userid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>> {
+        async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysRolesEntry>> {
             return SysroleApiFp(configuration).apiSysroleUserroleUseridGet(userid, options).then((request) => request(axios, basePath));
         },
     };
@@ -683,6 +706,7 @@ export const SysroleApiFactory = function (configuration?: Configuration, basePa
 export class SysroleApi extends BaseAPI {
     /**
      * 
+     * @summary 添加角色
      * @param {SysRolesEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -693,6 +717,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 修改角色
      * @param {SysRolesEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -703,6 +728,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 删除角色
      * @param {number} roleid 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -713,6 +739,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取角色按钮
      * @param {number} roleid 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -723,6 +750,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取角色数据权限
      * @param {number} roleid 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -743,6 +771,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 添加角色菜单
      * @param {SysRoleMenuEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -753,6 +782,7 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取角色菜单
      * @param {number} roleid 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -763,12 +793,13 @@ export class SysroleApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取用户角色
      * @param {number} userid 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysroleApi
      */
-    public async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>> {
+    public async apiSysroleUserroleUseridGet(userid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysRolesEntry>> {
         return SysroleApiFp(this.configuration).apiSysroleUserroleUseridGet(userid, options).then((request) => request(this.axios, this.basePath));
     }
 }

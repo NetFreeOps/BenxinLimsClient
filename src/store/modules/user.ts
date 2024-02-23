@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { TOKEN_NAME } from '@/config/global';
 import { store, usePermissionStore } from '@/store';
 import { feature,getAPI } from '@/axios-utils';
-import{SysAuthApi, SysauthApi } from '@/api-services';
+import{ SysauthApi } from '@/api-services';
 
 
 // 初始化用户信息
