@@ -131,6 +131,23 @@ const onEnterSystem = () => {
     MessagePlugin.error('请选择角色');
     return;
   }
+  // 请求该角色具有的菜单权限、按钮权限、数据权限
+  Promise.all([
+    getAPI(SysroleApi).apiSysroleRolemenuRoleidGet(Number(userRole.value)),
+    getAPI(SysroleApi).apiSysroleRolebuttonRoleidGet(Number(userRole.value)),
+    getAPI(SysroleApi).apiSysroleRoledataRoleidGet(Number(userRole.value)),
+  ]).then((res) => {
+    console.warn(res);
+    // 将三个结果拼接
+    const userPermission = {
+      menu: res[0].data.data,
+      button: res[1].data.data,
+      data: res[2].data.data,
+    };
+    window.localStorage.setItem('userPermission', JSON.stringify(userPermission))
+    return;
+  });
+
   const redirect = route.query.redirect as string;
   const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
   router.push(redirectUrl);
