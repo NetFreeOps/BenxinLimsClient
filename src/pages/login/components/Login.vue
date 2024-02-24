@@ -98,8 +98,9 @@ const sendCode = () => {
     }
   });
 };
+
 // 认证登录
-const onSubmit = async ({ validateResult }) => {
+const onSubmit = async ({ validateResult}) => {
   if (validateResult === true) {
     try {
       await userStore.login(formData.value);
@@ -134,7 +135,7 @@ const onEnterSystem = () => {
     MessagePlugin.error('请选择角色');
     return;
   }
-  var roleinfo = JSON.stringify(userRoles.value[userRole.value])
+  var roleinfo = JSON.stringify(userRoles.value[Number(userRole.value)])
   window.localStorage.setItem('selectedRole', roleinfo)
   // 请求该角色具有的菜单权限、按钮权限、数据权限
   Promise.all([

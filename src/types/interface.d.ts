@@ -1,9 +1,22 @@
-import { RouteRecordName, LocationQueryRaw } from 'vue-router';
-import STYLE_CONFIG from '@/config/style';
+import type { TabValue } from 'tdesign-vue-next';
+import { LocationQueryRaw, RouteRecordName } from 'vue-router';
+
+export interface RouteMeta {
+  title?: string | Record<string, string>;
+  icon?: string;
+  expanded?: boolean;
+  orderNo?: number;
+  hidden?: boolean;
+  hiddenBreadcrumb?: boolean;
+  single?: boolean;
+  keepAlive?: boolean;
+  frameSrc?: string;
+  frameBlank?: boolean;
+}
 
 export interface MenuRoute {
   path: string;
-  title?: string;
+  title?: string | Record<string, string>;
   name?: string;
   icon?:
     | string
@@ -12,18 +25,15 @@ export interface MenuRoute {
       };
   redirect?: string;
   children: MenuRoute[];
-  meta: any;
+  meta: RouteMeta;
 }
 
 export type ModeType = 'dark' | 'light';
 
-export type SettingType = typeof STYLE_CONFIG;
-
-export type ClassName = { [className: string]: any } | ClassName[] | string;
-
-export type CommonObjType = {
-  [key: string]: string | number;
-};
+export interface UserInfo {
+  name: string;
+  roles: string[];
+}
 
 export interface NotificationItem {
   id: string;
@@ -49,4 +59,10 @@ export interface TRouterInfo {
 export interface TTabRouterType {
   isRefreshing: boolean;
   tabRouterList: Array<TRouterInfo>;
+}
+
+export interface TTabRemoveOptions {
+  value: TabValue;
+  index: number;
+  e: MouseEvent;
 }

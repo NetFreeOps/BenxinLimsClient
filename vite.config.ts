@@ -1,32 +1,21 @@
-import { ConfigEnv, UserConfig, loadEnv } from 'vite';
-import { viteMockServe } from 'vite-plugin-mock';
-import createVuePlugin from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
-import svgLoader from 'vite-svg-loader';
+import path from 'node:path';
 
-import path from 'path';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { ConfigEnv, loadEnv, UserConfig } from 'vite';
+import { viteMockServe } from 'vite-plugin-mock';
+import svgLoader from 'vite-svg-loader';
 
 const CWD = process.cwd();
 
 // https://vitejs.dev/config/
 export default ({ mode }: ConfigEnv): UserConfig => {
-  const { VITE_BASE_URL } = loadEnv(mode, CWD);
+  const { VITE_BASE_URL, VITE_API_URL_PREFIX } = loadEnv(mode, CWD);
   return {
     base: VITE_BASE_URL,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-      },
-    },
-
-    optimizeDeps: {
-      include: ['vue'],
-      esbuildOptions: {
-        define: {
-          '__VUE_PROD_DEVTOOLS__': 'false',
-          // 如果需要禁用此特定警告，则设置为false
-          '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': 'false',
-        },
       },
     },
 
@@ -43,11 +32,11 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     },
 
     plugins: [
-      createVuePlugin(),
+      vue(),
       vueJsx(),
       viteMockServe({
         mockPath: 'mock',
-        localEnabled: true,
+        enable: true,
       }),
       svgLoader(),
     ],
@@ -56,7 +45,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       port: 3002,
       host: '0.0.0.0',
       proxy: {
-        '/api': 'http://127.0.0.1:3000/',
+        [VITE_API_URL_PREFIX]: 'http://127.0.0.1:3000/',
       },
     },
   };

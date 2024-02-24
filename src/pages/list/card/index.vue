@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="list-card-operation">
-      <t-button @click="formDialogVisible = true"> 新建产品 </t-button>
+      <t-button @click="formDialogVisible = true"> {{ $t('pages.listCard.create') }} </t-button>
       <div class="search-input">
-        <t-input v-model="searchValue" placeholder="请输入你需要搜索的内容" clearable>
+        <t-input v-model="searchValue" :placeholder="$t('pages.listCard.placeholder')" clearable>
           <template #suffix-icon>
-            <search-icon v-if="searchValue === ''" size="20px" />
+            <search-icon v-if="searchValue === ''" size="var(--td-comp-size-xxxs)" />
           </template>
         </t-input>
       </div>
@@ -15,7 +15,7 @@
 
     <template v-if="pagination.total > 0 && !dataLoading">
       <div class="list-card-items">
-        <t-row :gutter="[16, 12]">
+        <t-row :gutter="[16, 16]">
           <t-col
             v-for="product in productList.slice(
               pagination.pageSize * (pagination.current - 1),
@@ -68,18 +68,22 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
 import { SearchIcon } from 'tdesign-icons-vue-next';
 import { MessagePlugin } from 'tdesign-vue-next';
-import ProductCard from '@/components/product-card/index.vue';
-import DialogForm from './components/DialogForm.vue';
-import { getCardList } from '@/api/list';
+import { computed, onMounted, ref } from 'vue';
 
-const INITIAL_DATA = {
+import { getCardList } from '@/api/list';
+import type { CardProductType } from '@/components/product-card/index.vue';
+import ProductCard from '@/components/product-card/index.vue';
+
+import type { FormData } from './components/DialogForm.vue';
+import DialogForm from './components/DialogForm.vue';
+
+const INITIAL_DATA: FormData = {
   name: '',
   status: '',
   description: '',
-  type: '',
+  type: '0',
   mark: '',
   amount: 0,
 };
@@ -125,7 +129,7 @@ const onPageSizeChange = (size: number) => {
 const onCurrentChange = (current: number) => {
   pagination.value.current = current;
 };
-const handleDeleteItem = (product) => {
+const handleDeleteItem = (product: CardProductType) => {
   confirmVisible.value = true;
   deleteProduct.value = product;
 };
@@ -139,9 +143,16 @@ const onCancel = () => {
   deleteProduct.value = undefined;
   formData.value = { ...INITIAL_DATA };
 };
-const handleManageProduct = (product) => {
+const handleManageProduct = (product: CardProductType) => {
   formDialogVisible.value = true;
-  formData.value = { ...product, status: product?.isSetup ? '1' : '0' };
+  formData.value = {
+    name: product.name,
+    status: product?.isSetup ? '1' : '0',
+    description: product.description,
+    type: product.type.toString(),
+    mark: '',
+    amount: 0,
+  };
 };
 </script>
 
@@ -152,19 +163,33 @@ const handleManageProduct = (product) => {
   &-operation {
     display: flex;
     justify-content: space-between;
+    margin-bottom: var(--td-comp-margin-xxl);
 
     .search-input {
       width: 360px;
     }
   }
 
-  &-items {
-    margin-top: 14px;
-    margin-bottom: 24px;
+  &-item {
+    padding: var(--td-comp-paddingTB-xl) var(--td-comp-paddingTB-xl);
+
+    :deep(.t-card__header) {
+      padding: 0;
+    }
+
+    :deep(.t-card__body) {
+      padding: 0;
+      margin-top: var(--td-comp-margin-xxl);
+      margin-bottom: var(--td-comp-margin-xxl);
+    }
+
+    :deep(.t-card__footer) {
+      padding: 0;
+    }
   }
 
   &-pagination {
-    padding: 16px;
+    padding: var(--td-comp-paddingTB-xl) var(--td-comp-paddingTB-xl);
   }
 
   &-loading {

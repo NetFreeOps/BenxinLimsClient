@@ -18,17 +18,14 @@ export default {
 </script>
 
 <script setup lang="ts">
-import TopPanel from './components/TopPanel.vue';
 import MiddleChart from './components/MiddleChart.vue';
-import RankList from './components/RankList.vue';
 import OutputOverview from './components/OutputOverview.vue';
+import RankList from './components/RankList.vue';
+import TopPanel from './components/TopPanel.vue';
 </script>
 
 <style scoped>
 .row-container:not(:last-child) {
   margin-bottom: 16px;
-}
-:deep() .t-card__body {
-  padding-top: 0;
 }
 </style>

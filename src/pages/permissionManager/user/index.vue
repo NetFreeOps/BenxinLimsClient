@@ -64,7 +64,7 @@
 import { ref, onMounted, watch, reactive } from "vue";
 import { toTreeData } from '@/utils/common';
 import { getAPI } from '@/aixos-utils';
-import { SysuserApi, SysgroupsApi } from '@/apiServices';
+import { SysuserApi, SysgroupsApi } from '@/api-services';
 import { DialogPlugin, Tag } from "tdesign-vue-next";
 // import userEdit from "./userEdit.vue";
 // import userAdd from "./userAdd.vue";

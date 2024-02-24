@@ -1,117 +1,87 @@
 import { defineStore } from 'pinia';
-import { TOKEN_NAME } from '@/config/global';
-import { store, usePermissionStore } from '@/store';
-import { feature,getAPI } from '@/axios-utils';
-import{ SysauthApi } from '@/api-services';
 
+import { usePermissionStore } from '@/store';
+import type { UserInfo } from '@/types/interface';
 
-// 初始化用户信息
-const InitUserInfo = {
-  roles: [],
+const InitUserInfo: UserInfo = {
+  name: '', // 用户名，用于展示在页面右上角头像处
+  roles: [], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
 };
 
-// 使用 Pinia 定义用户 store
 export const useUserStore = defineStore('user', {
-  state: () => {
-    // 保存用户 token 和信息
-    return {
-      token: localStorage.getItem(TOKEN_NAME) || 'main_token', // 默认 token 不走权限
-      userInfo: { ...InitUserInfo },
-    };
-  },
+  state: () => ({
+    token: 'main_token', // 默认token不走权限
+    userInfo: { ...InitUserInfo },
+  }),
   getters: {
-    // 获取用户角色列表
     roles: (state) => {
       return state.userInfo?.roles;
     },
   },
   actions: {
-    // 用户登录
     async login(userInfo: Record<string, unknown>) {
-      const [err,res] = await feature(getAPI(SysauthApi).apiSysauthWebloginPost(userInfo));
+      const mockLogin = async (userInfo: Record<string, unknown>) => {
+        // 登录请求流程
+        console.log(`用户信息:`, userInfo);
+        // const { account, password } = userInfo;
+        // if (account !== 'td') {
+        //   return {
+        //     code: 401,
+        //     message: '账号不存在',
+        //   };
+        // }
+        // if (['main_', 'dev_'].indexOf(password) === -1) {
+        //   return {
+        //     code: 401,
+        //     message: '密码错误',
+        //   };
+        // }
+        // const token = {
+        //   main_: 'main_token',
+        //   dev_: 'dev_token',
+        // }[password];
+        return {
+          code: 200,
+          message: '登录成功',
+          data: 'main_token',
+        };
+      };
 
-      if(err){
-        throw err;
+      const res = await mockLogin(userInfo);
+      if (res.code === 200) {
+        this.token = res.data;
+      } else {
+        throw res;
       }
-      window.localStorage.setItem('userinfo',JSON.stringify(res.data.data))
-      this.token = res.data.data.token;
-
-      // const mockLogin = async (userInfo: Record<string, unknown>) => {
-      //   // 登录请求流程
-      //   console.log(userInfo);
-      //   // const { account, password } = userInfo;
-      //   // if (account !== 'td') {
-      //   //   return {
-      //   //     code: 401,
-      //   //     message: '账号不存在',
-      //   //   };
-      //   // }
-      //   // if (['main_', 'dev_'].indexOf(password) === -1) {
-      //   //   return {
-      //   //     code: 401,
-      //   //     message: '密码错误',
-      //   //   };
-      //   // }
-      //   // const token = {
-      //   //   main_: 'main_token',
-      //   //   dev_: 'dev_token',
-      //   // }[password];
-      //   return {
-      //     code: 200,
-      //     message: '登陆成功',
-      //     data: 'main_token',
-      //   };
-      // };
-
-      // const res = await mockLogin(userInfo);
-      // if (res.code === 200) {
-      //   this.token = res.data;
-      // } else {
-      //   throw res;
-      // }
     },
-    // 获取用户信息
     async getUserInfo() {
       const mockRemoteUserInfo = async (token: string) => {
         if (token === 'main_token') {
           return {
-            name: 'td_main',
-            roles: ['all'],
+            name: 'Tencent',
+            roles: ['all'], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
           };
         }
         return {
           name: 'td_dev',
-          roles: ['UserIndex', 'DashboardBase', 'login'],
+          roles: ['UserIndex', 'DashboardBase', 'login'], // 前端权限模型使用 如果使用请配置modules/permission-fe.ts使用
         };
       };
-
       const res = await mockRemoteUserInfo(this.token);
 
       this.userInfo = res;
     },
-    // 用户登出
     async logout() {
-      localStorage.removeItem(TOKEN_NAME);
       this.token = '';
       this.userInfo = { ...InitUserInfo };
     },
-    // 删除 token
-    async removeToken() {
-      this.token = '';
-    },
   },
-  // 使用 Pinia 持久化 store
   persist: {
-    afterRestore: (ctx) => {
-      if (ctx.store.roles && ctx.store.roles.length > 0) {
-        const permissionStore = usePermissionStore();
-        permissionStore.initRoutes(ctx.store.roles);
-      }
+    afterRestore: () => {
+      const permissionStore = usePermissionStore();
+      permissionStore.initRoutes();
     },
+    key: 'user',
+    paths: ['token'],
   },
 });
-
-// 获取用户 store
-export function getUserStore() {
-  return useUserStore(store);
-}

@@ -1,6 +1,6 @@
 <template>
   <div :class="layoutCls">
-    <t-head-menu :class="menuCls" :theme="theme" expand-type="popup" :value="active">
+    <t-head-menu :class="menuCls" :theme="menuTheme" expand-type="popup" :value="active">
       <template #logo>
         <span v-if="showLogo" class="header-logo-container" @click="handleNav('/dashboard/base')">
           <logo-full class="t-logo" />
@@ -23,24 +23,38 @@
           <!-- 全局通知 -->
           <notice />
 
-          <t-tooltip placement="bottom" content="代码仓库">
+          <t-tooltip placement="bottom" :content="$t('layout.header.code')">
             <t-button theme="default" shape="square" variant="text" @click="navToGitHub">
               <t-icon name="logo-github" />
             </t-button>
           </t-tooltip>
-          <t-tooltip placement="bottom" content="帮助文档">
+          <t-tooltip placement="bottom" :content="$t('layout.header.help')">
             <t-button theme="default" shape="square" variant="text" @click="navToHelper">
               <t-icon name="help-circle" />
             </t-button>
           </t-tooltip>
-          <t-dropdown :min-column-width="135" trigger="click">
+          <t-dropdown trigger="click">
+            <t-button theme="default" shape="square" variant="text">
+              <translate-icon />
+            </t-button>
+            <t-dropdown-menu>
+              <t-dropdown-item
+                v-for="(lang, index) in langList"
+                :key="index"
+                :value="lang.value"
+                @click="(options) => changeLang(options.value as string)"
+                >{{ lang.content }}</t-dropdown-item
+              ></t-dropdown-menu
+            >
+          </t-dropdown>
+          <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
               <t-dropdown-menu>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleNav('/user/index')">
-                  <t-icon name="user-circle"></t-icon>个人中心
+                  <user-circle-icon />{{ $t('layout.header.user') }}
                 </t-dropdown-item>
                 <t-dropdown-item class="operations-dropdown-container-item" @click="handleLogout">
-                  <t-icon name="poweroff"></t-icon>退出登录
+                  <poweroff-icon />{{ $t('layout.header.signOut') }}
                 </t-dropdown-item>
               </t-dropdown-menu>
             </template>
@@ -48,13 +62,13 @@
               <template #icon>
                 <t-icon class="header-user-avatar" name="user-circle" />
               </template>
-              <div class="header-user-account">Tencent</div>
-              <template #suffix><t-icon name="chevron-down" /></template>
+              <div class="header-user-account">{{ user.userInfo.name }}</div>
+              <template #suffix><chevron-down-icon /></template>
             </t-button>
           </t-dropdown>
-          <t-tooltip placement="bottom" content="系统设置">
+          <t-tooltip placement="bottom" :content="$t('layout.header.setting')">
             <t-button theme="default" shape="square" variant="text" @click="toggleSettingPanel">
-              <t-icon name="setting" />
+              <setting-icon />
             </t-button>
           </t-tooltip>
         </div>
@@ -64,23 +78,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ChevronDownIcon, PoweroffIcon, SettingIcon, TranslateIcon, UserCircleIcon } from 'tdesign-icons-vue-next';
 import type { PropType } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSettingStore } from '@/store';
-import { getActive } from '@/router';
-import { prefix } from '@/config/global';
-import LogoFull from '@/assets/assets-logo-full.svg?component';
-import type { MenuRoute } from '@/types/interface';
 
+import LogoFull from '@/assets/assets-logo-full.svg?component';
+import { prefix } from '@/config/global';
+import { langList } from '@/locales/index';
+import { useLocale } from '@/locales/useLocale';
+import { getActive } from '@/router';
+import { useSettingStore, useUserStore } from '@/store';
+import type { MenuRoute, ModeType } from '@/types/interface';
+
+import MenuContent from './MenuContent.vue';
 import Notice from './Notice.vue';
 import Search from './Search.vue';
-import MenuContent from './MenuContent.vue';
 
 const props = defineProps({
   theme: {
     type: String,
-    default: '',
+    default: 'light',
   },
   layout: {
     type: String,
@@ -110,6 +128,7 @@ const props = defineProps({
 
 const router = useRouter();
 const settingStore = useSettingStore();
+const user = useUserStore();
 
 const toggleSettingPanel = () => {
   settingStore.updateConfig({
@@ -132,6 +151,13 @@ const menuCls = computed(() => {
     },
   ];
 });
+const menuTheme = computed(() => props.theme as ModeType);
+
+// 切换语言
+const { changeLocale } = useLocale();
+const changeLang = (lang: string) => {
+  changeLocale(lang);
+};
 
 const changeCollapsed = () => {
   settingStore.updateConfig({
@@ -139,7 +165,7 @@ const changeCollapsed = () => {
   });
 };
 
-const handleNav = (url) => {
+const handleNav = (url: string) => {
   router.push(url);
 };
 
@@ -155,7 +181,7 @@ const navToGitHub = () => {
 };
 
 const navToHelper = () => {
-  window.open('https://netfreeops.github.io/BenxinLimsServer/');
+  window.open('http://tdesign.tencent.com/starter/docs/get-started');
 };
 </script>
 <style lang="less" scoped>
@@ -164,6 +190,10 @@ const navToHelper = () => {
     position: fixed;
     top: 0;
     z-index: 1001;
+
+    :deep(.t-head-menu__inner) {
+      padding-right: var(--td-comp-margin-xl);
+    }
 
     &-side {
       left: 232px;
@@ -190,14 +220,12 @@ const navToHelper = () => {
 
   :deep(.t-menu__item) {
     min-width: unset;
-    padding: 0px 16px;
   }
 }
 
 .operations-container {
   display: flex;
   align-items: center;
-  margin-right: 12px;
 
   .t-popup__reference {
     display: flex;
@@ -206,31 +234,14 @@ const navToHelper = () => {
   }
 
   .t-button {
-    margin: 0 8px;
-
-    &.header-user-btn {
-      margin: 0;
-    }
-  }
-
-  .t-icon {
-    font-size: 20px;
-
-    &.general {
-      margin-right: 16px;
-    }
+    margin-left: var(--td-comp-margin-l);
   }
 }
 
 .header-operate-left {
   display: flex;
-  margin-left: 20px;
   align-items: normal;
   line-height: 0;
-
-  .collapsed-icon {
-    font-size: 20px;
-  }
 }
 
 .header-logo-container {
@@ -258,15 +269,10 @@ const navToHelper = () => {
   display: inline-flex;
   align-items: center;
   color: var(--td-text-color-primary);
-
-  .t-icon {
-    margin-left: 4px;
-    font-size: 16px;
-  }
 }
 
 :deep(.t-head-menu__inner) {
-  border-bottom: 1px solid var(--td-border-level-1-color);
+  border-bottom: 1px solid var(--td-component-stroke);
 }
 
 .t-menu--light {
@@ -281,15 +287,7 @@ const navToHelper = () => {
   }
 
   .header-user-account {
-    color: rgba(255, 255, 255, 0.55);
-  }
-
-  .t-button {
-    --ripple-color: var(--td-gray-color-10) !important;
-
-    &:hover {
-      background: var(--td-gray-color-12) !important;
-    }
+    color: rgb(255 255 255 / 55%);
   }
 }
 
@@ -298,26 +296,19 @@ const navToHelper = () => {
   display: flex;
   align-items: center;
 
-  .t-icon {
-    margin-right: 8px;
+  :deep(.t-dropdown__item-text) {
+    display: flex;
+    align-items: center;
   }
 
-  :deep(.t-dropdown__item) {
-    .t-dropdown__item__content {
-      display: flex;
-      justify-content: center;
-    }
-
-    .t-dropdown__item__content__text {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-    }
+  .t-icon {
+    font-size: var(--td-comp-size-xxxs);
+    margin-right: var(--td-comp-margin-s);
   }
 
   :deep(.t-dropdown__item) {
     width: 100%;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   &:last-child {
@@ -325,4 +316,15 @@ const navToHelper = () => {
       margin-bottom: 8px;
     }
   }
-}</style>
+}
+</style>
+
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
+<style lang="less">
+.operations-dropdown-container-item {
+  .t-dropdown__item-text {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

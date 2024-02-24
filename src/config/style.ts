@@ -5,11 +5,11 @@ export default {
   mode: 'light',
   layout: 'side',
   splitMenu: false,
+  sideMode: 'light',
   isFooterAside: false,
   isSidebarFixed: true,
   isHeaderFixed: true,
   isUseTabsRouter: false,
   showHeader: true,
-  backgroundTheme: 'blueGrey',
-  brandTheme: 'default',
+  brandTheme: '#0052D9',
 };

@@ -10,12 +10,13 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import Result403Icon from '@/assets/assets-result-403.svg?component';
 import Result404Icon from '@/assets/assets-result-404.svg?component';
 import Result500Icon from '@/assets/assets-result-500.svg?component';
 import ResultIeIcon from '@/assets/assets-result-ie.svg?component';
-import ResultWifiIcon from '@/assets/assets-result-wifi.svg?component';
 import ResultMaintenanceIcon from '@/assets/assets-result-maintenance.svg?component';
+import ResultWifiIcon from '@/assets/assets-result-wifi.svg?component';
 
 const props = defineProps({
   bgUrl: String,
@@ -74,7 +75,6 @@ const dynamicComponent = computed(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px;
   }
 
   &-bg-img {
@@ -83,15 +83,14 @@ const dynamicComponent = computed(() => {
   }
 
   &-title {
-    font-style: normal;
-    margin-top: 8px;
-    color: var(--td-text-color-primary);
     font: var(--td-font-title-large);
-    font-weight: 500;
+    font-style: normal;
+    margin-top: var(--td-comp-margin-l);
+    color: var(--td-text-color-primary);
   }
 
   &-tip {
-    margin: 8px 0 32px;
+    margin: var(--td-comp-margin-s) 0 var(--td-comp-margin-xxxl);
     font: var(--td-font-body-medium);
     color: var(--td-text-color-secondary);
   }

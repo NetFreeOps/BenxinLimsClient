@@ -1,45 +1,32 @@
-import { useRoute, createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import uniq from 'lodash/uniq';
+import { createRouter, createWebHistory, RouteRecordRaw, useRoute } from 'vue-router';
 
-// 自动导入modules文件夹下所有ts文件
-//const modules = import.meta.globEager('./modules/**/*.ts');
+const env = import.meta.env.MODE || 'development';
 
-const permission = import.meta.globEager('./modules/permission.ts');
-const system = import.meta.globEager('./modules/system.ts');
-const user = import.meta.globEager('./modules/user.ts');
-const  base = import.meta.globEager('./modules/base.ts');
-const components = import.meta.globEager('./modules/components.ts');
-const iframe = import.meta.globEager('./modules/iframe.ts');
-const others = import.meta.globEager('./modules/others.ts');
+// 导入homepage相关固定路由
+const homepageModules = import.meta.glob('./modules/**/homepage.ts', { eager: true });
 
-const modules = {
+// 导入modules非homepage相关固定路由
+//const fixedModules = import.meta.glob('./modules/**/!(homepage).ts', { eager: true });
+
+const result = import.meta.glob('./modules/result.ts', { eager: true });
+const permission = import.meta.glob('./modules/permission.ts', { eager: true });
+const system = import.meta.glob('./modules/system.ts', { eager: true });
+const user = import.meta.glob('./modules/user.ts', { eager: true });
+
+ export const fixedModules = {
+  ...result,
   ...permission,
   ...system,
   ...user,
-  ...base,
-  ...components,
-  ...iframe,
-  ...others,
 };
 
-console.warn('modules', modules);
-//debugger;
 
-// 路由暂存
-const routeModuleList: Array<RouteRecordRaw> = [];
+//console.warn('userModules', userModules);
+console.warn('fixedModules', fixedModules);
 
-Object.keys(modules).forEach((key) => {
-  const mod = modules[key].default || {};
-  const modList = Array.isArray(mod) ? [...mod] : [mod];
-  routeModuleList.push(...modList);
-});
 
-// 关于单层路由，meta 中设置 { single: true } 即可为单层路由，{ hidden: true } 即可在侧边栏隐藏该路由
-
-// 存放动态路由
-export const asyncRouterList: Array<RouteRecordRaw> = [...routeModuleList];
-
-// 存放固定的路由
+// 其他固定路由
 const defaultRouterList: Array<RouteRecordRaw> = [
   {
     path: '/login',
@@ -50,19 +37,29 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/dashboard/base',
   },
-  {
-    path: '/:w+',
-    name: '404Page',
-    redirect: '/result/404',
-  },
-];
+];  
+// 存放固定路由
+export const homepageRouterList: Array<RouteRecordRaw> = mapModuleRouterList(homepageModules);
+export const fixedRouterList: Array<RouteRecordRaw> = mapModuleRouterList(fixedModules);
 
-export const allRoutes = [...defaultRouterList, ...asyncRouterList];
+export const allRoutes = [...fixedRouterList,...homepageRouterList,  ...defaultRouterList];
+console.warn('allRoutes', allRoutes);
+// 固定路由模块转换为路由
+export function mapModuleRouterList(modules: Record<string, unknown>): Array<RouteRecordRaw> {
+  const routerList: Array<RouteRecordRaw> = [];
+  Object.keys(modules).forEach((key) => {
+    // @ts-ignore
+    const mod = modules[key].default || {};
+    const modList = Array.isArray(mod) ? [...mod] : [mod];
+    routerList.push(...modList);
+  });
+  return routerList;
+}
 
 export const getRoutesExpanded = () => {
-  const expandedRoutes = [];
+  const expandedRoutes: Array<string> = [];
 
-  allRoutes.forEach((item) => {
+  fixedRouterList.forEach((item) => {
     if (item.meta && item.meta.expanded) {
       expandedRoutes.push(item.path);
     }
@@ -78,14 +75,13 @@ export const getRoutesExpanded = () => {
   return uniq(expandedRoutes);
 };
 
-export const getActive = (maxLevel = 5): string => {
+export const getActive = (maxLevel = 3): string => {
   const route = useRoute();
-  if (!route) { // 防止 route 未定义或为 null
-    return '';
-  }
+
   if (!route.path) {
     return '';
   }
+
   return route.path
     .split('/')
     .filter((_item: string, index: number) => index <= maxLevel && index > 0)
@@ -94,7 +90,7 @@ export const getActive = (maxLevel = 5): string => {
 };
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(env === 'site' ? '/starter/vue-next/' : import.meta.env.VITE_BASE_URL),
   routes: allRoutes,
   scrollBehavior() {
     return {

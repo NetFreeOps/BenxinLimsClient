@@ -4,21 +4,21 @@
       <div class="user-left-greeting">
         <div>
           Hi，Image
-          <span class="regular"> 下午好，今天是你加入鹅厂的第 100 天～</span>
+          <span class="regular"> {{ $t('pages.user.markDay') }}</span>
         </div>
         <img src="@/assets/assets-tencent-logo.png" class="logo" />
       </div>
 
-      <t-card class="user-info-list" title="个人信息">
+      <t-card class="user-info-list" :title="$t('pages.user.personalInfo.title')" :bordered="false">
         <template #actions>
           <t-button theme="default" shape="square" variant="text">
-            <t-icon name="edit" size="18" />
+            <t-icon name="ellipsis" />
           </t-button>
         </template>
         <t-row class="content" justify="space-between">
-          <t-col v-for="(item, index) in USER_INFO_LIST" :key="index" class="contract" :span="item.span || 3">
+          <t-col v-for="(item, index) in USER_INFO_LIST" :key="index" class="contract" :span="item.span ?? 3">
             <div class="contract-title">
-              {{ item.title }}
+              {{ $t(item.title) }}
             </div>
             <div class="contract-detail">
               {{ item.content }}
@@ -27,13 +27,13 @@
         </t-row>
       </t-card>
 
-      <t-card class="content-container">
+      <t-card class="content-container" :bordered="false">
         <t-tabs value="second">
-          <t-tab-panel value="first" label="内容列表">
-            <p>内容列表</p>
+          <t-tab-panel value="first" :label="$t('pages.user.contentList')">
+            <p>{{ $t('pages.user.contentList') }}</p>
           </t-tab-panel>
-          <t-tab-panel value="second" label="内容列表">
-            <t-card :bordered="false" class="card-padding-no" title="主页访问数据" describe="（次）">
+          <t-tab-panel value="second" :label="$t('pages.user.contentList')">
+            <t-card :bordered="false" class="card-padding-no" :title="$t('pages.user.visitData')" describe="（次）">
               <template #actions>
                 <t-date-range-picker
                   class="card-date-picker-container"
@@ -43,27 +43,27 @@
                   @change="onLineChange"
                 />
               </template>
-              <div id="lineContainer" style="width: 100%; height: 330px" />
+              <div id="lineContainer" style="width: 100%; height: 328px" />
             </t-card>
           </t-tab-panel>
-          <t-tab-panel value="third" label="内容列表">
-            <p>内容列表</p>
+          <t-tab-panel value="third" :label="$t('pages.user.contentList')">
+            <p>{{ $t('pages.user.contentList') }}</p>
           </t-tab-panel>
         </t-tabs>
       </t-card>
     </t-col>
 
     <t-col :flex="1">
-      <t-card class="user-intro">
-        <t-avatar size="90px">T</t-avatar>
+      <t-card class="user-intro" :bordered="false">
+        <t-avatar size="80px">T</t-avatar>
         <div class="name">My Account</div>
-        <div class="position">XXG 港澳业务拓展组员工 直客销售</div>
+        <div class="position">{{ $t('pages.user.personalInfo.position') }}</div>
       </t-card>
 
-      <t-card title="团队成员" class="user-team">
+      <t-card :title="$t('pages.user.teamMember')" class="user-team" :bordered="false">
         <template #actions>
           <t-button theme="default" shape="square" variant="text">
-            <t-icon name="edit" size="18" />
+            <t-icon name="ellipsis" />
           </t-button>
         </template>
         <t-list :split="false">
@@ -73,10 +73,10 @@
         </t-list>
       </t-card>
 
-      <t-card title="服务产品" class="product-container">
+      <t-card :title="$t('pages.user.serviceProduction')" class="product-container" :bordered="false">
         <template #actions>
           <t-button theme="default" shape="square" variant="text">
-            <t-icon name="edit" size="18" />
+            <t-icon name="ellipsis" />
           </t-button>
         </template>
         <t-row class="content" :getters="16">
@@ -94,21 +94,23 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, watch, computed } from 'vue';
-import * as echarts from 'echarts/core';
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components';
 import { LineChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { useSettingStore } from '@/store';
+import type { DateRangeValue } from 'tdesign-vue-next';
+import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
 
-import { LAST_7_DAYS } from '@/utils/date';
-import { USER_INFO_LIST, TEAM_MEMBERS, PRODUCT_LIST } from './constants';
-import { getFolderLineDataSet } from './index';
 import ProductAIcon from '@/assets/assets-product-1.svg';
 import ProductBIcon from '@/assets/assets-product-2.svg';
 import ProductCIcon from '@/assets/assets-product-3.svg';
 import ProductDIcon from '@/assets/assets-product-4.svg';
+import { useSettingStore } from '@/store';
 import { changeChartsTheme } from '@/utils/color';
+import { LAST_7_DAYS } from '@/utils/date';
+
+import { PRODUCT_LIST, TEAM_MEMBERS, USER_INFO_LIST } from './constants';
+import { getFolderLineDataSet } from './index';
 
 echarts.use([GridComponent, TooltipComponent, LineChart, CanvasRenderer, LegendComponent]);
 
@@ -117,8 +119,13 @@ let lineChart: echarts.ECharts;
 const store = useSettingStore();
 const chartColors = computed(() => store.chartColors);
 
-const onLineChange = (value) => {
-  lineChart.setOption(getFolderLineDataSet(value));
+const onLineChange = (value: DateRangeValue) => {
+  lineChart.setOption(
+    getFolderLineDataSet({
+      dateTime: value as string[],
+      ...chartColors.value,
+    }),
+  );
 };
 
 const initChart = () => {
@@ -153,7 +160,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateContainer);
 });
 
-const getIcon = (type) => {
+const getIcon = (type: string) => {
   switch (type) {
     case 'a':
       return ProductAIcon;
@@ -177,5 +184,5 @@ watch(
 </script>
 
 <style lang="less" scoped>
-@import url('./index.less');
+@import './index.less';
 </style>

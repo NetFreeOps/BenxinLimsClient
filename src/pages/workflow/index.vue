@@ -1,7 +1,0 @@
-<template>
-    <td-card>
-
-    </td-card>
-</template>
-<script setup lang="ts">
-</script>

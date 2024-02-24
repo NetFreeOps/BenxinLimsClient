@@ -1,5 +1,7 @@
-import Layout from '@/layouts/index.vue';
-import DashboardIcon from '@/assets/assets-slide-dashboard.svg';
+import { LogoutIcon } from 'tdesign-icons-vue-next';
+import { shallowRef } from 'vue';
+
+import Layout from '@/layouts/index.vue';'@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
@@ -7,7 +9,7 @@ export default [
     component: Layout,
     redirect: '/systemManager/analysis',
     name: 'systemManager',
-    meta: { title: '系统管理', icon: DashboardIcon },
+    meta: { title: '系统管理', icon: shallowRef(LogoutIcon) },
     children: [
       {
         path: 'analysis',

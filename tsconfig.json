@@ -13,11 +13,14 @@
     "types": ["vite/client"],
     "noEmit": true,
     "baseUrl": "./",
-    "importsNotUsedAsValues": "remove",
-    "preserveValueImports": false,
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "noImplicitAny": false,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
   },
   "include": [
     "**/*.ts",

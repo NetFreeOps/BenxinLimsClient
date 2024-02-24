@@ -1,5 +1,7 @@
+import { LogoutIcon } from 'tdesign-icons-vue-next';
+import { shallowRef } from 'vue';
+
 import Layout from '@/layouts/index.vue';
-import DashboardIcon from '@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
@@ -7,7 +9,7 @@ export default [
     component: Layout,
     redirect: '/permissionManager/analysis',
     name: 'permissionManager',
-    meta: { title: '权限管理', icon: DashboardIcon },
+    meta: { title: '权限管理', icon: shallowRef(LogoutIcon) },
     children: [
       {
         path: 'group',
@@ -33,9 +35,7 @@ export default [
         component: () => import('@/pages/permissionManager/user/index.vue'),
         meta: { title: '用户管理' },
       },
-     
-    
-     
+
     ],
   },
 ];
