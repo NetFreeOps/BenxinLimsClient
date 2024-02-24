@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq';
 
 const permission = import.meta.globEager('./modules/permission.ts');
 const system = import.meta.globEager('./modules/system.ts');
+const user = import.meta.globEager('./modules/user.ts');
 const  base = import.meta.globEager('./modules/base.ts');
 const components = import.meta.globEager('./modules/components.ts');
 const iframe = import.meta.globEager('./modules/iframe.ts');
@@ -14,6 +15,7 @@ const others = import.meta.globEager('./modules/others.ts');
 const modules = {
   ...permission,
   ...system,
+  ...user,
   ...base,
   ...components,
   ...iframe,

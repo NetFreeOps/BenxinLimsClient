@@ -20,7 +20,8 @@ export default [
         name: 'product',
         component: () => import('@/pages/systemManager/product/index.vue'),
         meta: { title: '产品管理' },
-      },
+      }
+      
     ],
   },
 ];

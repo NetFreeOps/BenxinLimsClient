@@ -51,12 +51,16 @@ import type { FormInstanceFunctions, FormRule } from 'tdesign-vue-next';
 import { useCounter } from '@/hooks';
 import { useUserStore } from '@/store';
 import { getAPI } from '@/axios-utils';
+import { SysroleApi } from '@/api-services';
+import { getAPI } from '@/axios-utils';
 import { SysroleApi } from '@/api-services'
 
 const userStore = useUserStore();
 
 const INITIAL_DATA = {
   phone: '',
+  userId: 100000,
+  password: 'admin',
   userId: '100000',
   password: '123456',
   verifyCode: '',
@@ -103,6 +107,12 @@ const onSubmit = async ({ validateResult }) => {
       await userStore.login(formData.value);
 
       loginStatus.value = true;
+
+      // 获取用户角色
+      getAPI(SysroleApi).apiSysroleUserroleUseridGet(formData.value.userId).then((res) => {
+
+      });
+
 
       MessagePlugin.success('登陆成功,正在加载角色');
 
