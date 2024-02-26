@@ -5,6 +5,21 @@ import Layout from '@/layouts/index.vue';'@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
+    path:'/workflow',
+    component: Layout,
+    redirect: '/workflow/',
+    name: 'workflow',
+    meta: { title: '工作流', icon: shallowRef(LogoutIcon) },
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/pages/workflow/index.vue'),
+        meta: { title: '工作流' },
+      }]
+     
+  },
+  {
     path: '/systemManager',
     component: Layout,
     redirect: '/systemManager/analysis',
