@@ -1,23 +1,29 @@
 import { LogoutIcon } from 'tdesign-icons-vue-next';
 import { shallowRef } from 'vue';
 
-import Layout from '@/layouts/index.vue';'@/assets/assets-slide-dashboard.svg';
+import Layout from '@/layouts/index.vue'; '@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
-    path:'/workflow',
+    path: '/workflow',
     component: Layout,
     redirect: '/workflow/',
     name: 'workflow',
     meta: { title: '工作流', icon: shallowRef(LogoutIcon) },
     children: [
       {
+        path: 'edit',
+        name: 'edit',
+        component: () => import('@/pages/workflow/edit.vue'),
+        meta: { title: '编辑' },
+      },
+      {
         path: 'index',
         name: 'index',
         component: () => import('@/pages/workflow/index.vue'),
         meta: { title: '工作流' },
       }]
-     
+
   },
   {
     path: '/systemManager',
@@ -38,7 +44,7 @@ export default [
         component: () => import('@/pages/systemManager/product/index.vue'),
         meta: { title: '产品管理' },
       }
-      
+
     ],
   },
 ];
