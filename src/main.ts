@@ -9,6 +9,7 @@ import i18n from './locales';
 
 import 'tdesign-vue-next/es/style/index.css';
 import '@/style/index.less';
+import '@/style/tmweb.css'
 import './permission';
 
 const app = createApp(App);
