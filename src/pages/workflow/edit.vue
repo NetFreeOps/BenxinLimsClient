@@ -9,7 +9,14 @@
         </t-card>
 
         <div class="flex">
-            <t-card style="width: 19%;" title="组件列表"></t-card>
+            <t-card style="width: 19%;background-color: #transparent;" title="组件列表">
+                <t-list>
+                    <t-list-item v-for="item in componentList" :key="item.id">
+                        <t-icon :icon="item.icon" />
+                        <span>{{ item.name }}</span>
+                    </t-list-item>
+                </t-list>
+            </t-card>
             <t-card style="width: 79%;" title="工作流编辑器">
 
             </t-card>
@@ -20,9 +27,16 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const componentList = ref([])// 组件列表来源于后台，后台管理员配置好可用组件
+const componentList = ref([{ id: 1, orderNum: 1, name: "成品登记", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }])// 组件列表来源于后台，后台管理员配置好可用组件
 const backgroundColorList = ref([])
 const iconList = ref([])
 const programList = ref([])
 const workFlow = ref([{ type: "登记模板", items: [{ id: 1, orderNum: 1, name: "成品登记", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }] }])
+
+const getComponentList = () => {
+    // 获取组件列表
+}
+const getProgramList = () => {
+    // 获取程序列表
+}
 </script>
