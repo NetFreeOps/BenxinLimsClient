@@ -39,9 +39,8 @@
                     </div>
                     <div class="grid-container" style="min-height: 100px;" @dragenter="onDragEnter"
                         @dragleave="onDragLeave" @dragover.prevent="onDragOver" @drop="(e) => onDrop(e, item)">
-                        <div class="grid-item" v-for="(    items, indexs    ) in     item.items    " :key="indexs"
-                            draggable="true">
-                            <div class="border-com flex flex-between flex-col" style="height:160px;width: 160px;">
+                        <div class="grid-item" v-for="( items, indexs) in item.items" :key="indexs" draggable="true">
+                            <div class="border-com">
                                 <div>{{ items.icon }}</div>
                                 <div>{{ items.name }}</div>
                                 <t-button size="small" theme="primary" variant="outline">选择程序</t-button>
@@ -72,6 +71,7 @@ const backgroundColorList = ref([])
 const iconList = ref([])
 const programList = ref([])
 const workFlow = ref([{ type: "登记模板", items: [{ id: 1, orderNum: 1, name: "成品登记", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }] }])
+const dragingItem = ref({})// 正在拖拽的元素
 
 const typeName = ref('')// 大类名称
 const editTypeVisible = ref(false)// 显示编辑大类弹窗
@@ -152,18 +152,21 @@ const delType = (index: number) => {
 
 /* 拖拽函数 */
 const left_dragStart = (e: DragEvent, item: any) => {
-    console.log('dragStart', e)
+    console.log('left_dragStart', e)
     // 记录拖拽元素的位置
     componentArea.value = (e.target as HTMLElement).getBoundingClientRect()
     console.log('componentArea', componentArea.value)
     console.warn('item', item)
+    // 处于拖放状态的元素
+    dragingItem.value = item
+
 }
 const left_dragEnd = (e: DragEvent, item: any) => {
     console.log('dragEnd', e)
     // 记录拖拽元素的位置
     workFlowArea.value = (e.target as HTMLElement).getBoundingClientRect()
     console.log('workFlowArea', workFlowArea.value)
-    console.warn('item', item)
+    // console.warn('item', item)
 }
 const onDragEnter = (e: DragEvent) => {
     console.log('onDragEnter', e)
@@ -190,7 +193,9 @@ const onDrop = (e: DragEvent, item: any) => {
     const y = e.clientY - workFlowArea.value.y
     console.log('x', x, 'y', y)
     // 添加组件
-    item.items.push({ id: 1, orderNum: 1, name: "成品登记", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" })
+    item.items.push(dragingItem.value)
+    //item.items.push(e)
+    // item.items.push({ id: 1, orderNum: 1, name: "成品登记", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" })
 }
 </script>
 
@@ -230,6 +235,5 @@ const onDrop = (e: DragEvent, item: any) => {
     /* 只是为了方便展示，你可以替换为你需要的背景颜色或样式 */
     border: 1px solid #ccc;
     text-align: center;
-    line-height: 200px;
 }
 </style>
