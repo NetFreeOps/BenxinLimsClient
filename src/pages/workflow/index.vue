@@ -1,16 +1,24 @@
 <template>
-    <div v-for="(item, index) in pageComponent" :key="index">
-        <t-card title="我的工作台" style="width:95%;margin-top:20px">
-            <div class="grid-container">
-                <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs">
-                    <div>
-                        <div style="height:160px">{{ items.name }}</div>
+    <div>
+        <t-card :title="workFlowTitle">
+            <template #actions>
+                <t-button @click="reflash">刷新</t-button>
+            </template>
+        </t-card>
+        <div v-for="(item, index) in pageComponent" :key="index">
+            {{ item }}
+            <t-card :title="item.type" style="width:100%;margin-top:20px">
+                <div class="grid-container">
+                    <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs">
+                        <div>
+                            <div style="height:160px">{{ items.name }}</div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-        </t-card>
+            </t-card>
+        </div>
     </div>
+
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
@@ -66,11 +74,19 @@ const userWorkFlow = ref([{
     "programName": "My Application"
 }])
 const pageComponent = ref([])
+const workFlowTitle = ref("我的工作台")
 onMounted(() => {
     // 获取用户工作流
     // userWorkFlow.value = []
     getWorkFlow();
+    // 获取当前时间
+    getCurrentTime();
 })
+/* 刷新工作流 */
+const reflash = () => {
+    getWorkFlow();
+    getCurrentTime();
+}
 
 const getWorkFlow = () => {
     // 获取用户工作流
@@ -89,6 +105,17 @@ const getWorkFlow = () => {
         });
         return acc;
     }, {}));
+}
+/* 获取当前时间 */
+const getCurrentTime = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    workFlowTitle.value = "我的工作台 " + `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 </script>
 <style>
