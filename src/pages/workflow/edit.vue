@@ -3,7 +3,7 @@
         <t-card title="编辑工作流">
             <template #actions>
                 <t-button theme="primary">加载</t-button>
-                <t-button theme="primary">保存</t-button>
+                <t-button theme="primary" @click="saveWorkflow">保存</t-button>
                 <t-button theme="primary" @click="showPreviewDialog">预览</t-button>
                 <t-button theme="danger">删除</t-button>
             </template>
@@ -169,9 +169,21 @@ const createType = () => {
         MessagePlugin.error('已存在同名分类')
         return
     }
-    subTypeData.value.type = subTypeName.value
+
+    const newSubType = { ...subTypeData.value, type: subTypeName.value } // 使用浅拷贝创建新的对象
     createTypeDialog.value = false
-    editWorkflow.value.push(subTypeData.value)
+    editWorkflow.value.push(newSubType) // 添加新对象到数组
+}
+
+/* 保存工作流 */
+const saveWorkflow = () => {
+    // 保存工作流
+    console.log(editWorkflow.value)
+    // 检查是否有空名称
+    if (editWorkflow.value.some(item => item.items.some(items => items.name === ''))) {
+        MessagePlugin.error('存在空名称')
+        return
+    }
 }
 
 </script>
