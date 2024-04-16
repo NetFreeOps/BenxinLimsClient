@@ -31,17 +31,19 @@
                 {{ editWorkflow }}
                 <div v-for="(item, index) in editWorkflow" :key="index">
                     <t-card :title="item.type" style="margin-top: 20px;">
-                        <template #actions>
-                            <t-button @click="editItem(item, index)">编辑</t-button>
-                            <t-button theme="danger" @click="deleteItem(index)">删除</t-button>
+                        <template #actions><!-- 编辑大类 -->
+                            <t-button @click="showEditTypeDialog(item, index)">编辑</t-button>
+                            <t-button theme="danger" @click="deleteType(index)">删除</t-button>
                         </template>
                         <VueDraggable v-model="item.items" :animation="150" ghostClass="ghost"
                             :group="{ name: 'people' }" class="edit-card">
-                            <t-card v-for="(items, indexs) in item.items" :key="indexs" style="width:200px;margin:5px">
-                                <template #actions>
-                                    <t-button size="small">编辑</t-button>
+                            <t-card v-for="(items, indexs) in item.items" :key="indexs" style="width:200px;margin:5px"
+                                :style="{ backgroundColor: items.backgroundColor }">
+                                <template #actions><!-- 编辑具体项目 -->
+                                    <t-button size="small"
+                                        @click="showEditItemDialog(item, index, indexs)">编辑</t-button>
                                     <t-button size="small" theme="danger"
-                                        @click="deleteSubItem(index, indexs)">删除</t-button>
+                                        @click="deleteItem(index, indexs)">删除</t-button>
                                 </template>
                                 {{ items.name }}
                             </t-card>
@@ -55,15 +57,41 @@
             </t-card>
         </div>
     </div>
+    <!-- 创建分类对话框 -->
     <t-dialog v-model:visible="createTypeDialog" header="请输入分类名称" :on-cancel="() => { }" :on-confirm="createType">
         <t-input v-model="subTypeName" />
     </t-dialog>
+    <!-- 编辑大类对话框 -->
+    <t-dialog v-model:visible="editTypeDialog" header="请重新输入分类名称" :on-cancel="() => { }" :on-confirm="editType">
+        <t-input v-model="editTypeData.name" />
+    </t-dialog>
+
+    <!-- 编辑具体项对话框 -->
+    <t-dialog v-model:visible="editItemDialog" header="编辑具体项" :on-cancel="() => { }" :on-confirm="editItem">
+        <t-form>
+            <t-form-item label="名称">
+                <t-input v-model="editItemData.data.name" />
+            </t-form-item>
+            <t-form-item label="背景颜色">
+                <t-color-picker v-model="editItemData.data.backgroundColor" />
+            </t-form-item>
+            <t-form-item label="图标">
+                <t-input v-model="editItemData.data.icon" />
+            </t-form-item>
+            <t-form-item label="要加载的程序">
+                <t-input v-model="editItemData.data.programName" />
+            </t-form-item>
+        </t-form>
+    </t-dialog>
+
+    <!-- 预览对话框 -->
     <t-dialog v-model:visible="previewDialog" header="预览" :on-cancel="() => { }" :on-confirm="confirmPreviewDialog"
         width="1000px">
         <div v-for="(item, index) in editWorkflow" :key="index">
             <t-card :title="item.type" style="width:100%;margin-top:20px">
                 <div class="grid-container">
-                    <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs">
+                    <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs"
+                        :style="{ backgroundColor: items.backgroundColor }">
                         <div>
                             <div style="height:160px">{{ items.name }}</div>
                         </div>
@@ -84,6 +112,8 @@ const componentList = ref([{ id: "1", orderNum: 1, name: "成品登记", backgro
 const editWorkflow = ref([{ type: '分类', items: [{ id: "1", orderNum: 1, name: "", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }] }])// 编辑的工作流
 const subTypeData = ref({ type: '', items: [{ id: "1", orderNum: 1, name: "", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }] })// 子分组数据格式
 const subTypeName = ref('')// 子分组名称
+const editTypeData = ref({ name: '', index: '' })// 编辑大类名称
+const editItemData = ref({ data: { id: "1", orderNum: 1, name: "", backgroundColor: "#f0f0f0", icon: "path/to/main/icon.png", programName: "My Application" }, index: -1, indexs: -1 })// 编辑项数据格式
 /* 拖拽组件 */
 const el1 = ref()
 const el2 = ref()
@@ -91,6 +121,9 @@ const el2 = ref()
 /* 弹窗 */
 const createTypeDialog = ref(false)// 创建分类弹窗显示隐藏
 const previewDialog = ref(false)// 预览弹窗显示隐藏
+const editTypeDialog = ref(false)// 编辑大类弹窗显示隐藏
+const editSubTypeDialog = ref(false)// 编辑小类弹窗显示隐藏
+const editItemDialog = ref(false)// 编辑具体项弹窗显示隐藏
 
 /* 显示创建分类弹窗 */
 const showCreateTypeDialog = () => {
@@ -100,6 +133,20 @@ const showCreateTypeDialog = () => {
 const showPreviewDialog = () => {
     previewDialog.value = true
 }
+/* 显示编辑大类弹窗 */
+const showEditTypeDialog = (item, index) => {
+    editTypeDialog.value = true
+    editTypeData.value = { name: item.type, index: index }
+}
+
+/* 显示编辑具体项弹窗 */
+const showEditItemDialog = (item, index, indexs) => {
+    editItemDialog.value = true
+    editItemData.value.data = item
+    editItemData.value.index = index
+    editItemData.value.indexs = indexs
+}
+
 const confirmPreviewDialog = () => {
     previewDialog.value = false
 }
@@ -122,42 +169,12 @@ watch(editWorkflow.value, (newVal) => {
 
     })
 })
-/* 编辑大类名称 */
-const editItem = (item, index) => {
 
-}
-/* 删除大类 */
-const deleteItem = (index) => {
-    editWorkflow.value.splice(index, 1)
-}
 
-/* 编辑小类名称 */
 
-/* 删除小类 */
-const deleteSubItem = (index, indexs) => {
-    editWorkflow.value[index].items.splice(indexs, 1)
-}
 
 /* 拖拽组件 */
 const onClone = (e) => {
-    console.log(e)
-}
-const onUpdateOut = (e) => {
-    console.log(e)
-}
-const onAddOut = (e) => {
-    console.log(e)
-}
-const removeOut = (e) => {
-    console.log(e)
-}
-const onUpdateIn = (e) => {
-    console.log(e)
-}
-const onAddIn = (e) => {
-    console.log(e)
-}
-const removeIn = (e) => {
     console.log(e)
 }
 
@@ -173,6 +190,32 @@ const createType = () => {
     const newSubType = { ...subTypeData.value, type: subTypeName.value } // 使用浅拷贝创建新的对象
     createTypeDialog.value = false
     editWorkflow.value.push(newSubType) // 添加新对象到数组
+}
+/* 编辑大类名称 */
+const editType = () => {
+    // 检查是否存在同名分类
+    if (editWorkflow.value.some(item => item.type === editTypeData.value.name)) {
+        MessagePlugin.error('已存在同名分类')
+        return
+    }
+    editWorkflow.value[editTypeData.value.index].type = editTypeData.value.name
+    editTypeDialog.value = false
+}
+/* 删除大类 */
+const deleteType = (index) => {
+    editWorkflow.value.splice(index, 1)
+}
+/* 编辑分项 */
+const editItem = () => {
+    editWorkflow.value[editItemData.value.index].items[editItemData.value.indexs].name = editItemData.value.data.name
+    editWorkflow.value[editItemData.value.index].items[editItemData.value.indexs].backgroundColor = editItemData.value.data.backgroundColor
+    editWorkflow.value[editItemData.value.index].items[editItemData.value.indexs].icon = editItemData.value.data.icon
+    editWorkflow.value[editItemData.value.index].items[editItemData.value.indexs].programName = editItemData.value.data.programName
+    editItemDialog.value = false
+}
+/* 删除分项*/
+const deleteItem = (index, indexs) => {
+    editWorkflow.value[index].items.splice(indexs, 1)
 }
 
 /* 保存工作流 */
