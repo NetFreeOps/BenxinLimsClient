@@ -14,9 +14,18 @@ import './permission';
 
 const app = createApp(App);
 
+
+
 app.use(TDesign);
 app.use(store);
 app.use(router);
 app.use(i18n);
+
+app.config.errorHandler = (err, vm, info) => {
+    console.error('Global error handler:', err, info);
+};
+app.config.warnHandler = (msg, vm, trace) => {
+    console.warn('Global warn handler:', msg, trace);
+};
 
 app.mount('#app');

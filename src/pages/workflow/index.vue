@@ -76,6 +76,7 @@ const userWorkFlow = ref([{
 const pageComponent = ref([])
 const workFlowTitle = ref("我的工作台")
 onMounted(() => {
+    console.warn('显示工作流')
     // 获取用户工作流
     // userWorkFlow.value = []
     getWorkFlow();

@@ -30,15 +30,20 @@ router.beforeEach(async (to, from, next) => {
 
       if (asyncRoutes && asyncRoutes.length === 0) {
         const routeList = await permissionStore.buildAsyncRoutes();
+        console.log('Generated routes:', routeList);
+
         routeList.forEach((item: RouteRecordRaw) => {
           router.addRoute(item);
         });
 
         if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
           // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+          console.log('Redirecting to:', to.fullPath);
           next({ path: to.fullPath, replace: true, query: to.query });
         } else {
           const redirect = decodeURIComponent((from.query.redirect || to.path) as string);
+          console.log('Redirecting to:', redirect);
+
           next(to.path === redirect ? { ...to, replace: true } : { path: redirect });
           return;
         }
@@ -50,6 +55,8 @@ router.beforeEach(async (to, from, next) => {
       }
     } catch (error) {
       MessagePlugin.error(error.message);
+      console.error('Error during navigation:', error);
+
       next({
         path: '/login',
         query: { redirect: encodeURIComponent(to.fullPath) },
@@ -80,3 +87,5 @@ router.afterEach((to) => {
   }
   NProgress.done();
 });
+
+

@@ -1,105 +1,108 @@
 <template>
     <div>
-        <t-card title="编辑工作流">
-            <template #actions>
-                <t-button theme="primary">加载</t-button>
-                <t-button theme="primary" @click="saveWorkflow">保存</t-button>
-                <t-button theme="primary" @click="showPreviewDialog">预览</t-button>
-                <t-button theme="danger">删除</t-button>
-            </template>
-        </t-card>
-
-        <div class="flex">
-            <t-card style="width: 20%; height: 80vh;" title="组件列表">
-                <t-list split>
-                    <VueDraggable v-model="componentList" :animation="150" ghostClass="ghost"
-                        :group="{ name: 'people', pull: 'clone', put: false }" @clone="onClone">
-
-                        <t-list-item v-for="item in componentList" :key="item.id">
-                            <t-icon :icon="item.icon" />
-                            <span>{{ item.name }}</span>
-                        </t-list-item>
-                    </VueDraggable>
-                </t-list>
-
+        <div>
+            <t-card title="编辑工作流">
+                <template #actions>
+                    <t-button theme="primary">加载</t-button>
+                    <t-button theme="primary" @click="saveWorkflow">保存</t-button>
+                    <t-button theme="primary" @click="showPreviewDialog">预览</t-button>
+                    <t-button theme="danger">删除</t-button>
+                </template>
             </t-card>
 
-            <t-card style="width: 80%;" title="工作流编辑器">
-                <template #actions>
-                    <t-button @click="showCreateTypeDialog">创建分类</t-button>
-                </template>
-                {{ editWorkflow }}
-                <div v-for="(item, index) in editWorkflow" :key="index">
-                    <t-card :title="item.type" style="margin-top: 20px;">
-                        <template #actions><!-- 编辑大类 -->
-                            <t-button @click="showEditTypeDialog(item, index)">编辑</t-button>
-                            <t-button theme="danger" @click="deleteType(index)">删除</t-button>
-                        </template>
-                        <VueDraggable v-model="item.items" :animation="150" ghostClass="ghost"
-                            :group="{ name: 'people' }" class="edit-card">
-                            <t-card v-for="(items, indexs) in item.items" :key="indexs" style="width:200px;margin:5px"
-                                :style="{ backgroundColor: items.backgroundColor }">
-                                <template #actions><!-- 编辑具体项目 -->
-                                    <t-button size="small"
-                                        @click="showEditItemDialog(item, index, indexs)">编辑</t-button>
-                                    <t-button size="small" theme="danger"
-                                        @click="deleteItem(index, indexs)">删除</t-button>
-                                </template>
-                                {{ items.name }}
-                            </t-card>
-                            <!-- <div v-for="(items, indexs) in item.items" :key="indexs" :span="4" style="margin-top:10px">
+            <div class="flex">
+                <t-card style="width: 20%; height: 80vh;" title="组件列表">
+                    <t-list split>
+                        <VueDraggable v-model="componentList" :animation="150" ghostClass="ghost"
+                            :group="{ name: 'people', pull: 'clone', put: false }" @clone="onClone">
+
+                            <t-list-item v-for="item in componentList" :key="item.id">
+                                <t-icon :icon="item.icon" />
+                                <span>{{ item.name }}</span>
+                            </t-list-item>
+                        </VueDraggable>
+                    </t-list>
+
+                </t-card>
+
+                <t-card style="width: 80%;" title="工作流编辑器">
+                    <template #actions>
+                        <t-button @click="showCreateTypeDialog">创建分类</t-button>
+                    </template>
+                    {{ editWorkflow }}
+                    <div v-for="(item, index) in editWorkflow" :key="index">
+                        <t-card :title="item.type" style="margin-top: 20px;">
+                            <template #actions><!-- 编辑大类 -->
+                                <t-button @click="showEditTypeDialog(item, index)">编辑</t-button>
+                                <t-button theme="danger" @click="deleteType(index)">删除</t-button>
+                            </template>
+                            <VueDraggable v-model="item.items" :animation="150" ghostClass="ghost"
+                                :group="{ name: 'people' }" class="edit-card">
+                                <t-card v-for="(items, indexs) in item.items" :key="indexs"
+                                    style="width:200px;margin:5px" :style="{ backgroundColor: items.backgroundColor }">
+                                    <template #actions><!-- 编辑具体项目 -->
+                                        <t-button size="small"
+                                            @click="showEditItemDialog(item, index, indexs)">编辑</t-button>
+                                        <t-button size="small" theme="danger"
+                                            @click="deleteItem(index, indexs)">删除</t-button>
+                                    </template>
+                                    {{ items.name }}
+                                </t-card>
+                                <!-- <div v-for="(items, indexs) in item.items" :key="indexs" :span="4" style="margin-top:10px">
                                 {{ items.name }}
                             </div> -->
-                        </VueDraggable>
+                            </VueDraggable>
 
-                    </t-card>
-                </div>
-            </t-card>
+                        </t-card>
+                    </div>
+                </t-card>
+            </div>
         </div>
-    </div>
-    <!-- 创建分类对话框 -->
-    <t-dialog v-model:visible="createTypeDialog" header="请输入分类名称" :on-cancel="() => { }" :on-confirm="createType">
-        <t-input v-model="subTypeName" />
-    </t-dialog>
-    <!-- 编辑大类对话框 -->
-    <t-dialog v-model:visible="editTypeDialog" header="请重新输入分类名称" :on-cancel="() => { }" :on-confirm="editType">
-        <t-input v-model="editTypeData.name" />
-    </t-dialog>
+        <!-- 创建分类对话框 -->
+        <t-dialog v-model:visible="createTypeDialog" header="请输入分类名称" :on-cancel="() => { }" :on-confirm="createType">
+            <t-input v-model="subTypeName" />
+        </t-dialog>
+        <!-- 编辑大类对话框 -->
+        <t-dialog v-model:visible="editTypeDialog" header="请重新输入分类名称" :on-cancel="() => { }" :on-confirm="editType">
+            <t-input v-model="editTypeData.name" />
+        </t-dialog>
 
-    <!-- 编辑具体项对话框 -->
-    <t-dialog v-model:visible="editItemDialog" header="编辑具体项" :on-cancel="() => { }" :on-confirm="editItem">
-        <t-form>
-            <t-form-item label="名称">
-                <t-input v-model="editItemData.data.name" />
-            </t-form-item>
-            <t-form-item label="背景颜色">
-                <t-color-picker v-model="editItemData.data.backgroundColor" />
-            </t-form-item>
-            <t-form-item label="图标">
-                <t-input v-model="editItemData.data.icon" />
-            </t-form-item>
-            <t-form-item label="要加载的程序">
-                <t-input v-model="editItemData.data.programName" />
-            </t-form-item>
-        </t-form>
-    </t-dialog>
+        <!-- 编辑具体项对话框 -->
+        <t-dialog v-model:visible="editItemDialog" header="编辑具体项" :on-cancel="() => { }" :on-confirm="editItem">
+            <t-form>
+                <t-form-item label="名称">
+                    <t-input v-model="editItemData.data.name" />
+                </t-form-item>
+                <t-form-item label="背景颜色">
+                    <t-color-picker v-model="editItemData.data.backgroundColor" />
+                </t-form-item>
+                <t-form-item label="图标">
+                    <t-input v-model="editItemData.data.icon" />
+                </t-form-item>
+                <t-form-item label="要加载的程序">
+                    <t-input v-model="editItemData.data.programName" />
+                </t-form-item>
+            </t-form>
+        </t-dialog>
 
-    <!-- 预览对话框 -->
-    <t-dialog v-model:visible="previewDialog" header="预览" :on-cancel="() => { }" :on-confirm="confirmPreviewDialog"
-        width="1000px">
-        <div v-for="(item, index) in editWorkflow" :key="index">
-            <t-card :title="item.type" style="width:100%;margin-top:20px">
-                <div class="grid-container">
-                    <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs"
-                        :style="{ backgroundColor: items.backgroundColor }">
-                        <div>
-                            <div style="height:160px">{{ items.name }}</div>
+        <!-- 预览对话框 -->
+        <t-dialog v-model:visible="previewDialog" header="预览" :on-cancel="() => { }" :on-confirm="confirmPreviewDialog"
+            width="1000px">
+            <div v-for="(item, index) in editWorkflow" :key="index">
+                <t-card :title="item.type" style="width:100%;margin-top:20px">
+                    <div class="grid-container">
+                        <div class="grid-item" v-for="(items, indexs) in item.items" :key="indexs"
+                            :style="{ backgroundColor: items.backgroundColor }">
+                            <div>
+                                <div style="height:160px">{{ items.name }}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </t-card>
-        </div>
-    </t-dialog>
+                </t-card>
+            </div>
+        </t-dialog>
+    </div>
+
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
@@ -124,6 +127,10 @@ const previewDialog = ref(false)// 预览弹窗显示隐藏
 const editTypeDialog = ref(false)// 编辑大类弹窗显示隐藏
 const editSubTypeDialog = ref(false)// 编辑小类弹窗显示隐藏
 const editItemDialog = ref(false)// 编辑具体项弹窗显示隐藏
+
+onMounted(() => {
+    console.warn("编辑工作流")
+})
 
 /* 显示创建分类弹窗 */
 const showCreateTypeDialog = () => {

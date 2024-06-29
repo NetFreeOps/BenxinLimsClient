@@ -27,6 +27,7 @@ export const usePermissionStore = defineStore('permission', {
     },
     async buildAsyncRoutes() {
       try {
+        console.log('buildAsyncRoutes');
         // 发起菜单权限请求 获取菜单列表,开发过程中，默认加载全部路由，不需要额外请求路由
         //const asyncRoutes: Array<RouteItem> = (await getMenuList()).list;
         const asyncRoutes: Array<RouteItem> = [];
