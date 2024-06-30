@@ -12,12 +12,12 @@
  * Do not edit the class manually.
  */
 
- /**
- * 列表项实体类
- *
- * @export
- * @interface LimsListItemEntry
- */
+/**
+* 列表项实体类
+*
+* @export
+* @interface LimsListItemEntry
+*/
 export interface LimsListItemEntry {
 
     /**
@@ -53,8 +53,8 @@ export interface LimsListItemEntry {
     /**
      * 排序
      *
-     * @type {string}
+     * @type {number}
      * @memberof LimsListItemEntry
      */
-    order?: string | null;
+    order?: number | null;
 }
