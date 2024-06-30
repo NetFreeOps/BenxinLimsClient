@@ -12,3 +12,11 @@ export const PAGE_NOT_FOUND_ROUTE = {
   name: '404Page',
   redirect: '/result/404',
 };
+
+export const LIST_TYPE = [{
+  key: 1, value: '样品类'
+}, {
+  key: 2, value: '分析类'
+}, {
+  key: 3, value: '管理类'
+}]

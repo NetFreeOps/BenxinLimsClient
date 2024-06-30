@@ -43,6 +43,12 @@ export default [
         name: 'product',
         component: () => import('@/pages/systemManager/product/index.vue'),
         meta: { title: '产品管理' },
+      },
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/pages/systemManager/list/index.vue'),
+        meta: { title: '列表管理' }
       }
 
     ],

@@ -16,27 +16,37 @@
  * 
  *
  * @export
- * @interface SysUserRoleEntry
+ * @interface PageOutEntity
  */
-export interface SysUserRoleEntry {
+export interface PageOutEntity {
 
     /**
-     * @type {number}
-     * @memberof SysUserRoleEntry
-     */
-    id?: number;
-
-    /**
-     * 采用用户工号
+     * 当前页码
      *
      * @type {number}
-     * @memberof SysUserRoleEntry
+     * @memberof PageOutEntity
      */
-    userId?: number | null;
+    pageIndex?: number;
 
     /**
+     * 每页数据数
+     *
      * @type {number}
-     * @memberof SysUserRoleEntry
+     * @memberof PageOutEntity
      */
-    roleId?: number | null;
+    pageSize?: number;
+
+    /**
+     * 数据总数
+     *
+     * @type {number}
+     * @memberof PageOutEntity
+     */
+    total?: number;
+
+    /**
+     * @type {any}
+     * @memberof PageOutEntity
+     */
+    pageData?: any | null;
 }

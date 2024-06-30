@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 export * from './apis/analysis-api';
+export * from './apis/list-api';
 export * from './apis/sample-api';
 export * from './apis/sysauth-api';
 export * from './apis/sysdynamicsub-api';

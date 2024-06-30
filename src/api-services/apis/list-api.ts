@@ -17,33 +17,32 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { LimsListEntry } from '../models';
+import { LimsListItemEntry } from '../models';
 import { RESTfulResultInt32 } from '../models';
-import { RESTfulResultListSyRoleButtonEntry } from '../models';
-import { RESTfulResultListSysRoleDataEntry } from '../models';
-import { RESTfulResultListSysRoleMenuEntry } from '../models';
-import { RESTfulResultListSysRolesEntry } from '../models';
-import { RESTfulResultListSysUserRoleEntry } from '../models';
-import { SysRoleMenuEntry } from '../models';
-import { SysRolesEntry } from '../models';
+import { RESTfulResultListLimsListItemEntry } from '../models';
+import { RESTfulResultPageOutEntity } from '../models';
 /**
- * SysRoleApi - axios parameter creator
+ * ListApi - axios parameter creator
  * @export
  */
-export const SysRoleApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ListApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} roleid 
+         * @param {number} [id] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {string} [listType] 
+         * @param {string} [groupName] 
+         * @param {number} [pageIndex] 当前页码
+         * @param {number} [pageSize] 每页数据数
+         * @param {number} [total] 数据总数
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleRoleButtonRoleidGet: async (roleid: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'roleid' is not null or undefined
-            if (roleid === null || roleid === undefined) {
-                throw new RequiredError('roleid','Required parameter roleid was null or undefined when calling apiSysRoleRoleButtonRoleidGet.');
-            }
-            const localVarPath = `/api/sys-role/role-button/{roleid}`
-                .replace(`{${"roleid"}}`, encodeURIComponent(String(roleid)));
+        apiListListGet: async (id?: number, name?: string, description?: string, listType?: string, groupName?: string, pageIndex?: number, pageSize?: number, total?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/list/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -51,6 +50,87 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
                 baseOptions = configuration.baseOptions;
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['Name'] = name;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['Description'] = description;
+            }
+
+            if (listType !== undefined) {
+                localVarQueryParameter['ListType'] = listType;
+            }
+
+            if (groupName !== undefined) {
+                localVarQueryParameter['GroupName'] = groupName;
+            }
+
+            if (pageIndex !== undefined) {
+                localVarQueryParameter['PageIndex'] = pageIndex;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (total !== undefined) {
+                localVarQueryParameter['total'] = total;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除列表，同时删除列表项
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiListListIdDelete: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiListListIdDelete.');
+            }
+            const localVarPath = `/api/list/list/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -81,103 +161,13 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 添加列表
+         * @param {LimsListEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleRoleDataRoleidGet: async (roleid: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'roleid' is not null or undefined
-            if (roleid === null || roleid === undefined) {
-                throw new RequiredError('roleid','Required parameter roleid was null or undefined when calling apiSysRoleRoleDataRoleidGet.');
-            }
-            const localVarPath = `/api/sys-role/role-data/{roleid}`
-                .replace(`{${"roleid"}}`, encodeURIComponent(String(roleid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取所有角色
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysRoleRoleListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sys-role/role-list`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {SysRoleMenuEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysRoleRoleMenuPost: async (body?: SysRoleMenuEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sys-role/role-menu`;
+        apiListListPost: async (body?: LimsListEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/list/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -219,107 +209,13 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 更新列表
+         * @param {LimsListEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleRoleMenuRoleidGet: async (roleid: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'roleid' is not null or undefined
-            if (roleid === null || roleid === undefined) {
-                throw new RequiredError('roleid','Required parameter roleid was null or undefined when calling apiSysRoleRoleMenuRoleidGet.');
-            }
-            const localVarPath = `/api/sys-role/role-menu/{roleid}`
-                .replace(`{${"roleid"}}`, encodeURIComponent(String(roleid)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {SysRolesEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysRoleRolePost: async (body?: SysRolesEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sys-role/role`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {SysRolesEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysRoleRolePut: async (body?: SysRolesEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sys-role/role`;
+        apiListListPut: async (body?: LimsListEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/list/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -361,17 +257,18 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 删除列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleRoleRoleidDelete: async (roleid: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'roleid' is not null or undefined
-            if (roleid === null || roleid === undefined) {
-                throw new RequiredError('roleid','Required parameter roleid was null or undefined when calling apiSysRoleRoleRoleidDelete.');
+        apiListListitemIdDelete: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiListListitemIdDelete.');
             }
-            const localVarPath = `/api/sys-role/role/{roleid}`
-                .replace(`{${"roleid"}}`, encodeURIComponent(String(roleid)));
+            const localVarPath = `/api/list/listitem/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -409,17 +306,18 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} userid 
+         * @summary 获取列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleUserRoleUseridGet: async (userid: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userid' is not null or undefined
-            if (userid === null || userid === undefined) {
-                throw new RequiredError('userid','Required parameter userid was null or undefined when calling apiSysRoleUserRoleUseridGet.');
+        apiListListitemIdGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiListListitemIdGet.');
             }
-            const localVarPath = `/api/sys-role/user-role/{userid}`
-                .replace(`{${"userid"}}`, encodeURIComponent(String(userid)));
+            const localVarPath = `/api/list/listitem/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -455,320 +353,426 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
-    }
-};
+        /**
+         * 
+         * @summary 添加列表项
+         * @param {LimsListItemEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiListListitemPost: async (body?: LimsListItemEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/list/listitem`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-/**
- * SysRoleApi - functional programming interface
- * @export
- */
-export const SysRoleApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {number} roleid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRoleButtonRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSyRoleButtonEntry>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleButtonRoleidGet(roleid, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
             };
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 更新列表项
+         * @param {LimsListItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleDataRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysRoleDataEntry>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleDataRoleidGet(roleid, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 获取所有角色
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRoleListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysRolesEntry>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleListGet(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {SysRoleMenuEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRoleMenuPost(body?: SysRoleMenuEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleMenuPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} roleid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRoleMenuRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysRoleMenuEntry>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleMenuRoleidGet(roleid, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {SysRolesEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRolePost(body?: SysRolesEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRolePost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {SysRolesEntry} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRolePut(body?: SysRolesEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRolePut(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} roleid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleRoleRoleidDelete(roleid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleRoleRoleidDelete(roleid, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} userid 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysRoleUserRoleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleUserRoleUseridGet(userid, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
+        apiListListitemPut: async (body?: LimsListItemEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/list/listitem`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
             };
         },
     }
 };
 
 /**
- * SysRoleApi - factory interface
+ * ListApi - functional programming interface
  * @export
  */
-export const SysRoleApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const ListApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} roleid 
+         * @param {number} [id] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {string} [listType] 
+         * @param {string} [groupName] 
+         * @param {number} [pageIndex] 当前页码
+         * @param {number} [pageSize] 每页数据数
+         * @param {number} [total] 数据总数
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleButtonRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSyRoleButtonEntry>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleButtonRoleidGet(roleid, options).then((request) => request(axios, basePath));
+        async apiListListGet(id?: number, name?: string, description?: string, listType?: string, groupName?: string, pageIndex?: number, pageSize?: number, total?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultPageOutEntity>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListGet(id, name, description, listType, groupName, pageIndex, pageSize, total, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 删除列表，同时删除列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleDataRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysRoleDataEntry>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleDataRoleidGet(roleid, options).then((request) => request(axios, basePath));
+        async apiListListIdDelete(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListIdDelete(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @summary 获取所有角色
+         * @summary 添加列表
+         * @param {LimsListEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysRolesEntry>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleListGet(options).then((request) => request(axios, basePath));
+        async apiListListPost(body?: LimsListEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {SysRoleMenuEntry} [body] 
+         * @summary 更新列表
+         * @param {LimsListEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleMenuPost(body?: SysRoleMenuEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleMenuPost(body, options).then((request) => request(axios, basePath));
+        async apiListListPut(body?: LimsListEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListPut(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 删除列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleMenuRoleidGet(roleid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysRoleMenuEntry>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleMenuRoleidGet(roleid, options).then((request) => request(axios, basePath));
+        async apiListListitemIdDelete(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListitemIdDelete(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {SysRolesEntry} [body] 
+         * @summary 获取列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRolePost(body?: SysRolesEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
-            return SysRoleApiFp(configuration).apiSysRoleRolePost(body, options).then((request) => request(axios, basePath));
+        async apiListListitemIdGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListLimsListItemEntry>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListitemIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {SysRolesEntry} [body] 
+         * @summary 添加列表项
+         * @param {LimsListItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRolePut(body?: SysRolesEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
-            return SysRoleApiFp(configuration).apiSysRoleRolePut(body, options).then((request) => request(axios, basePath));
+        async apiListListitemPost(body?: LimsListItemEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListitemPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
         },
         /**
          * 
-         * @param {number} roleid 
+         * @summary 更新列表项
+         * @param {LimsListItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleRoleRoleidDelete(roleid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
-            return SysRoleApiFp(configuration).apiSysRoleRoleRoleidDelete(roleid, options).then((request) => request(axios, basePath));
+        async apiListListitemPut(body?: LimsListItemEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ListApiAxiosParamCreator(configuration).apiListListitemPut(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * ListApi - factory interface
+ * @export
+ */
+export const ListApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {string} [name] 
+         * @param {string} [description] 
+         * @param {string} [listType] 
+         * @param {string} [groupName] 
+         * @param {number} [pageIndex] 当前页码
+         * @param {number} [pageSize] 每页数据数
+         * @param {number} [total] 数据总数
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListGet(id?: number, name?: string, description?: string, listType?: string, groupName?: string, pageIndex?: number, pageSize?: number, total?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultPageOutEntity>> {
+            return ListApiFp(configuration).apiListListGet(id, name, description, listType, groupName, pageIndex, pageSize, total, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} userid 
+         * @summary 删除列表，同时删除列表项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleUserRoleUseridGet(userid: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>> {
-            return SysRoleApiFp(configuration).apiSysRoleUserRoleUseridGet(userid, options).then((request) => request(axios, basePath));
+        async apiListListIdDelete(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 添加列表
+         * @param {LimsListEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListPost(body?: LimsListEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新列表
+         * @param {LimsListEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListPut(body?: LimsListEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListPut(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 删除列表项
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListitemIdDelete(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListitemIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取列表项
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListitemIdGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListLimsListItemEntry>> {
+            return ListApiFp(configuration).apiListListitemIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 添加列表项
+         * @param {LimsListItemEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListitemPost(body?: LimsListItemEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListitemPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新列表项
+         * @param {LimsListItemEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiListListitemPut(body?: LimsListItemEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ListApiFp(configuration).apiListListitemPut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * SysRoleApi - object-oriented interface
+ * ListApi - object-oriented interface
  * @export
- * @class SysRoleApi
+ * @class ListApi
  * @extends {BaseAPI}
  */
-export class SysRoleApi extends BaseAPI {
+export class ListApi extends BaseAPI {
     /**
      * 
-     * @param {number} roleid 
+     * @param {number} [id] 
+     * @param {string} [name] 
+     * @param {string} [description] 
+     * @param {string} [listType] 
+     * @param {string} [groupName] 
+     * @param {number} [pageIndex] 当前页码
+     * @param {number} [pageSize] 每页数据数
+     * @param {number} [total] 数据总数
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleButtonRoleidGet(roleid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSyRoleButtonEntry>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleButtonRoleidGet(roleid, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListGet(id?: number, name?: string, description?: string, listType?: string, groupName?: string, pageIndex?: number, pageSize?: number, total?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultPageOutEntity>> {
+        return ListApiFp(this.configuration).apiListListGet(id, name, description, listType, groupName, pageIndex, pageSize, total, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {number} roleid 
+     * @summary 删除列表，同时删除列表项
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleDataRoleidGet(roleid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysRoleDataEntry>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleDataRoleidGet(roleid, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListIdDelete(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListIdDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 获取所有角色
+     * @summary 添加列表
+     * @param {LimsListEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysRolesEntry>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiListListPost(body?: LimsListEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {SysRoleMenuEntry} [body] 
+     * @summary 更新列表
+     * @param {LimsListEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleMenuPost(body?: SysRoleMenuEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleMenuPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListPut(body?: LimsListEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListPut(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {number} roleid 
+     * @summary 删除列表项
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleMenuRoleidGet(roleid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysRoleMenuEntry>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleMenuRoleidGet(roleid, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListitemIdDelete(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListitemIdDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {SysRolesEntry} [body] 
+     * @summary 获取列表项
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRolePost(body?: SysRolesEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRolePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListitemIdGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListLimsListItemEntry>> {
+        return ListApiFp(this.configuration).apiListListitemIdGet(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {SysRolesEntry} [body] 
+     * @summary 添加列表项
+     * @param {LimsListItemEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRolePut(body?: SysRolesEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRolePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListitemPost(body?: LimsListItemEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListitemPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {number} roleid 
+     * @summary 更新列表项
+     * @param {LimsListItemEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof SysRoleApi
+     * @memberof ListApi
      */
-    public async apiSysRoleRoleRoleidDelete(roleid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleRoleRoleidDelete(roleid, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} userid 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysRoleApi
-     */
-    public async apiSysRoleUserRoleUseridGet(userid: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysUserRoleEntry>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleUserRoleUseridGet(userid, options).then((request) => request(this.axios, this.basePath));
+    public async apiListListitemPut(body?: LimsListItemEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ListApiFp(this.configuration).apiListListitemPut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -12,48 +12,48 @@
  * Do not edit the class manually.
  */
 
-import { SysUserRoleEntry } from './sys-user-role-entry';
+import { LimsListItemEntry } from './lims-list-item-entry';
  /**
  * 
  *
  * @export
- * @interface RESTfulResultListSysUserRoleEntry
+ * @interface RESTfulResultListLimsListItemEntry
  */
-export interface RESTfulResultListSysUserRoleEntry {
+export interface RESTfulResultListLimsListItemEntry {
 
     /**
      * @type {number}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @memberof RESTfulResultListLimsListItemEntry
      */
     statusCode?: number | null;
 
     /**
-     * @type {Array<SysUserRoleEntry>}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @type {Array<LimsListItemEntry>}
+     * @memberof RESTfulResultListLimsListItemEntry
      */
-    data?: Array<SysUserRoleEntry> | null;
+    data?: Array<LimsListItemEntry> | null;
 
     /**
      * @type {boolean}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @memberof RESTfulResultListLimsListItemEntry
      */
     succeeded?: boolean;
 
     /**
      * @type {any}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @memberof RESTfulResultListLimsListItemEntry
      */
     errors?: any | null;
 
     /**
      * @type {any}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @memberof RESTfulResultListLimsListItemEntry
      */
     extras?: any | null;
 
     /**
      * @type {number}
-     * @memberof RESTfulResultListSysUserRoleEntry
+     * @memberof RESTfulResultListLimsListItemEntry
      */
     timestamp?: number;
 }
