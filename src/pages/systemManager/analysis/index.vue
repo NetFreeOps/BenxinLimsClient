@@ -7,9 +7,9 @@
                     <t-button theme="primary" @click="addAnalysis">新增分析</t-button>
                 </template>
                 <t-input label="搜索：" v-model="searchParams" @enter="fiterAnalysis"></t-input>
-                <t-radio-group class="flex flex-col pt-n5" @change="changeAnalysisType">
+                <t-radio-group class="flex flex-col flex-start pt-n5" @change="changeAnalysisType">
                     <t-radio :value="item.id" v-for="(item, index) in leftAnalysis" :key="index" :allow-uncheck="true"
-                        class="py-5">
+                        class="py-5" style="width: 100%;">
                         {{ item.name }}
                     </t-radio>
                 </t-radio-group>
@@ -18,18 +18,104 @@
         </div>
 
         <!-- 右侧区域 -->
-        <div style="width: 65%; display: flex; flex-direction: column;">
+        <div style=" width: 65%; display: flex; flex-direction: column;">
             <!-- 上半部分：分析基础信息的变更 -->
             <div style="flex: 1;">
                 <t-card title="分析基础信息">
                     <t-form>
-                        <t-form-item label="分析名称" name="name">
-                            <t-input v-model="analysisInfo.name" placeholder="请输入分析名称" />
-                        </t-form-item>
-                        <t-form-item label="描述" name="description">
-                            <t-input v-model="analysisInfo.description" placeholder="请输入描述" />
-                        </t-form-item>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="分析名称：" name="name">
+                                    {{ analysisInfo.name }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('name', analysisInfo.name, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="标准：" name="standard">
+                                    {{ analysisInfo.standard }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('standard', analysisInfo.standard, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 100%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="描述：" name="description">
+                                    {{ analysisInfo.description }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('description', analysisInfo.description, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="版本：" name="version">
+                                    {{ analysisInfo.version }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('version', analysisInfo.version, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="是否激活：" name="version">
+                                    {{ analysisInfo.active }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('active', analysisInfo.version, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="分组名称：" name="groupName">
+                                    {{ analysisInfo.groupName }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('groupName', analysisInfo.groupName, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="实验室名称：" name="labName">
+                                    {{ analysisInfo.labName }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('labName', analysisInfo.labName, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="分析类型：" name="analysisType">
+                                    {{ analysisInfo.analysisType }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('analysisType', analysisInfo.analysisType, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="常用名称：" name="commonName">
+                                    {{ analysisInfo.commonName }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('commonName', analysisInfo.commonName, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+
+
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="报告名称：" name="reportName">
+                                    {{ analysisInfo.reportName }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('reportName', analysisInfo.reportName, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+
+                            <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="默认岗位：" name="defaultPost">
+                                    {{ analysisInfo.defaultPost }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('defaultPost', analysisInfo.defaultPost, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+
+
+                            <div style="width: 100%;border-bottom:1px solid #e5e5e5;">
+                                <t-form-item label="文件链接：" name="fileLink">
+                                    {{ analysisInfo.fileLink }}
+                                    <t-button theme="primary" variant="text"
+                                        @click="changeAnalysisValue('fileLink', analysisInfo.fileLink, 'text', '')">修改</t-button>
+                                </t-form-item>
+                            </div>
+                        </div>
                     </t-form>
+
                 </t-card>
             </div>
 
@@ -83,11 +169,48 @@ const updateField = ref('');
 
 const searchParams = ref('');
 const leftAnalysis = ref([{ id: 1, name: '类型1' }, { id: 2, name: '类型2' }])
+const analysisList = ref([{
+    id: 1,
+    active: 1,
+    analysisType: "",
+    changeTime: "",
+    changeUser: "",
+    commonName: "",
+    createTime: "",
+    createUser: "",
+    dataId: "1",
+    defaultPost: "",
+    deleted: "",
+    description: "",
+    fileLink: "",
+    groupName: "",
+    labName: "",
+    name: "",
+    reportName: "",
+    standard: "",
+    version: "1"
+}]);
 const analysisInfo = ref({
     id: 1,
-    name: '',
-    description: '',
-});
+    active: 1,
+    analysisType: "",
+    changeTime: "",
+    changeUser: "",
+    commonName: "",
+    createTime: "",
+    createUser: "",
+    dataId: "1",
+    defaultPost: "",
+    deleted: "",
+    description: "",
+    fileLink: "",
+    groupName: "",
+    labName: "",
+    name: "",
+    reportName: "",
+    standard: "",
+    version: "1"
+})
 
 const subItem = ref({
     name: '',
@@ -101,7 +224,14 @@ onMounted(() => {
 const getAllAnalysis = async () => {
     console.log('Get All Analysis');
     getAPI(AnalysisApi).apiAnalysisAnalysislistGet().then((res) => {
-
+        console.log(res);
+        leftAnalysis.value = res.data.data.map((item) => {
+            return {
+                id: item.id,
+                name: item.name,
+            };
+        });
+        analysisList.value = res.data.data;
     });
 
 };
@@ -116,8 +246,13 @@ const addAnalysis = () => {
 
 const changeAnalysisType = (value) => {
     console.log('Selected Analysis Type:', value);
-    // 在此处添加你的逻辑
+    // 获取指定位置的值
+    analysisInfo.value = analysisList.value[value];
+    console.log('Selected Analysis Info:', analysisInfo.value);
 };
+const changeAnalysisValue = (key, value, type, listkey) => {
+    console.log('Change Analysis Value:', key, value, type);
+}
 
 const addSubItem = () => {
     console.log('Add Sub Item:', subItem.value);
