@@ -122,26 +122,37 @@
 
             <!-- 下半部分：分项的录入 -->
             <div style="flex: 1; margin-top: 16px;">
-                <t-card title="分项录入">
+                <t-card title="分析分项信息">
+                    <template #actions>
+                        <t-button theme="primary" @click="addSubItem">新增分项</t-button>
+                    </template>
                     <t-form>
-                        <t-form-item label="分项名称" name="subItemName">
-                            <t-input v-model="subItem.name" placeholder="请输入分项名称" />
-                        </t-form-item>
-                        <t-form-item label="分项描述" name="subItemDescription">
-                            <t-input v-model="subItem.description" placeholder="请输入分项描述" />
-                        </t-form-item>
-                        <t-space>
-                            <t-button theme="primary" @click="addSubItem">新增分项</t-button>
-                            <t-button @click="resetSubItem">重置</t-button>
-                        </t-space>
+                        <div class="grid-container">
+                            <t-form-item :label="subItem.id" :name="subItem.name"
+                                v-for="(subItem, subindex) in analysisItemList" :key="subItem.id">
+                                <!-- <t-input v-model="subItem.name" placeholder="请输入分项名称" /> -->
+                                <t-tag theme="primary" variant="light-outline" @click="showSubItemModal(subItem)">{{
+                subItem.name }}</t-tag>
+                            </t-form-item>
+
+
+                        </div>
+
                     </t-form>
                 </t-card>
             </div>
         </div>
+        <!-- 字段编辑器弹窗 -->
         <t-dialog v-model:visible="analysisEditModal" @confirm="hideModal('analysis')" header="字段编辑器">
             <fieldEdit :field-name="field.name" :field-value="field.value" :field-type="field.type"
                 :list-key="field.listKey" v-model:updateField="field.updateValue" />
         </t-dialog>
+        <!-- 分项编辑器弹窗 -->
+        <t-dialog v-model:visible="subItemEditModal" @confirm="hideModal('subItem')" header="分项编辑器">
+            <fieldEdit :field-name="field.name" :field-value="field.value" :field-type="field.type"
+                :list-key="field.listKey" v-model:updateField="field.updateValue" />
+        </t-dialog>
+
     </div>
 </template>
 
@@ -157,6 +168,7 @@ const ANALYSIS_TYPE = [
     { key: 3, value: '类型3' },
 ];
 const analysisEditModal = ref(false);
+const subItemEditModal = ref(false);
 
 /* 要编辑的字段信息 */
 const field = ref({
@@ -213,7 +225,52 @@ const analysisInfo = ref({
     standard: "",
     version: "1"
 })
+/* 分析分项数据 */
+const analysisItemList = ref([{
+    id: -1,
+    analysisId: -1,
+    analysisName: "COD",
+    name: null,
+    version: 1,
+    orderNumber: null,
+    resultType: null,
+    units: null,
+    minValue: null,
+    maxValue: null,
+    places: null,
+    autoCalc: null,
+    commonName: null,
+    nullable: null,
+    reportable: null,
+    listKey: null,
+    calcRule: null,
+    commonCalcRule: null,
+    roundRule: null,
+    groupName: null
 
+}])
+const analysisItem = ref({
+    id: -1,
+    analysisId: -1,
+    analysisName: "COD",
+    name: null,
+    version: 1,
+    orderNumber: null,
+    resultType: null,
+    units: null,
+    minValue: null,
+    maxValue: null,
+    places: null,
+    autoCalc: null,
+    commonName: null,
+    nullable: null,
+    reportable: null,
+    listKey: null,
+    calcRule: null,
+    commonCalcRule: null,
+    roundRule: null,
+    groupName: null
+})
 const subItem = ref({
     name: '',
     description: '',
@@ -255,6 +312,7 @@ const changeAnalysisType = (value) => {
     // 获取指定位置的值
     analysisInfo.value = analysisList.value[value - 1];
     console.log('Selected Analysis Info:', analysisInfo.value);
+    searchSubItem();
 };
 /* 弹出字段修改器 */
 const changeAnalysisValue = (key, value, type, listkey) => {
@@ -292,6 +350,45 @@ const updateSelectedField = async () => {
     });
 
 }
+/* 获取指定分析的分项 */
+const searchSubItem = () => {
+    console.log('Search Sub Item:', searchParams.value);
+    // 在此处添加你的逻辑
+    getAPI(AnalysisApi).apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisInfo.value.name).then((res) => {
+        console.log(res.data.data);
+        analysisItemList.value = res.data.data.map((item) => {
+            return {
+                id: item.id,
+                analysisId: item.analysisId,
+                analysisName: item.analysisName,
+                name: item.name,
+                version: item.version,
+                orderNumber: item.orderNumber,
+                resultType: item.resultType,
+                units: item.units,
+                minValue: item.minValue,
+                maxValue: item.maxValue,
+                places: item.places,
+                autoCalc: item.autoCalc,
+                commonName: item.commonName,
+                nullable: item.nullable,
+                reportable: item.reportable,
+                listKey: item.listKey,
+                calcRule: item.calcRule,
+                commonCalcRule: item.commonCalcRule,
+                roundRule: item.roundRule,
+                groupName: item.groupName
+            }
+        })
+    });
+}
+/* 显示分析详细分项信息 */
+const showSubItemModal = (subitemData) => {
+    analysisItem.value = subitemData;
+    showModal('subItem')
+    // 在此处添加你的逻辑
+};
+
 
 const addSubItem = () => {
     console.log('Add Sub Item:', subItem.value);
@@ -312,11 +409,12 @@ const showModal = (res) => {
         case 'analysis':
             analysisEditModal.value = true;
             break;
-
+        case 'subItem':
+            subItemEditModal.value = true;
+            break;
         default:
             break;
     }
-    analysisEditModal.value = true;
 };
 const hideModal = (res) => {
     console.warn(field.value.updateValue)
@@ -324,6 +422,9 @@ const hideModal = (res) => {
         case 'analysis':
             analysisEditModal.value = false;
             updateSelectedField();
+            break;
+        case 'subItem':
+            subItemEditModal.value = false;
             break;
         default:
             break;
@@ -348,5 +449,17 @@ const hideModal = (res) => {
 
 .text-unactive {
     color: #f04134;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.t-form-item {
+    border: 1px solid #e5e5e5;
+    padding: 8px;
+    box-sizing: border-box;
 }
 </style>

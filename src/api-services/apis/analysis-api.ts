@@ -18,8 +18,10 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AnalysisEntry } from '../models';
+import { AnalysisItemEntry } from '../models';
 import { RESTfulResultInt32 } from '../models';
 import { RESTfulResultListAnalysisEntry } from '../models';
+import { RESTfulResultListAnalysisItemEntry } from '../models';
 import { RESTfulResultString } from '../models';
 /**
  * AnalysisApi - axios parameter creator
@@ -313,17 +315,18 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 根据ID删除分析的分项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAnalysisItemfromanalysisAnalysisnameDelete: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'analysisname' is not null or undefined
-            if (analysisname === null || analysisname === undefined) {
-                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiAnalysisItemfromanalysisAnalysisnameDelete.');
+        apiAnalysisItemfromanalysisIdDelete: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiAnalysisItemfromanalysisIdDelete.');
             }
-            const localVarPath = `/api/analysis/itemfromanalysis/{analysisname}`
-                .replace(`{${"analysisname"}}`, encodeURIComponent(String(analysisname)));
+            const localVarPath = `/api/analysis/itemfromanalysis/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -361,17 +364,13 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 更新分析的分项信息
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAnalysisItemfromanalysisAnalysisnamePut: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'analysisname' is not null or undefined
-            if (analysisname === null || analysisname === undefined) {
-                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiAnalysisItemfromanalysisAnalysisnamePut.');
-            }
-            const localVarPath = `/api/analysis/itemfromanalysis/{analysisname}`
-                .replace(`{${"analysisname"}}`, encodeURIComponent(String(analysisname)));
+        apiAnalysisItemfromanalysisPut: async (body?: AnalysisItemEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/analysis/itemfromanalysis`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -391,6 +390,8 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
 
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -401,6 +402,8 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -409,6 +412,7 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary 根据分析名称获取分析的分项列表
          * @param {string} analysisname 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -457,17 +461,13 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 为分析增加分项
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAnalysisItemtoanalysisAnalysisnamePost: async (analysisname: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'analysisname' is not null or undefined
-            if (analysisname === null || analysisname === undefined) {
-                throw new RequiredError('analysisname','Required parameter analysisname was null or undefined when calling apiAnalysisItemtoanalysisAnalysisnamePost.');
-            }
-            const localVarPath = `/api/analysis/itemtoanalysis/{analysisname}`
-                .replace(`{${"analysisname"}}`, encodeURIComponent(String(analysisname)));
+        apiAnalysisItemtoanalysisPost: async (body?: AnalysisItemEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/analysis/itemtoanalysis`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -487,6 +487,8 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
 
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -497,6 +499,8 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -739,12 +743,13 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 根据ID删除分析的分项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname, options);
+        async apiAnalysisItemfromanalysisIdDelete(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemfromanalysisIdDelete(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -752,12 +757,13 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 更新分析的分项信息
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemfromanalysisAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemfromanalysisAnalysisnamePut(analysisname, options);
+        async apiAnalysisItemfromanalysisPut(body?: AnalysisItemEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemfromanalysisPut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -765,11 +771,12 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 根据分析名称获取分析的分项列表
          * @param {string} analysisname 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+        async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListAnalysisItemEntry>>> {
             const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -778,12 +785,13 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 为分析增加分项
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemtoanalysisAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemtoanalysisAnalysisnamePost(analysisname, options);
+        async apiAnalysisItemtoanalysisPost(body?: AnalysisItemEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await AnalysisApiAxiosParamCreator(configuration).apiAnalysisItemtoanalysisPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -896,39 +904,43 @@ export const AnalysisApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 根据ID删除分析的分项
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return AnalysisApiFp(configuration).apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname, options).then((request) => request(axios, basePath));
+        async apiAnalysisItemfromanalysisIdDelete(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return AnalysisApiFp(configuration).apiAnalysisItemfromanalysisIdDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 更新分析的分项信息
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemfromanalysisAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return AnalysisApiFp(configuration).apiAnalysisItemfromanalysisAnalysisnamePut(analysisname, options).then((request) => request(axios, basePath));
+        async apiAnalysisItemfromanalysisPut(body?: AnalysisItemEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return AnalysisApiFp(configuration).apiAnalysisItemfromanalysisPut(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @summary 根据分析名称获取分析的分项列表
          * @param {string} analysisname 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+        async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListAnalysisItemEntry>> {
             return AnalysisApiFp(configuration).apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} analysisname 
+         * @summary 为分析增加分项
+         * @param {AnalysisItemEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAnalysisItemtoanalysisAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return AnalysisApiFp(configuration).apiAnalysisItemtoanalysisAnalysisnamePost(analysisname, options).then((request) => request(axios, basePath));
+        async apiAnalysisItemtoanalysisPost(body?: AnalysisItemEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return AnalysisApiFp(configuration).apiAnalysisItemtoanalysisPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1032,43 +1044,47 @@ export class AnalysisApi extends BaseAPI {
     }
     /**
      * 
-     * @param {string} analysisname 
+     * @summary 根据ID删除分析的分项
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalysisApi
      */
-    public async apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return AnalysisApiFp(this.configuration).apiAnalysisItemfromanalysisAnalysisnameDelete(analysisname, options).then((request) => request(this.axios, this.basePath));
+    public async apiAnalysisItemfromanalysisIdDelete(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return AnalysisApiFp(this.configuration).apiAnalysisItemfromanalysisIdDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {string} analysisname 
+     * @summary 更新分析的分项信息
+     * @param {AnalysisItemEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalysisApi
      */
-    public async apiAnalysisItemfromanalysisAnalysisnamePut(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return AnalysisApiFp(this.configuration).apiAnalysisItemfromanalysisAnalysisnamePut(analysisname, options).then((request) => request(this.axios, this.basePath));
+    public async apiAnalysisItemfromanalysisPut(body?: AnalysisItemEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return AnalysisApiFp(this.configuration).apiAnalysisItemfromanalysisPut(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
+     * @summary 根据分析名称获取分析的分项列表
      * @param {string} analysisname 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalysisApi
      */
-    public async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+    public async apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListAnalysisItemEntry>> {
         return AnalysisApiFp(this.configuration).apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisname, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @param {string} analysisname 
+     * @summary 为分析增加分项
+     * @param {AnalysisItemEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AnalysisApi
      */
-    public async apiAnalysisItemtoanalysisAnalysisnamePost(analysisname: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return AnalysisApiFp(this.configuration).apiAnalysisItemtoanalysisAnalysisnamePost(analysisname, options).then((request) => request(this.axios, this.basePath));
+    public async apiAnalysisItemtoanalysisPost(body?: AnalysisItemEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return AnalysisApiFp(this.configuration).apiAnalysisItemtoanalysisPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
