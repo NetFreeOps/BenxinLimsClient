@@ -11,6 +11,8 @@
                     <t-radio :value="item.id" v-for="(item, index) in leftAnalysis" :key="index" :allow-uncheck="true"
                         class="py-5" style="width: 100%;">
                         {{ item.name }}
+                        <span v-if="item.active === 1" class="text-success">[激活]</span>
+                        <span v-if="item.active === 0" class="text-unactive">[未激活]</span>
                     </t-radio>
                 </t-radio-group>
             </t-card>
@@ -54,9 +56,8 @@
                             </div>
                             <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
                                 <t-form-item label="是否激活：" name="version">
-                                    {{ analysisInfo.active }}
-                                    <t-button theme="primary" variant="text"
-                                        @click="changeAnalysisValue('active', analysisInfo.version, 'text', '')">修改</t-button>
+                                    <t-switch v-model="analysisInfo.active" :value="0" :custom-value="[1, 0]"
+                                        :default-value="0" @change="switchChange" />
                                 </t-form-item>
                             </div>
                             <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
@@ -77,7 +78,7 @@
                                 <t-form-item label="分析类型：" name="analysisType">
                                     {{ analysisInfo.analysisType }}
                                     <t-button theme="primary" variant="text"
-                                        @click="changeAnalysisValue('analysisType', analysisInfo.analysisType, 'text', '')">修改</t-button>
+                                        @click="changeAnalysisValue('analysisType', analysisInfo.analysisType, 'select', '样品类型')">修改</t-button>
                                 </t-form-item>
                             </div>
                             <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
@@ -169,7 +170,7 @@ const field = ref({
 const updateField = ref('');
 const selectedValue = ref('');//当前选中数据
 const searchParams = ref('');
-const leftAnalysis = ref([{ id: 1, name: '类型1' }, { id: 2, name: '类型2' }])
+const leftAnalysis = ref([{ id: 1, name: '类型1', active: 0 }, { id: 2, name: '类型2', active: 0 }])
 const analysisList = ref([{
     id: 1,
     active: 1,
@@ -230,6 +231,7 @@ const getAllAnalysis = async () => {
             return {
                 id: item.id,
                 name: item.name,
+                active: item.active
             };
         });
         analysisList.value = res.data.data;
@@ -262,6 +264,14 @@ const changeAnalysisValue = (key, value, type, listkey) => {
     field.value.type = type;
     field.value.listKey = listkey;
     showModal('analysis')
+}
+/* 开关值直接修改 */
+const switchChange = (value) => {
+    console.log('Switch Change:', value);
+    // 在此处添加你的逻辑
+    field.value.name = 'active'
+    field.value.updateValue = value
+    updateSelectedField();
 }
 /* 修改指定字段 */
 const updateSelectedField = async () => {
@@ -330,5 +340,13 @@ const hideModal = (res) => {
 
 .flex-col {
     flex-direction: column;
+}
+
+.text-success {
+    color: #00a854;
+}
+
+.text-unactive {
+    color: #f04134;
 }
 </style>
