@@ -1,36 +1,39 @@
 <template>
     <div>
         <div class="pb-10">正在编辑{{ fieldName }}字段</div>
-        <component :is="getComponentType(fieldType)" v-model="fieldValue" :placeholder="`请输入${fieldValue}`"
-            @input="handleInput"></component>
+        <component :is="getComponentType(fieldType)" v-model="inValue">
+            <t-option v-for="option in listData" :key="option.value" :value="option.value">{{ option.name }}</t-option>
+        </component>
     </div>
-
-
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-
+import { getAPI } from '@/axios-utils';
+import { ListApi } from '@/api-services';
 // Props 接收传入的字段名称、字段值和字段类型
 const props = defineProps({
     fieldName: String,
     fieldValue: [String, Number, Boolean],
-    fieldType: String
+    fieldType: String,
+    listKey: String
 });
+const listData = ref([{ id: -1, name: '', value: '', order: '' }]);
 
 // Emits 传出编辑完成后的字段名称和字段值
-const emit = defineEmits(['udpate:updateField']);
+const emit = defineEmits(['update:updateField']);
 
-const fieldValue = ref(props.fieldValue);
+const inValue = ref(props.fieldValue);
 
 // 根据字段类型选择合适的组件
 const getComponentType = (type) => {
     switch (type) {
         case 'text':
-            return 't-input';
+            return 't-textarea';
         case 'number':
             return 't-input-number';
         case 'select':
+            getListData();
             return 't-select'; // 这里你需要根据具体情况传入选项数据
         case 'date':
             return 't-date-picker';
@@ -38,12 +41,30 @@ const getComponentType = (type) => {
             return 't-input';
     }
 };
+/* 获取列表数据 */
+const getListData = () => {
+    // 这里你需要根据具体情况获取列表数据
+    console.warn(props.listKey)
+    getAPI(ListApi).apiListListitembylistnameListnameGet(props.listKey).then((res) => {
+        console.log(res);
+        listData.value = res.data.data
+    });
+    return [];
+};
 
 const handleInput = (value) => {
-    console.warn(fieldValue.value);
-    // emit('updateField', fieldName, value);
-    emit('udpate:updateField', fieldValue.value);
-}
+    inValue.value = value;
+    emit('update:updateField', value);
+};
+
+// 监听 inValue 的变化，当其变化时触发 handleInput 逻辑
+watch(inValue, (newVal) => {
+    handleInput(newVal);
+});
+
+watch(() => props.fieldValue, (newVal) => {
+    inValue.value = newVal;
+});
 
 </script>
 

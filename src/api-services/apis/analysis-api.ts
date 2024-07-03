@@ -126,6 +126,7 @@ export const AnalysisApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary 更新分析
          * @param {AnalysisEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -685,6 +686,7 @@ export const AnalysisApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 更新分析
          * @param {AnalysisEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -857,6 +859,7 @@ export const AnalysisApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary 更新分析
          * @param {AnalysisEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -988,6 +991,7 @@ export class AnalysisApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 更新分析
      * @param {AnalysisEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

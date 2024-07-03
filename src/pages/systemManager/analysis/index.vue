@@ -49,7 +49,7 @@
                                 <t-form-item label="版本：" name="version">
                                     {{ analysisInfo.version }}
                                     <t-button theme="primary" variant="text"
-                                        @click="changeAnalysisValue('version', analysisInfo.version, 'text', '')">修改</t-button>
+                                        @click="changeAnalysisValue('version', analysisInfo.version, 'number', '')">修改</t-button>
                                 </t-form-item>
                             </div>
                             <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
@@ -101,7 +101,7 @@
                                 <t-form-item label="默认岗位：" name="defaultPost">
                                     {{ analysisInfo.defaultPost }}
                                     <t-button theme="primary" variant="text"
-                                        @click="changeAnalysisValue('defaultPost', analysisInfo.defaultPost, 'text', '')">修改</t-button>
+                                        @click="changeAnalysisValue('defaultPost', analysisInfo.defaultPost, 'select', '岗位')">修改</t-button>
                                 </t-form-item>
                             </div>
 
@@ -139,7 +139,7 @@
         </div>
         <t-dialog v-model:visible="analysisEditModal" @confirm="hideModal('analysis')" header="字段编辑器">
             <fieldEdit :field-name="field.name" :field-value="field.value" :field-type="field.type"
-                v-model:updateField="field.updateValue" />
+                :list-key="field.listKey" v-model:updateField="field.updateValue" />
         </t-dialog>
     </div>
 </template>
@@ -163,10 +163,11 @@ const field = ref({
     value: '',
     updateValue: '',
     type: 'text',
+    listKey: ''
 });
 /* 编辑后的字段值 */
 const updateField = ref('');
-
+const selectedValue = ref('');//当前选中数据
 const searchParams = ref('');
 const leftAnalysis = ref([{ id: 1, name: '类型1' }, { id: 2, name: '类型2' }])
 const analysisList = ref([{
@@ -191,7 +192,7 @@ const analysisList = ref([{
     version: "1"
 }]);
 const analysisInfo = ref({
-    id: 1,
+    id: -1,
     active: 1,
     analysisType: "",
     changeTime: "",
@@ -232,6 +233,9 @@ const getAllAnalysis = async () => {
             };
         });
         analysisList.value = res.data.data;
+        if (analysisInfo.value.id !== -1) {
+            changeAnalysisType(analysisInfo.value.id)
+        }
     });
 
 };
@@ -247,11 +251,36 @@ const addAnalysis = () => {
 const changeAnalysisType = (value) => {
     console.log('Selected Analysis Type:', value);
     // 获取指定位置的值
-    analysisInfo.value = analysisList.value[value];
+    analysisInfo.value = analysisList.value[value - 1];
     console.log('Selected Analysis Info:', analysisInfo.value);
 };
+/* 弹出字段修改器 */
 const changeAnalysisValue = (key, value, type, listkey) => {
-    console.log('Change Analysis Value:', key, value, type);
+    console.log('Change Analysis Value:', key, value, type, listkey);
+    field.value.name = key;
+    field.value.value = value;
+    field.value.type = type;
+    field.value.listKey = listkey;
+    showModal('analysis')
+}
+/* 修改指定字段 */
+const updateSelectedField = async () => {
+    // 获取待编辑字段ID
+    const editId = analysisInfo.value.id
+    // 待编辑字段名
+    const editName = field.value.name
+    // 待编辑字段值
+    const editValue = field.value.updateValue
+
+    // 将id、字段名、字段值拼接成json
+    const editString = `{"id":"${editId}", "${editName}":"${editValue}"}`
+    // 转成json
+    const editJson = JSON.parse(editString)
+    await getAPI(AnalysisApi).apiAnalysisAnalysisPut(editJson).then((res) => {
+        console.log(res);
+        getAllAnalysis();//先执行
+    });
+
 }
 
 const addSubItem = () => {
@@ -267,19 +296,24 @@ const resetSubItem = () => {
     };
 };
 
-const handleFieldUpdate = (fieldName, fieldValue) => {
-    console.log('Field Update:', fieldName, fieldValue);
-    // 在此处添加你的逻辑
-    analysisEditModal.value = false;
-};
-const showModal = () => {
+
+const showModal = (res) => {
+    switch (res) {
+        case 'analysis':
+            analysisEditModal.value = true;
+            break;
+
+        default:
+            break;
+    }
     analysisEditModal.value = true;
 };
 const hideModal = (res) => {
-    console.warn(updateField)
+    console.warn(field.value.updateValue)
     switch (res) {
         case 'analysis':
             analysisEditModal.value = false;
+            updateSelectedField();
             break;
         default:
             break;
