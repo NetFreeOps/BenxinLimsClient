@@ -128,11 +128,11 @@
                     </template>
                     <t-form>
                         <div class="grid-container">
-                            <t-form-item :label="subItem.id" :name="subItem.name"
+                            <t-form-item :label="`${subItem.id}:`" :name="subItem.name"
                                 v-for="(subItem, subindex) in analysisItemList" :key="subItem.id">
                                 <!-- <t-input v-model="subItem.name" placeholder="请输入分项名称" /> -->
                                 <t-tag theme="primary" variant="light-outline" @click="showSubItemModal(subItem)">{{
-                subItem.name }}</t-tag>
+                                    subItem.name }}</t-tag>
                             </t-form-item>
 
 
@@ -149,17 +149,88 @@
         </t-dialog>
         <!-- 分项编辑器弹窗 -->
         <t-dialog v-model:visible="subItemEditModal" @confirm="hideModal('subItem')" header="分项编辑器">
-            <fieldEdit :field-name="field.name" :field-value="field.value" :field-type="field.type"
-                :list-key="field.listKey" v-model:updateField="field.updateValue" />
+            <t-form style="max-height: 600px; overflow-y: auto;">
+                <t-form-item label="ID：">
+                    <t-input :disabled="true" v-model="analysisItem.id" />
+                </t-form-item>
+                <t-form-item label="分析ID：">
+                    <t-input :disabled="true" v-model="analysisItem.analysisId" />
+                </t-form-item>
+                <t-form-item label="分析名称：">
+                    <t-input :disabled="true" v-model="analysisItem.analysisName" />
+                </t-form-item>
+                <t-form-item label="分项名称：">
+                    <t-input v-model="analysisItem.name" />
+                </t-form-item>
+                <t-form-item label="常用名称：">
+                    <t-input v-model="analysisItem.commonName" />
+                </t-form-item>
+                <t-form-item label="版本：">
+                    <t-input v-model="analysisItem.version" />
+                </t-form-item>
+                <!-- <t-form-item label="排序号：">
+                    <t-input v-model="analysisItem.orderNumber" />
+                </t-form-item> -->
+                <t-form-item label="结果类型：">
+                    <!-- <t-input v-model="analysisItem.resultType" /> -->
+                    <t-select v-model="analysisItem.resultType" :options="resultTypeOptions" />
+                </t-form-item>
+                <t-form-item label="单位：">
+                    <!-- <t-input v-model="analysisItem.units" /> -->
+                    <t-select filterable v-model="analysisItem.units" :options="unitsOptions" />
+                </t-form-item>
+                <t-form-item label="最小值：">
+                    <t-input-number v-model="analysisItem.minValue" />
+                </t-form-item>
+                <t-form-item label="最大值：">
+                    <t-input-number v-model="analysisItem.maxValue" />
+                </t-form-item>
+                <t-form-item label="重复数：">
+                    <t-input-number v-model="analysisItem.places" />
+                </t-form-item>
+                <t-form-item label="自动计算：">
+                    <t-switch v-model="analysisItem.autoCalc" :custom-value="['1', '0']" />
+                </t-form-item>
+                <t-form-item label="允许为空：">
+                    <t-switch v-model="analysisItem.nullable" :custom-value="['1', '0']" />
+                </t-form-item>
+                <t-form-item label="是否可报告：">
+                    <t-switch v-model="analysisItem.reportable" :custom-value="['1', '0']" />
+                </t-form-item>
+                <t-form-item label="列表键：">
+                    <t-input v-model="analysisItem.listKey" />
+                </t-form-item>
+                <t-form-item label="计算公式：">
+                    <!-- <t-input v-model="analysisItem.calcRule" /> -->
+                    <t-button theme="primary" @click="showCalcRuleModal">编辑公式</t-button>
+                </t-form-item>
+                <t-form-item label="通用计算规则：">
+                    <t-input v-model="analysisItem.commonCalcRule" />
+                </t-form-item>
+                <t-form-item label="舍入规则：">
+                    <!-- <t-input v-model="analysisItem.roundRule" /> -->
+                    <t-select v-model="analysisItem.roundRule" :options="roundRuleOptions" />
+                </t-form-item>
+                <t-form-item label="分组名称：">
+                    <t-input v-model="analysisItem.groupName" />
+                </t-form-item>
+            </t-form>
         </t-dialog>
-
+        <t-dialog v-model:visible="calcModal" @confirm="hideModal('calcRule')" header="计算公式编辑器">
+            <div>{{ analysisItem.analysisName }}-{{ analysisItem.name }}</div>
+            <t-form>
+                <t-form-item label="计算公式：">
+                    <t-input v-model="analysisItem.calcRule" />
+                </t-form-item>
+            </t-form>
+        </t-dialog>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
-import { AnalysisApi } from '@/api-services';
+import { AnalysisApi, ListApi } from '@/api-services';
 import fieldEdit from '@/components/field-edit/index.vue';
 
 const ANALYSIS_TYPE = [
@@ -167,9 +238,9 @@ const ANALYSIS_TYPE = [
     { key: 2, value: '类型2' },
     { key: 3, value: '类型3' },
 ];
-const analysisEditModal = ref(false);
-const subItemEditModal = ref(false);
-
+const analysisEditModal = ref(false);//分析（字段）编辑器弹窗
+const subItemEditModal = ref(false);//分项编辑器弹窗
+const calcModal = ref(false);//公式编辑器弹窗
 /* 要编辑的字段信息 */
 const field = ref({
     name: '',
@@ -225,6 +296,10 @@ const analysisInfo = ref({
     standard: "",
     version: "1"
 })
+/* 分项类型数据 */
+const resultTypeOptions = ref([{}])
+const roundRuleOptions = ref([{}])
+const unitsOptions = ref([{}])
 /* 分析分项数据 */
 const analysisItemList = ref([{
     id: -1,
@@ -386,9 +461,52 @@ const searchSubItem = () => {
 const showSubItemModal = (subitemData) => {
     analysisItem.value = subitemData;
     showModal('subItem')
-    // 在此处添加你的逻辑
+    // 获取分项类型列表
+    getAPI(ListApi).apiListListitembylistnameListnameGet('分项类型').then((res) => {
+        console.log(res);
+        resultTypeOptions.value = res.data.data.map((item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                value: item.value
+            };
+        });
+    });
+    getAPI(ListApi).apiListListitembylistnameListnameGet('舍入规则').then((res) => {
+        console.log(res);
+        roundRuleOptions.value = res.data.data.map((item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                value: item.value
+            };
+        });
+    });
+    getAPI(ListApi).apiListListitembylistnameListnameGet('单位').then((res) => {
+        unitsOptions.value = res.data.data.map((item) => {
+            return {
+                id: item.id,
+                label: item.name,
+                value: item.value
+            };
+        });
+    });
 };
-
+/* 更新分析分项信息 */
+const updateSubItem = async () => {
+    console.log('Update Sub Item:', analysisItem.value);
+    // 在此处添加你的逻辑
+    getAPI(AnalysisApi).apiAnalysisItemfromanalysisPut(analysisItem.value).then((res) => {
+        console.log(res);
+        searchSubItem();//先执行
+    });
+};
+/* 显示公式编辑器弹窗 */
+const showCalcRuleModal = () => {
+    console.log('Show Calc Rule Modal');
+    // 在此处添加你的逻辑
+    showModal('calcRule')
+};
 
 const addSubItem = () => {
     console.log('Add Sub Item:', subItem.value);
@@ -412,6 +530,9 @@ const showModal = (res) => {
         case 'subItem':
             subItemEditModal.value = true;
             break;
+        case 'calcRule':
+            calcModal.value = true;
+            break;
         default:
             break;
     }
@@ -425,7 +546,10 @@ const hideModal = (res) => {
             break;
         case 'subItem':
             subItemEditModal.value = false;
+            updateSubItem();
             break;
+        case 'calcRule':
+            calcModal.value = false;
         default:
             break;
     }
@@ -453,8 +577,8 @@ const hideModal = (res) => {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
 }
 
 .t-form-item {

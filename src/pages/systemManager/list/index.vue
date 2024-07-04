@@ -68,11 +68,11 @@
         <!-- 编辑列表项弹窗 -->
         <t-dialog v-model:visible="editListItemModal" header="编辑列表项" @ok="editListItem" @cancel="hideModal('editItem')"
             @confirm="editListItem" width="1000">
-            <t-space>
+            <t-space class="pb-10">
                 <t-button @click="showModal('addItem')">新增</t-button>
             </t-space>
-            <t-table :columns="itemColumns" drag-sort="row" :data="listItemData" @drag-sort="orderListItem"
-                row-key="id">
+            <t-table :columns="itemColumns" drag-sort="row" :data="listItemData" @drag-sort="orderListItem" row-key="id"
+                max-height="600">
                 <template #operation="{ row }">
                     <t-button theme="primary" variant="text" @click="deltetListItem(row)">删除</t-button>
                 </template>

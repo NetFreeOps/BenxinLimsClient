@@ -12,12 +12,12 @@
  * Do not edit the class manually.
  */
 
- /**
- * 分析分项实体类
- *
- * @export
- * @interface AnalysisItemEntry
- */
+/**
+* 分析分项实体类
+*
+* @export
+* @interface AnalysisItemEntry
+*/
 export interface AnalysisItemEntry {
 
     /**
@@ -130,7 +130,7 @@ export interface AnalysisItemEntry {
      * @type {string}
      * @memberof AnalysisItemEntry
      */
-    minValue?: string | null;
+    minValue?: number | null;
 
     /**
      * 最大值，默认空
@@ -138,7 +138,7 @@ export interface AnalysisItemEntry {
      * @type {string}
      * @memberof AnalysisItemEntry
      */
-    maxValue?: string | null;
+    maxValue?: number | null;
 
     /**
      * 重复数
@@ -146,7 +146,7 @@ export interface AnalysisItemEntry {
      * @type {string}
      * @memberof AnalysisItemEntry
      */
-    places?: string | null;
+    places?: number | null;
 
     /**
      * 自动计算
