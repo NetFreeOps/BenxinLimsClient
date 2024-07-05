@@ -72,7 +72,7 @@
                 <t-button @click="showModal('addItem')">新增</t-button>
             </t-space>
             <t-table :columns="itemColumns" drag-sort="row" :data="listItemData" @drag-sort="orderListItem" row-key="id"
-                max-height="600">
+                max-height="500">
                 <template #operation="{ row }">
                     <t-button theme="primary" variant="text" @click="deltetListItem(row)">删除</t-button>
                 </template>

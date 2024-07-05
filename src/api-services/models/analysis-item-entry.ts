@@ -127,7 +127,7 @@ export interface AnalysisItemEntry {
     /**
      * 最小值，默认空
      *
-     * @type {string}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
     minValue?: number | null;
@@ -135,7 +135,7 @@ export interface AnalysisItemEntry {
     /**
      * 最大值，默认空
      *
-     * @type {string}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
     maxValue?: number | null;
@@ -143,7 +143,7 @@ export interface AnalysisItemEntry {
     /**
      * 重复数
      *
-     * @type {string}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
     places?: number | null;
@@ -151,10 +151,10 @@ export interface AnalysisItemEntry {
     /**
      * 自动计算
      *
-     * @type {string}
+     * @type {Number}
      * @memberof AnalysisItemEntry
      */
-    autoCalc?: string | null;
+    autoCalc?: number | null;
 
     /**
      * 通用名
@@ -167,18 +167,18 @@ export interface AnalysisItemEntry {
     /**
      * 可为空
      *
-     * @type {string}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
-    nullable?: string | null;
+    nullable?: number | null;
 
     /**
      * 可报告
      *
-     * @type {string}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
-    reportable?: string | null;
+    reportable?: number | null;
 
     /**
      * 列表型结果列表键

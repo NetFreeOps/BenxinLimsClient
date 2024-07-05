@@ -126,11 +126,17 @@
                     <template #actions>
                         <t-button theme="primary" @click="addSubItem">新增分项</t-button>
                     </template>
-                    <t-form>
+                    <t-table :columns="itemColumns" drag-sort="row" :data="analysisItemList"
+                        @drag-sort="orderAnalysisItem" row-key="id">
+                        <template #operation="{ row }">
+                            <t-button theme="primary" variant="text" @click="showSubItemModal(row)">编辑</t-button>
+                            <t-button theme="danger" variant="text" @click="delteAnalysisItem(row)">删除</t-button>
+                        </template>
+                    </t-table>
+                    <!-- <t-form>
                         <div class="grid-container">
                             <t-form-item :label="`${subItem.id}:`" :name="subItem.name"
                                 v-for="(subItem, subindex) in analysisItemList" :key="subItem.id">
-                                <!-- <t-input v-model="subItem.name" placeholder="请输入分项名称" /> -->
                                 <t-tag theme="primary" variant="light-outline" @click="showSubItemModal(subItem)">{{
                                     subItem.name }}</t-tag>
                             </t-form-item>
@@ -138,7 +144,7 @@
 
                         </div>
 
-                    </t-form>
+                    </t-form> -->
                 </t-card>
             </div>
         </div>
@@ -232,6 +238,7 @@ import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
 import { AnalysisApi, ListApi } from '@/api-services';
 import fieldEdit from '@/components/field-edit/index.vue';
+import { DialogPlugin } from 'tdesign-vue-next';
 
 const ANALYSIS_TYPE = [
     { key: 1, value: '类型1' },
@@ -310,13 +317,13 @@ const analysisItemList = ref([{
     orderNumber: null,
     resultType: null,
     units: null,
-    minValue: null,
-    maxValue: null,
-    places: null,
-    autoCalc: null,
+    minValue: 0,
+    maxValue: 999,
+    places: 1,
+    autoCalc: 1,
     commonName: null,
-    nullable: null,
-    reportable: null,
+    nullable: 1,
+    reportable: 1,
     listKey: null,
     calcRule: null,
     commonCalcRule: null,
@@ -327,25 +334,55 @@ const analysisItemList = ref([{
 const analysisItem = ref({
     id: -1,
     analysisId: -1,
-    analysisName: "COD",
+    analysisName: "",
     name: null,
     version: 1,
     orderNumber: null,
     resultType: null,
     units: null,
-    minValue: null,
-    maxValue: null,
-    places: null,
-    autoCalc: null,
+    minValue: 0,
+    maxValue: 999,
+    places: 1,
+    autoCalc: 1,
     commonName: null,
-    nullable: null,
-    reportable: null,
+    nullable: 1,
+    reportable: 1,
     listKey: null,
     calcRule: null,
     commonCalcRule: null,
     roundRule: null,
     groupName: null
 })
+/* 新增分项默认值，主键自增，因此没有主键 */
+const addAnalysisItem = ref({
+    analysisId: -1,
+    analysisName: "",
+    name: null,
+    version: 1,
+    orderNumber: 999,
+    resultType: null,
+    units: null,
+    minValue: 0,
+    maxValue: 999,
+    places: 1,
+    autoCalc: 1,
+    commonName: null,
+    nullable: 1,
+    reportable: 1,
+    listKey: null,
+    calcRule: null,
+    commonCalcRule: null,
+    roundRule: null,
+    groupName: null
+})
+const itemColumns = [
+    { title: 'id', colKey: 'id', width: 50 },
+    { title: '名称', colKey: 'name' },
+    { title: '单位', colKey: 'units' },
+    { title: '可为空', colKey: 'nullable' },
+    { title: '可报告', colKey: 'reportable' },
+    { title: '操作', colKey: 'operation', width: 200 }]
+
 const subItem = ref({
     name: '',
     description: '',
@@ -431,30 +468,10 @@ const searchSubItem = () => {
     // 在此处添加你的逻辑
     getAPI(AnalysisApi).apiAnalysisItemlistfromanalysisAnalysisnameGet(analysisInfo.value.name).then((res) => {
         console.log(res.data.data);
-        analysisItemList.value = res.data.data.map((item) => {
-            return {
-                id: item.id,
-                analysisId: item.analysisId,
-                analysisName: item.analysisName,
-                name: item.name,
-                version: item.version,
-                orderNumber: item.orderNumber,
-                resultType: item.resultType,
-                units: item.units,
-                minValue: item.minValue,
-                maxValue: item.maxValue,
-                places: item.places,
-                autoCalc: item.autoCalc,
-                commonName: item.commonName,
-                nullable: item.nullable,
-                reportable: item.reportable,
-                listKey: item.listKey,
-                calcRule: item.calcRule,
-                commonCalcRule: item.commonCalcRule,
-                roundRule: item.roundRule,
-                groupName: item.groupName
-            }
-        })
+
+        res.data.data.sort((a, b) => a.orderNumber - b.orderNumber);
+        analysisItemList.value = res.data.data;
+
     });
 }
 /* 显示分析详细分项信息 */
@@ -501,6 +518,31 @@ const updateSubItem = async () => {
         searchSubItem();//先执行
     });
 };
+/* 删除一个分项 */
+const delteAnalysisItem = async (row) => {
+    const alerDia = DialogPlugin.alert({
+        header: '删除前确认',
+        body: '你确定要删除该记录吗？',
+        confirmBtn: {
+            content: '确定',
+            theme: 'danger'
+        },
+        onConfirm: ((e) => {
+            const itemapi = getAPI(AnalysisApi);
+            itemapi.apiAnalysisItemfromanalysisIdDelete(row.id).then((res) => {
+                searchSubItem();
+            });
+
+            alerDia.hide();
+        }),
+        onClose: (() => {
+            alerDia.hide();
+        })
+    })
+
+
+
+}
 /* 显示公式编辑器弹窗 */
 const showCalcRuleModal = () => {
     console.log('Show Calc Rule Modal');
@@ -510,17 +552,27 @@ const showCalcRuleModal = () => {
 
 const addSubItem = () => {
     console.log('Add Sub Item:', subItem.value);
-    // 在此处添加你的逻辑
-    analysisEditModal.value = true;
+    const analysisId = analysisInfo.value.id;
+    addAnalysisItem.value.analysisId = analysisId;
+    addAnalysisItem.value.analysisName = analysisInfo.value.name;
+    getAPI(AnalysisApi).apiAnalysisItemtoanalysisPost(addAnalysisItem.value).then((res) => {
+        searchSubItem();
+    });
 };
 
-const resetSubItem = () => {
-    subItem.value = {
-        name: '',
-        description: '',
-    };
-};
 
+
+/* 排序 */
+const orderAnalysisItem = (item) => {
+    console.log('Order Analysis Item:', item.newData);
+    const itemapi = getAPI(AnalysisApi);
+    for (let i = 0; i < item.newData.length; i++) {
+        item.newData[i].orderNumber = i + 1;
+        const res = itemapi.apiAnalysisItemfromanalysisPut(item.newData[i]);
+    }
+    searchSubItem();
+
+}
 
 const showModal = (res) => {
     switch (res) {
