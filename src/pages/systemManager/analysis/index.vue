@@ -220,13 +220,15 @@
                 </t-form-item>
             </t-form>
         </t-dialog>
-        <t-dialog v-model:visible="calcModal" @confirm="hideModal('calcRule')" header="计算公式编辑器">
+        <t-dialog v-model:visible="calcModal" @confirm="hideModal('calcRule')" header="计算公式编辑器" width="1200">
             <div>{{ analysisItem.analysisName }}-{{ analysisItem.name }}</div>
-            <t-form>
+            <calcEdit :edit-item="analysisItem"></calcEdit>
+
+            <!-- <t-form>
                 <t-form-item label="计算公式：">
                     <t-input v-model="analysisItem.calcRule" />
                 </t-form-item>
-            </t-form>
+            </t-form> -->
         </t-dialog>
     </div>
 </template>
@@ -238,6 +240,7 @@ import { AnalysisApi, ListApi } from '@/api-services';
 import fieldEdit from '@/components/field-edit/index.vue';
 import { Descriptions, DialogPlugin } from 'tdesign-vue-next';
 import { RefreshIcon } from 'tdesign-icons-vue-next';
+import calcEdit from '@/components/calc-edit/index.vue'
 
 const ANALYSIS_TYPE = [
     { key: 1, value: '类型1' },
