@@ -4,6 +4,12 @@
         <div style="width: 30%;">
             <t-card title="请选择分析方法" :header-bordered="true">
                 <template #actions>
+                    <t-button theme="primary" @click="getAllAnalysis" shape="circle">
+                        <template #icon>
+
+                            <RefreshIcon />
+                        </template>
+                    </t-button>
                     <t-button theme="primary" @click="addAnalysis">新增分析</t-button>
                 </template>
                 <t-input label="搜索：" v-model="searchParams" @enter="fiterAnalysis"></t-input>
@@ -133,18 +139,7 @@
                             <t-button theme="danger" variant="text" @click="delteAnalysisItem(row)">删除</t-button>
                         </template>
                     </t-table>
-                    <!-- <t-form>
-                        <div class="grid-container">
-                            <t-form-item :label="`${subItem.id}:`" :name="subItem.name"
-                                v-for="(subItem, subindex) in analysisItemList" :key="subItem.id">
-                                <t-tag theme="primary" variant="light-outline" @click="showSubItemModal(subItem)">{{
-                                    subItem.name }}</t-tag>
-                            </t-form-item>
 
-
-                        </div>
-
-                    </t-form> -->
                 </t-card>
             </div>
         </div>
@@ -179,7 +174,16 @@
                 </t-form-item> -->
                 <t-form-item label="结果类型：">
                     <!-- <t-input v-model="analysisItem.resultType" /> -->
-                    <t-select v-model="analysisItem.resultType" :options="resultTypeOptions" />
+                    <t-select v-model="analysisItem.resultType" :options="resultTypeOptions"
+                        @change="resultTypeChange" />
+                </t-form-item>
+                <t-form-item label=" 列表键：" v-if="analysisItem.resultType == '列表型'">
+                    <!-- <t-input v-model="analysisItem.listKey" /> -->
+                    <t-select filterable v-model="analysisItem.listKey" :options="listKeyOptions" />"
+                </t-form-item>
+                <t-form-item label="计算公式：" v-if="analysisItem.resultType == '计算型'">
+                    <!-- <t-input v-model="analysisItem.calcRule" /> -->
+                    <t-button theme="primary" @click="showCalcRuleModal">编辑公式</t-button>
                 </t-form-item>
                 <t-form-item label="单位：">
                     <!-- <t-input v-model="analysisItem.units" /> -->
@@ -203,13 +207,7 @@
                 <t-form-item label="是否可报告：">
                     <t-switch v-model="analysisItem.reportable" :custom-value="['1', '0']" />
                 </t-form-item>
-                <t-form-item label="列表键：">
-                    <t-input v-model="analysisItem.listKey" />
-                </t-form-item>
-                <t-form-item label="计算公式：">
-                    <!-- <t-input v-model="analysisItem.calcRule" /> -->
-                    <t-button theme="primary" @click="showCalcRuleModal">编辑公式</t-button>
-                </t-form-item>
+
                 <t-form-item label="通用计算规则：">
                     <t-input v-model="analysisItem.commonCalcRule" />
                 </t-form-item>
@@ -238,7 +236,8 @@ import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
 import { AnalysisApi, ListApi } from '@/api-services';
 import fieldEdit from '@/components/field-edit/index.vue';
-import { DialogPlugin } from 'tdesign-vue-next';
+import { Descriptions, DialogPlugin } from 'tdesign-vue-next';
+import { RefreshIcon } from 'tdesign-icons-vue-next';
 
 const ANALYSIS_TYPE = [
     { key: 1, value: '类型1' },
@@ -307,6 +306,7 @@ const analysisInfo = ref({
 const resultTypeOptions = ref([{}])
 const roundRuleOptions = ref([{}])
 const unitsOptions = ref([{}])
+const listKeyOptions = ref([{}])
 /* 分析分项数据 */
 const analysisItemList = ref([{
     id: -1,
@@ -375,6 +375,7 @@ const addAnalysisItem = ref({
     roundRule: null,
     groupName: null
 })
+
 const itemColumns = [
     { title: 'id', colKey: 'id', width: 50 },
     { title: '名称', colKey: 'name' },
@@ -549,7 +550,7 @@ const showCalcRuleModal = () => {
     // 在此处添加你的逻辑
     showModal('calcRule')
 };
-
+/* 添加分项 */
 const addSubItem = () => {
     console.log('Add Sub Item:', subItem.value);
     const analysisId = analysisInfo.value.id;
@@ -559,7 +560,31 @@ const addSubItem = () => {
         searchSubItem();
     });
 };
-
+/* 结果类型选择更新 */
+const resultTypeChange = (value) => {
+    console.log('Result Type Change:', value);
+    const queryParams = {
+        name: '',
+        description: '',
+        listType: '',
+        groupName: '',
+        pageIndex: 1,
+        pageSize: 500,
+        total: 0
+    };
+    // 在此处添加你的逻辑
+    if (value = '列表型') {
+        getAPI(ListApi).apiListListGet(-1, queryParams.name, queryParams.description, queryParams.listType, queryParams.groupName, queryParams.pageIndex, queryParams.pageSize, queryParams.total).then((res) => {
+            listKeyOptions.value = res.data.data.pageData.map((item) => {
+                return {
+                    id: item.id,
+                    label: item.name,
+                    value: item.name
+                };
+            });
+        })
+    }
+};
 
 
 /* 排序 */
