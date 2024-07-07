@@ -222,7 +222,7 @@
         </t-dialog>
         <t-dialog v-model:visible="calcModal" @confirm="hideModal('calcRule')" header="计算公式编辑器" width="1200">
             <div>{{ analysisItem.analysisName }}-{{ analysisItem.name }}</div>
-            <calcEdit :edit-item="analysisItem"></calcEdit>
+            <calcEdit :edit-item="analysisItem" :analysis-item-list="analysisItemOptions"></calcEdit>
 
             <!-- <t-form>
                 <t-form-item label="计算公式：">
@@ -238,7 +238,7 @@ import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
 import { AnalysisApi, ListApi } from '@/api-services';
 import fieldEdit from '@/components/field-edit/index.vue';
-import { Descriptions, DialogPlugin } from 'tdesign-vue-next';
+import { DialogPlugin, MessagePlugin } from 'tdesign-vue-next';
 import { RefreshIcon } from 'tdesign-icons-vue-next';
 import calcEdit from '@/components/calc-edit/index.vue'
 
@@ -310,6 +310,7 @@ const resultTypeOptions = ref([{}])
 const roundRuleOptions = ref([{}])
 const unitsOptions = ref([{}])
 const listKeyOptions = ref([{}])
+const analysisItemOptions = ref([{}])
 /* 分析分项数据 */
 const analysisItemList = ref([{
     id: -1,
@@ -518,6 +519,9 @@ const updateSubItem = async () => {
     console.log('Update Sub Item:', analysisItem.value);
     // 在此处添加你的逻辑
     getAPI(AnalysisApi).apiAnalysisItemfromanalysisPut(analysisItem.value).then((res) => {
+        if (res.data.data == -1) {
+            MessagePlugin.error('更新失败，请检查是否已存在同名分项');
+        }
         console.log(res);
         searchSubItem();//先执行
     });
@@ -549,6 +553,15 @@ const delteAnalysisItem = async (row) => {
 }
 /* 显示公式编辑器弹窗 */
 const showCalcRuleModal = () => {
+    // 利用map将analysisItemList中的name和id组成一个对象数组
+    analysisItemOptions.value = analysisItemList.value.map((item) => {
+        return {
+            id: item.id,
+            label: item.name,
+            value: item.analysisName + "|" + item.name
+
+        };
+    });
     console.log('Show Calc Rule Modal');
     // 在此处添加你的逻辑
     showModal('calcRule')
@@ -560,6 +573,9 @@ const addSubItem = () => {
     addAnalysisItem.value.analysisId = analysisId;
     addAnalysisItem.value.analysisName = analysisInfo.value.name;
     getAPI(AnalysisApi).apiAnalysisItemtoanalysisPost(addAnalysisItem.value).then((res) => {
+        if (res.data.data == -1) {
+            MessagePlugin.error('添加失败，请检查是否已存在同名分项');
+        }
         searchSubItem();
     });
 };
