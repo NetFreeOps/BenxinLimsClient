@@ -17,7 +17,10 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { RESTfulResultInt32 } from '../models';
+import { RESTfulResultObject } from '../models';
 import { RESTfulResultString } from '../models';
+import { SystemSubEntry } from '../models';
 /**
  * SysdynamicsubApi - axios parameter creator
  * @export
@@ -75,13 +78,70 @@ export const SysdynamicsubApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @summary 动态添加 WebAPI/Controller
-         * @param {string} [body] 
-         * @param {string} [assemblyname] 可自行指定程序集名称
+         * @summary 动态调用系统函数
+         * @param {SystemSubEntry} [body] 
+         * @param {string} [subname] 函数名称
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysdynamicsubCompilePost: async (body?: string, assemblyname?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysdynamicsubCallsystemsubPost: async (body?: SystemSubEntry, subname?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysdynamicsub/callsystemsub`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (subname !== undefined) {
+                localVarQueryParameter['subname'] = subname;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 动态添加 WebAPI/Controller
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysdynamicsubCompilePost: async (body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysdynamicsub/compile`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -102,8 +162,165 @@ export const SysdynamicsubApiAxiosParamCreator = function (configuration?: Confi
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
 
-            if (assemblyname !== undefined) {
-                localVarQueryParameter['assemblyname'] = assemblyname;
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['type'] = type;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['Name'] = name;
+            }
+
+            if (analysisId !== undefined) {
+                localVarQueryParameter['AnalysisId'] = analysisId;
+            }
+
+            if (analysisItemId !== undefined) {
+                localVarQueryParameter['AnalysisItemId'] = analysisItemId;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取动态代码
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysdynamicsubDynamiccodeGet: async (id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysdynamicsub/dynamiccode`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['type'] = type;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['Name'] = name;
+            }
+
+            if (analysisId !== undefined) {
+                localVarQueryParameter['AnalysisId'] = analysisId;
+            }
+
+            if (analysisItemId !== undefined) {
+                localVarQueryParameter['AnalysisItemId'] = analysisItemId;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 保存动态代码
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysdynamicsubSavedynamiccodePost: async (body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysdynamicsub/savedynamiccode`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['type'] = type;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['Name'] = name;
+            }
+
+            if (analysisId !== undefined) {
+                localVarQueryParameter['AnalysisId'] = analysisId;
+            }
+
+            if (analysisItemId !== undefined) {
+                localVarQueryParameter['AnalysisItemId'] = analysisItemId;
             }
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -151,14 +368,70 @@ export const SysdynamicsubApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 动态添加 WebAPI/Controller
-         * @param {string} [body] 
-         * @param {string} [assemblyname] 可自行指定程序集名称
+         * @summary 动态调用系统函数
+         * @param {SystemSubEntry} [body] 
+         * @param {string} [subname] 函数名称
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysdynamicsubCompilePost(body?: string, assemblyname?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
-            const localVarAxiosArgs = await SysdynamicsubApiAxiosParamCreator(configuration).apiSysdynamicsubCompilePost(body, assemblyname, options);
+        async apiSysdynamicsubCallsystemsubPost(body?: SystemSubEntry, subname?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultObject>>> {
+            const localVarAxiosArgs = await SysdynamicsubApiAxiosParamCreator(configuration).apiSysdynamicsubCallsystemsubPost(body, subname, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 动态添加 WebAPI/Controller
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubCompilePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SysdynamicsubApiAxiosParamCreator(configuration).apiSysdynamicsubCompilePost(body, id, type, name, analysisId, analysisItemId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取动态代码
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubDynamiccodeGet(id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SysdynamicsubApiAxiosParamCreator(configuration).apiSysdynamicsubDynamiccodeGet(id, type, name, analysisId, analysisItemId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 保存动态代码
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubSavedynamiccodePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await SysdynamicsubApiAxiosParamCreator(configuration).apiSysdynamicsubSavedynamiccodePost(body, id, type, name, analysisId, analysisItemId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -185,14 +458,58 @@ export const SysdynamicsubApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
-         * @summary 动态添加 WebAPI/Controller
-         * @param {string} [body] 
-         * @param {string} [assemblyname] 可自行指定程序集名称
+         * @summary 动态调用系统函数
+         * @param {SystemSubEntry} [body] 
+         * @param {string} [subname] 函数名称
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysdynamicsubCompilePost(body?: string, assemblyname?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
-            return SysdynamicsubApiFp(configuration).apiSysdynamicsubCompilePost(body, assemblyname, options).then((request) => request(axios, basePath));
+        async apiSysdynamicsubCallsystemsubPost(body?: SystemSubEntry, subname?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultObject>> {
+            return SysdynamicsubApiFp(configuration).apiSysdynamicsubCallsystemsubPost(body, subname, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 动态添加 WebAPI/Controller
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubCompilePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SysdynamicsubApiFp(configuration).apiSysdynamicsubCompilePost(body, id, type, name, analysisId, analysisItemId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取动态代码
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubDynamiccodeGet(id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SysdynamicsubApiFp(configuration).apiSysdynamicsubDynamiccodeGet(id, type, name, analysisId, analysisItemId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 保存动态代码
+         * @param {string} [body] 
+         * @param {number} [id] 
+         * @param {string} [type] 类型,analysis或common
+         * @param {string} [name] 
+         * @param {number} [analysisId] 
+         * @param {number} [analysisItemId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysdynamicsubSavedynamiccodePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return SysdynamicsubApiFp(configuration).apiSysdynamicsubSavedynamiccodePost(body, id, type, name, analysisId, analysisItemId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -217,14 +534,61 @@ export class SysdynamicsubApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 动态添加 WebAPI/Controller
-     * @param {string} [body] 
-     * @param {string} [assemblyname] 可自行指定程序集名称
+     * @summary 动态调用系统函数
+     * @param {SystemSubEntry} [body] 
+     * @param {string} [subname] 函数名称
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysdynamicsubApi
      */
-    public async apiSysdynamicsubCompilePost(body?: string, assemblyname?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
-        return SysdynamicsubApiFp(this.configuration).apiSysdynamicsubCompilePost(body, assemblyname, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysdynamicsubCallsystemsubPost(body?: SystemSubEntry, subname?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultObject>> {
+        return SysdynamicsubApiFp(this.configuration).apiSysdynamicsubCallsystemsubPost(body, subname, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 动态添加 WebAPI/Controller
+     * @param {string} [body] 
+     * @param {number} [id] 
+     * @param {string} [type] 类型,analysis或common
+     * @param {string} [name] 
+     * @param {number} [analysisId] 
+     * @param {number} [analysisItemId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysdynamicsubApi
+     */
+    public async apiSysdynamicsubCompilePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SysdynamicsubApiFp(this.configuration).apiSysdynamicsubCompilePost(body, id, type, name, analysisId, analysisItemId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取动态代码
+     * @param {number} [id] 
+     * @param {string} [type] 类型,analysis或common
+     * @param {string} [name] 
+     * @param {number} [analysisId] 
+     * @param {number} [analysisItemId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysdynamicsubApi
+     */
+    public async apiSysdynamicsubDynamiccodeGet(id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SysdynamicsubApiFp(this.configuration).apiSysdynamicsubDynamiccodeGet(id, type, name, analysisId, analysisItemId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 保存动态代码
+     * @param {string} [body] 
+     * @param {number} [id] 
+     * @param {string} [type] 类型,analysis或common
+     * @param {string} [name] 
+     * @param {number} [analysisId] 
+     * @param {number} [analysisItemId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysdynamicsubApi
+     */
+    public async apiSysdynamicsubSavedynamiccodePost(body?: string, id?: number, type?: string, name?: string, analysisId?: number, analysisItemId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return SysdynamicsubApiFp(this.configuration).apiSysdynamicsubSavedynamiccodePost(body, id, type, name, analysisId, analysisItemId, options).then((request) => request(this.axios, this.basePath));
     }
 }

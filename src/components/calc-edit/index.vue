@@ -4,10 +4,10 @@
             <t-button @click="showModal('params')">添加计算变量</t-button>
             <t-button @click="SaveCode">保存</t-button>
         </t-space>
-        <t-table :columns="columns" :data="calcParamsList" row-key="id"></t-table>
+        <t-table :columns="columns" :data="calcCodeList.params" row-key="id"></t-table>
 
-        <Codemirror id="editCodeContent" v-if="editCode" v-model:value="code" :options="cmOptions" ref="cmRef" height="300" 
-            @change="CodeChange" @input="CodeInput" @ready="CodeReady"></Codemirror>
+        <Codemirror id="editCodeContent" v-if="editCode" v-model:value="calcCodeList.code" :options="cmOptions"
+            ref="cmRef" height="300" @change="CodeChange" @input="CodeInput" @ready="CodeReady"></Codemirror>
         <!-- {{ editItem }} -->
         <t-dialog v-model:visible="paramsModal" header="正在添加变量" @confirm="AddParams">
             <t-select v-model="selectedParamsType" :options="paramsTypeList"
@@ -25,7 +25,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, watch,ref } from 'vue';
+import { onMounted, watch, ref } from 'vue';
+import { getAPI } from '@/axios-utils';
+import { SysdynamicsubApi } from '@/api-services'
 import { MessagePlugin } from 'tdesign-vue-next';
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
@@ -50,8 +52,9 @@ const columns = [{ title: 'id', colKey: 'id', width: 100 },
 { title: '名称', colKey: 'name' },
 { title: '值', colKey: 'value' },
 { title: '类型', colKey: 'type' }]
-const calcParamsList = ref([{ id: -1, name: '', value: '', type: '' }]);
+//const calcParamsList = ref([{ id: -1, name: '', value: '', type: '' }]);
 const calcParams = ref({ id: -1, name: '', value: '', type: '' })
+const calcCodeList = ref({ params: [{ id: -1, name: '', value: '', type: '' }], code: '' })
 const paramsModal = ref(false);
 const paramsTypeList = ref([{
     label: '分项',
@@ -69,26 +72,31 @@ const cmOptions: EditorConfiguration = {
     autocorrect: true
 }
 const CodeInput = (res) => {
-  //  console.log(res)
+    //  console.log(res)
 }
 const CodeChange = (res) => {
-  //  console.log(res)
+    //  console.log(res)
 }
 const CodeReady = (editor: Editor) => {
-    console.log('代码编辑器初始化',editor)
+    console.log('代码编辑器初始化', editor)
     //editor.refresh();
-    
+
 }
 /* 监听editcode的值 */
 watch(() => props.editCode, (newVal, oldVal) => {
-    console.warn(newVal)
-   
-    if(newVal == true){
+    console.warn(props.editItem)
+    if (newVal == true) {
         setTimeout(() => {
             cmRef.value.refresh()
-            
+
         }, 500);
     }
+    // 从服务端加载计算公式
+    getAPI(SysdynamicsubApi).apiSysdynamicsubDynamiccodeGet(-1, 'analysis', '', props.editItem.analysisId, props.editItem.id).then(res => {
+        console.warn(res.data.data)
+        var jsonCode = JSON.parse(res.data.data)
+        calcCodeList.value = jsonCode
+    })
 })
 
 /* 根据变量选择类型计算下一步的数据 */
@@ -98,23 +106,28 @@ const handleSelectedParamsType = (res) => {
 /* 将参数添加到主窗口的表格中 */
 const AddParams = () => {
     //calcParamsList.value.push({ id: -1, name: '', value: '', type: '' })
-    if (calcParamsList.value[0].id == -1) {
-        calcParamsList.value = []
+    if (calcCodeList.value.params[0].id == -1) {
+        calcCodeList.value.params = []
     }
-    calcParams.value.id = calcParamsList.value.length + 1
+    calcParams.value.id = calcCodeList.value.params.length + 1
     // 检查变量名不能重复
-    if (calcParamsList.value.some(item => item.name == calcParams.value.name)) {
+    if (calcCodeList.value.params.some(item => item.name == calcParams.value.name)) {
         MessagePlugin.error('变量名不能重复')
         return
     }
     // 深拷贝
     const tmp = JSON.parse(JSON.stringify(calcParams.value))
-    calcParamsList.value.push(tmp)
+    calcCodeList.value.params.push(tmp)
     hideModal('params')
 }
 const SaveCode = () => {
-   // console.warn(cmRef.value.refresh())
- }
+
+    // console.warn(cmRef.value.refresh())
+    var stringCode = JSON.stringify(calcCodeList.value)
+    getAPI(SysdynamicsubApi).apiSysdynamicsubSavedynamiccodePost(stringCode, props.editItem.id, 'analysis', props.editItem.name, props.editItem.analysisId, props.editItem.id).then(res => {
+        MessagePlugin.success('保存成功')
+    })
+}
 const showModal = (res) => {
     switch (res) {
         case 'params':
@@ -142,12 +155,11 @@ const hideModal = (res) => {
 .edit-content {
     width: 100%;
     height: 500px
-    
 }
 
 .CodeMirror {
     width: 100% !important;
     height: 300px !important;
-   
+
 }
 </style>

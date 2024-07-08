@@ -12,12 +12,12 @@
  * Do not edit the class manually.
  */
 
-/**
-* 分析分项实体类
-*
-* @export
-* @interface AnalysisItemEntry
-*/
+ /**
+ * 分析分项实体类
+ *
+ * @export
+ * @interface AnalysisItemEntry
+ */
 export interface AnalysisItemEntry {
 
     /**
@@ -151,7 +151,7 @@ export interface AnalysisItemEntry {
     /**
      * 自动计算
      *
-     * @type {Number}
+     * @type {number}
      * @memberof AnalysisItemEntry
      */
     autoCalc?: number | null;
