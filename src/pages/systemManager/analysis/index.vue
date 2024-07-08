@@ -222,7 +222,8 @@
         </t-dialog>
         <t-dialog v-model:visible="calcModal" @confirm="hideModal('calcRule')" header="计算公式编辑器" width="1200">
             <div>{{ analysisItem.analysisName }}-{{ analysisItem.name }}</div>
-            <calcEdit :edit-item="analysisItem" :analysis-item-list="analysisItemOptions"></calcEdit>
+            <calcEdit :edit-item="analysisItem" :analysis-item-list="analysisItemOptions" :edit-code="calcModal">
+            </calcEdit>
 
             <!-- <t-form>
                 <t-form-item label="计算公式：">

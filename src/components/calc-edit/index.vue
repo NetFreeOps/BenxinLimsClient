@@ -2,11 +2,12 @@
     <div class="edit-content">
         <t-space class="flex-end">
             <t-button @click="showModal('params')">添加计算变量</t-button>
+            <t-button @click="SaveCode">保存</t-button>
         </t-space>
         <t-table :columns="columns" :data="calcParamsList" row-key="id"></t-table>
-        <Codemirror v-model:value="code" :options="cmOptions" border ref="cmRef" height="400" width="600"
-            @change="onChange" @input="onInput" @ready="onReady">
-        </Codemirror>
+
+        <Codemirror id="editCodeContent" v-if="editCode" v-model:value="code" :options="cmOptions" ref="cmRef" height="300" 
+            @change="CodeChange" @input="CodeInput" @ready="CodeReady"></Codemirror>
         <!-- {{ editItem }} -->
         <t-dialog v-model:visible="paramsModal" header="正在添加变量" @confirm="AddParams">
             <t-select v-model="selectedParamsType" :options="paramsTypeList"
@@ -24,7 +25,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, watch,ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import "codemirror/mode/javascript/javascript.js"
 import Codemirror from "codemirror-editor-vue3"
@@ -32,7 +33,10 @@ import type { CmComponentRef } from "codemirror-editor-vue3"
 import type { Editor, EditorConfiguration } from "codemirror"
 
 const props = defineProps({
-
+    editCode: {
+        type: Boolean,
+        default: ''
+    },
     editItem: {
         type: Object,
         default: () => ({})
@@ -55,11 +59,37 @@ const paramsTypeList = ref([{
 }])
 const selectedParamsType = ref('')
 /* 代码编辑器属性 */
-const code = ref('')
+const code = ref('/* 请输入计算公式 */')
 const cmRef = ref<CmComponentRef>()
 const cmOptions: EditorConfiguration = {
-    mode: "text/javascript"
+    mode: "text/javascript",
+    lineWrapping: true,
+    lineNumbers: true,
+    spellcheck: true,
+    autocorrect: true
 }
+const CodeInput = (res) => {
+  //  console.log(res)
+}
+const CodeChange = (res) => {
+  //  console.log(res)
+}
+const CodeReady = (editor: Editor) => {
+    console.log('代码编辑器初始化',editor)
+    //editor.refresh();
+    
+}
+/* 监听editcode的值 */
+watch(() => props.editCode, (newVal, oldVal) => {
+    console.warn(newVal)
+   
+    if(newVal == true){
+        setTimeout(() => {
+            cmRef.value.refresh()
+            
+        }, 500);
+    }
+})
 
 /* 根据变量选择类型计算下一步的数据 */
 const handleSelectedParamsType = (res) => {
@@ -82,7 +112,9 @@ const AddParams = () => {
     calcParamsList.value.push(tmp)
     hideModal('params')
 }
-
+const SaveCode = () => {
+   // console.warn(cmRef.value.refresh())
+ }
 const showModal = (res) => {
     switch (res) {
         case 'params':
@@ -110,5 +142,12 @@ const hideModal = (res) => {
 .edit-content {
     width: 100%;
     height: 500px
+    
+}
+
+.CodeMirror {
+    width: 100% !important;
+    height: 300px !important;
+   
 }
 </style>
