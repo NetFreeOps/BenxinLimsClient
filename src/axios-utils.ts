@@ -8,6 +8,7 @@
 import globalAxios, { AxiosInstance } from "axios";
 import { Configuration } from "./api-services";
 import { BASE_PATH, BaseAPI } from "./api-services/base";
+import { MessagePlugin } from "tdesign-vue-next";
 
 // 如果是 Angular 项目，则取消下面注释即可
 // import { environment } from './environments/environment';
@@ -38,6 +39,7 @@ export const clearAccessTokens = () => {
 
 // 错误处理
 export const throwError = (message: string) => {
+  MessagePlugin.error(message);
   throw new Error(message);
 };
 
@@ -109,8 +111,8 @@ axiosInstance.interceptors.response.use(
         !serve.errors
           ? "Request Error."
           : typeof serve.errors === "string"
-          ? serve.errors
-          : JSON.stringify(serve.errors)
+            ? serve.errors
+            : JSON.stringify(serve.errors)
       );
       return;
     }

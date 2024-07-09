@@ -52,6 +52,12 @@ export default [
         meta: { title: '产品管理' },
       },
       {
+        path: 'processunit',
+        name: 'processunit',
+        component: () => import('@/pages/systemManager/processUnit/index.vue'),
+        meta: { title: '装置管理' }
+      },
+      {
         path: 'list',
         name: 'list',
         component: () => import('@/pages/systemManager/list/index.vue'),
