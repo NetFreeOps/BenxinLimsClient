@@ -19,4 +19,5 @@ export * from './apis/sysdynamicsub-api';
 export * from './apis/sysrole-api';
 export * from './apis/system-api';
 export * from './apis/test-api';
+export * from './apis/testlist-api';
 

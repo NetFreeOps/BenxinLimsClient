@@ -1,7 +1,8 @@
 import { LogoutIcon } from 'tdesign-icons-vue-next';
 import { shallowRef } from 'vue';
 
-import Layout from '@/layouts/index.vue'; '@/assets/assets-slide-dashboard.svg';
+import Layout from '@/layouts/index.vue'; import components from '@/locales/lang/en_US/components';
+'@/assets/assets-slide-dashboard.svg';
 
 export default [
   {
@@ -37,6 +38,12 @@ export default [
         name: 'analysis',
         component: () => import('@/pages/systemManager/analysis/index.vue'),
         meta: { title: '分析管理' },
+      },
+      {
+        path: 'testlist',
+        name: 'testlist',
+        component: () => import('@/pages/systemManager/testList/index.vue'),
+        meta: { title: '检测单管理' }
       },
       {
         path: 'product',
