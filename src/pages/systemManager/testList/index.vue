@@ -27,7 +27,7 @@
                 <template #actions>
                     <t-button theme="primary" @click="updateTestList">保存</t-button>
                 </template>
-                <t-form>{{ testList }}
+                <t-form>
                     <t-form-item label="检测单名称">
                         <t-input v-model="testList.name" />
                     </t-form-item>
@@ -39,6 +39,9 @@
                     </t-form-item>
                     <t-form-item label="检测单类型">
                         <t-select v-model="testList.type" :options="testListTypeOptions"></t-select>
+                    </t-form-item>
+                    <t-form-item label="产品名称">
+                        <t-input v-model="testList.productName" />
                     </t-form-item>
                 </t-form>
             </t-card>
@@ -55,10 +58,10 @@ import { RefreshIcon } from 'tdesign-icons-vue-next'
 const leftList = ref([{ id: -1, name: '', active: 1 }])
 //const searchParams = ref({ name: '', product_name: '', type: '' })
 const searchParams = ref({ name: '' })
-const testListList = ref([{ id: -1, name: '', product_name: '', description: '', type: '', active: 1 }])
+const testListList = ref([{ id: -1, name: '', productName: '', description: '', type: '', active: 1 }])
 const testList = ref({
     name: '',
-    product_name: '',
+    productName: '',
     description: '',
     type: '',
     active: 1
@@ -85,7 +88,7 @@ const getAllTestList = async () => {
             return {
                 id: item.id,
                 name: item.name,
-                product_name: item.productName,
+                productName: item.productName,
                 description: item.description,
                 type: item.type,
                 active: item.active
