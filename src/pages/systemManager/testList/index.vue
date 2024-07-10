@@ -38,10 +38,13 @@
                         <t-textarea type="textera" v-model="testList.description" />
                     </t-form-item>
                     <t-form-item label="检测单类型">
-                        <t-select v-model="testList.type" :options="testListTypeOptions"></t-select>
+                        <t-select v-model="testList.type" :options="testListTypeOptions" clearable
+                            filterable></t-select>
                     </t-form-item>
                     <t-form-item label="产品名称">
-                        <t-input v-model="testList.productName" />
+                        <!-- <t-input v-model="testList.productName" /> -->
+                        <t-select v-model="testList.productName" :options="productOptions" clearable
+                            filterable></t-select>"
                     </t-form-item>
                 </t-form>
             </t-card>
@@ -51,7 +54,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
-import { TestlistApi, ListApi } from '@/api-services';
+import { TestlistApi, ListApi, ProductApi } from '@/api-services';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { RefreshIcon } from 'tdesign-icons-vue-next'
 
@@ -67,10 +70,12 @@ const testList = ref({
     active: 1
 })
 const testListTypeOptions = ref([])
+const productOptions = ref([])
 
 onMounted(() => {
     getAllTestList()
     getTestListType()
+    getProductList()
 })
 /* 获取所有检测单列表 */
 const getAllTestList = async () => {
@@ -100,6 +105,17 @@ const getAllTestList = async () => {
 const getTestListType = async () => {
     getAPI(ListApi).apiListListitembylistnameListnameGet("样品类型").then(res => {
         testListTypeOptions.value = res.data.data.map(item => {
+            return {
+                label: item.name,
+                value: item.name
+            }
+        })
+    })
+}
+/* 获取所有产品 */
+const getProductList = async () => {
+    getAPI(ProductApi).apiProductAllproductGet().then(res => {
+        productOptions.value = res.data.data.map(item => {
             return {
                 label: item.name,
                 value: item.name
