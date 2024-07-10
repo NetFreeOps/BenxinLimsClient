@@ -19,4 +19,6 @@ export const LIST_TYPE = [{
   key: 2, value: '分析类'
 }, {
   key: 3, value: '管理类'
+}, {
+  key: 4, value: '产品等级'
 }]

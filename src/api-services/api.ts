@@ -14,6 +14,7 @@
 export * from './apis/analysis-api';
 export * from './apis/list-api';
 export * from './apis/processunit-api';
+export * from './apis/product-api';
 export * from './apis/sample-api';
 export * from './apis/sysauth-api';
 export * from './apis/sysdynamicsub-api';

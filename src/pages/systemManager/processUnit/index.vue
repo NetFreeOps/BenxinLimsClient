@@ -16,7 +16,7 @@
             </t-card>
         </div>
         <div style="width:65%">
-            <t-card title="装置明细">
+            <t-card title="装置基础信息">
                 <template #actions>
                     <t-button theme="primary" @click="updateProcessUnit">保存</t-button>
                 </template>
