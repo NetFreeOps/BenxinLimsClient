@@ -10,17 +10,9 @@
                     </t-button>
                     <t-button theme="primary" @click="addProcessUnit">添加装置</t-button>
                 </template>
-                <t-tree :data="leftList" :expand-all="true" :line="true" :expand-on-click-node="false"
-                    :keys="{ value: 'name', label: 'name', children: 'children' }"
-                    @node-click="changeProcessUnitSelect" />
-                <!-- <t-radio-group class="flex flex-col flex-start pt-n5" @change="changeProcessUnitSelect">
-                    <t-radio :value="item.id" v-for="(item, index) in leftList" :key="index" :allow-uncheck="true"
-                        class="py-5" style="width: 100%;">
-                        {{ item.name }}
-                        <span v-if="item.active === 1" class="text-success">[激活]</span>
-                        <span v-if="item.active === 0" class="text-unactive">[未激活]</span>
-                    </t-radio>
-                </t-radio-group> -->
+                <t-tree :data="leftList" :expand-all="true" :line="true" :expandMutex="true"
+                    :keys="{ value: 'name', label: 'name', children: 'children' }" @click="changeProcessUnitSelect" />
+
             </t-card>
         </div>
         <div style="width:65%">
@@ -79,15 +71,20 @@ onMounted(() => {
 const leftList = ref([])
 const processUnitList = ref([{ id: -1, parentId: 0, name: '', code: '', aliasName: '', active: 0, template: '', workShop: '', isEnd: 1 }])
 const ProcessUnit = ref({ id: -1, parentId: 0, name: '', code: '', active: 0, aliasName: '', template: '', workShop: '', isEnd: 1 })
+const selectedUnit = ref('')
 const workShopOptions = ref([])
 /* 获取装置列表 */
 const getAllProcessUnit = async () => {
     const res = await getAPI(ProcessunitApi).apiProcessunitProcessunitGet()
-    leftList.value = res.data.data
+    // leftList.value = res.data.data
     var tmp = res.data.data
-    // debugger
-    var xx = flatToTree(tmp, 'id', 'parentId', 'children')
-    console.warn(xx)
+    // 将id添加到name
+    tmp.forEach((item) => {
+        item.name = item.name + '(装置ID：' + item.id + ')'
+    })
+
+    leftList.value = flatToTree(tmp, 'id', 'parentId', 'children')
+
     //processUnitList.value = res.data.data
     // 采用map赋值
     processUnitList.value = res.data.data.map((item) => {
@@ -117,8 +114,10 @@ const getWorkShopList = async () => {
 }
 /* 加载装置详细信息 */
 const changeProcessUnitSelect = (res) => {
-    console.log(res)
-    ProcessUnit.value = processUnitList.value[res - 1]
+    console.log(res.node.value)
+    console.warn(res.node.data)
+    var tmp = 1
+    ProcessUnit.value = processUnitList.value[res.node.data.id - 1]
 }
 /* 添加装置 */
 const addProcessUnit = () => {
