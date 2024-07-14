@@ -268,14 +268,15 @@ const analysisList = ref([{
     id: 1,
     active: 1,
     analysisType: "",
-    changeTime: "",
-    changeUser: "",
-    commonName: "",
-    createTime: "",
-    createUser: "",
-    dataId: "1",
+    commonName: '',
+    // changeTime: "",
+    // changeUser: "",
+    // commonName: "",
+    // createTime: "",
+    // createUser: "",
+    //dataId: "1",
     defaultPost: "",
-    deleted: "",
+    //deleted: "",
     description: "",
     fileLink: "",
     groupName: "",
@@ -289,14 +290,37 @@ const analysisInfo = ref({
     id: -1,
     active: 1,
     analysisType: "",
-    changeTime: "",
-    changeUser: "",
-    commonName: "",
-    createTime: "",
-    createUser: "",
-    dataId: "1",
+    commonName: '',
+    // changeTime: "",
+    // changeUser: "",
+    // commonName: "",
+    // createTime: "",
+    // createUser: "",
+    // dataId: "1",
     defaultPost: "",
-    deleted: "",
+    //deleted: "",
+    description: "",
+    fileLink: "",
+    groupName: "",
+    labName: "",
+    name: "",
+    reportName: "",
+    standard: "",
+    version: "1"
+})
+const addAnalysisInfo = ref({
+
+    active: 1,
+    analysisType: "",
+    commonName: '',
+    // changeTime: "",
+    // changeUser: "",
+    // commonName: "",
+    // createTime: "",
+    // createUser: "",
+    // dataId: "1",
+    defaultPost: "",
+    //deleted: "",
     description: "",
     fileLink: "",
     groupName: "",
@@ -423,12 +447,19 @@ const fiterAnalysis = () => {
 const addAnalysis = () => {
     console.log('Add Analysis:', analysisInfo.value);
     // 在此处添加你的逻辑
+    getAPI(AnalysisApi).apiAnalysisAnalysisPost(addAnalysisInfo.value).then((res) => {
+        console.log(res);
+        getAllAnalysis();
+    });
 };
 
 const changeAnalysisType = (value) => {
     console.log('Selected Analysis Type:', value);
     // 获取指定位置的值
-    analysisInfo.value = analysisList.value[value - 1];
+  //  analysisInfo.value = analysisList.value[value - 1];
+    // 获取指定ID的值
+    analysisInfo.value = analysisList.value.find((item) => item.id === value);
+
     console.log('Selected Analysis Info:', analysisInfo.value);
     searchSubItem();
 };
