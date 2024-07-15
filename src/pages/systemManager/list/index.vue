@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex; justify-content: space-around;">
-        <div style="width: 10%;">
+        <div style="width: 20%;">
             <t-card header="列表类型">
                 <t-radio-group class="flex flex-col" v-model="queryParams.listType" @change="changeListType">
                     <t-radio :value="item.value" v-for="(item, index) in LIST_TYPE" :key="index" :allow-uncheck="true"
@@ -10,7 +10,7 @@
                 </t-radio-group>
             </t-card>
         </div>
-        <div style="width: 85%;">
+        <div style="width: 75%;">
             <t-card>
                 <t-space class="flex flex-end">
                     <t-button @click="showModal('add')">新增</t-button>

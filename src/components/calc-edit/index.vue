@@ -94,8 +94,11 @@ watch(() => props.editCode, (newVal, oldVal) => {
     // 从服务端加载计算公式
     getAPI(SysdynamicsubApi).apiSysdynamicsubDynamiccodeGet(-1, 'analysis', '', props.editItem.analysisId, props.editItem.id).then(res => {
         console.warn(res.data.data)
-        var jsonCode = JSON.parse(res.data.data)
-        calcCodeList.value = jsonCode
+        if (res.data.data) {
+            var jsonCode = JSON.parse(res.data.data)
+            calcCodeList.value = jsonCode
+        }
+
     })
 })
 

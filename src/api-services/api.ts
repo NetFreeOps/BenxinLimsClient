@@ -12,7 +12,9 @@
  * Do not edit the class manually.
  */
 export * from './apis/analysis-api';
+export * from './apis/configcenter-api';
 export * from './apis/list-api';
+export * from './apis/post-api';
 export * from './apis/processunit-api';
 export * from './apis/product-api';
 export * from './apis/sample-api';

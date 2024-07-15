@@ -34,9 +34,9 @@ export default [
     meta: { title: '系统管理', icon: shallowRef(LogoutIcon) },
     children: [
       {
-        path: 'configCenter',
-        name: 'configCenter',
-        conponent: () => import('@/pages/systemManager/configCenter/index.vue'),
+        path: 'configcenter',
+        name: 'configcenter',
+        component: () => import('@/pages/systemManager/configCenter/index.vue'),
         meta: { title: '配置中心' }
       },
       {

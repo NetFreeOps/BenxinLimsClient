@@ -308,6 +308,7 @@ const analysisInfo = ref({
     standard: "",
     version: "1"
 })
+/* 新增分析默认值，主键自增，因此没有主键 */
 const addAnalysisInfo = ref({
 
     active: 1,
@@ -456,7 +457,7 @@ const addAnalysis = () => {
 const changeAnalysisType = (value) => {
     console.log('Selected Analysis Type:', value);
     // 获取指定位置的值
-  //  analysisInfo.value = analysisList.value[value - 1];
+    //  analysisInfo.value = analysisList.value[value - 1];
     // 获取指定ID的值
     analysisInfo.value = analysisList.value.find((item) => item.id === value);
 
@@ -639,16 +640,29 @@ const resultTypeChange = (value) => {
 
 
 /* 排序 */
-const orderAnalysisItem = (item) => {
+const orderAnalysisItem = async (item) => {
     console.log('Order Analysis Item:', item.newData);
     const itemapi = getAPI(AnalysisApi);
     for (let i = 0; i < item.newData.length; i++) {
         item.newData[i].orderNumber = i + 1;
-        const res = itemapi.apiAnalysisItemfromanalysisPut(item.newData[i]);
+        const res = await itemapi.apiAnalysisItemfromanalysisPut(item.newData[i]);
     }
     searchSubItem();
 
 }
+
+// const updateListItem = async (row) => {
+//     const listApi = getAPI(ListApi);
+//     // 遍历列表项数组，循环更新
+//     for (let i = 0; i < row.length; i++) {
+
+//         const item = row[i];
+//         item.order = i + 1;
+//         console.warn(row[i])
+//         const res = await listApi.apiListListitemPut(item);
+//     }
+//     reloadListItem();
+// };
 
 const showModal = (res) => {
     switch (res) {
