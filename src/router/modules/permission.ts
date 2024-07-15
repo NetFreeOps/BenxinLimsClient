@@ -12,6 +12,12 @@ export default [
     meta: { title: '权限管理', icon: shallowRef(LogoutIcon) },
     children: [
       {
+        path: 'workShop',
+        name: 'workShop',
+        component: () => import('@/pages/permissionManager/workShop/index.vue'),
+        meta: { title: '公司管理' }
+      },
+      {
         path: 'group',
         name: 'group',
         component: () => import('@/pages/permissionManager/group/index.vue'),

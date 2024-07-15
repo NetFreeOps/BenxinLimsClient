@@ -20,8 +20,10 @@ export * from './apis/product-api';
 export * from './apis/sample-api';
 export * from './apis/sysauth-api';
 export * from './apis/sysdynamicsub-api';
+export * from './apis/sysgroup-api';
 export * from './apis/sysrole-api';
 export * from './apis/system-api';
+export * from './apis/sysworkshop-api';
 export * from './apis/test-api';
 export * from './apis/testlist-api';
 
