@@ -65,7 +65,7 @@ import { onMounted, ref } from 'vue'
 import { getAPI } from '@/axios-utils';
 import { ConfigcenterApi, ListApi } from '@/api-services';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { RefreshIcon } from 'tdesign-icons-vue-next'
+//import { RefreshIcon } from 'tdesign-icons-vue-next'
 
 const leftList = ref([])
 const confgTypeOptions = ref([])
