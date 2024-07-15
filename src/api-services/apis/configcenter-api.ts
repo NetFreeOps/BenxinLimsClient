@@ -135,12 +135,60 @@ export const ConfigcenterApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @summary 批量更新或插入配置项
-         * @param {Array<SysUserConfigEntry>} [body] 
+         * @summary 插入配置项
+         * @param {SysUserConfigEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiConfigcenterConfigPut: async (body?: Array<SysUserConfigEntry>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiConfigcenterConfigPost: async (body?: SysUserConfigEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/configcenter/config`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 更新配置项
+         * @param {SysUserConfigEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiConfigcenterConfigPut: async (body?: SysUserConfigEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/configcenter/config`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -222,12 +270,26 @@ export const ConfigcenterApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 批量更新或插入配置项
-         * @param {Array<SysUserConfigEntry>} [body] 
+         * @summary 插入配置项
+         * @param {SysUserConfigEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiConfigcenterConfigPut(body?: Array<SysUserConfigEntry>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+        async apiConfigcenterConfigPost(body?: SysUserConfigEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await ConfigcenterApiAxiosParamCreator(configuration).apiConfigcenterConfigPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新配置项
+         * @param {SysUserConfigEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiConfigcenterConfigPut(body?: SysUserConfigEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
             const localVarAxiosArgs = await ConfigcenterApiAxiosParamCreator(configuration).apiConfigcenterConfigPut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -267,12 +329,22 @@ export const ConfigcenterApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @summary 批量更新或插入配置项
-         * @param {Array<SysUserConfigEntry>} [body] 
+         * @summary 插入配置项
+         * @param {SysUserConfigEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiConfigcenterConfigPut(body?: Array<SysUserConfigEntry>, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+        async apiConfigcenterConfigPost(body?: SysUserConfigEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return ConfigcenterApiFp(configuration).apiConfigcenterConfigPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新配置项
+         * @param {SysUserConfigEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiConfigcenterConfigPut(body?: SysUserConfigEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
             return ConfigcenterApiFp(configuration).apiConfigcenterConfigPut(body, options).then((request) => request(axios, basePath));
         },
     };
@@ -311,13 +383,24 @@ export class ConfigcenterApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 批量更新或插入配置项
-     * @param {Array<SysUserConfigEntry>} [body] 
+     * @summary 插入配置项
+     * @param {SysUserConfigEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ConfigcenterApi
      */
-    public async apiConfigcenterConfigPut(body?: Array<SysUserConfigEntry>, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+    public async apiConfigcenterConfigPost(body?: SysUserConfigEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return ConfigcenterApiFp(this.configuration).apiConfigcenterConfigPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新配置项
+     * @param {SysUserConfigEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ConfigcenterApi
+     */
+    public async apiConfigcenterConfigPut(body?: SysUserConfigEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
         return ConfigcenterApiFp(this.configuration).apiConfigcenterConfigPut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

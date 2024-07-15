@@ -85,6 +85,14 @@ export interface SysUserConfigEntry {
     configType?: string | null;
 
     /**
+     * 描述信息
+     *
+     * @type {string}
+     * @memberof SysUserConfigEntry
+     */
+    description?: string | null;
+
+    /**
      * 配置字段名
      *
      * @type {string}

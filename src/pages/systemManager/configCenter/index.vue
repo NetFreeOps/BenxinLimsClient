@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex; justify-content: space-around;">
-        <div style="width: 30%;">
+        <div style="width: 20%;">
             <t-card title="配置类型">
                 <template #actions>
                     <t-button theme="primary" @click="getConfigInfo" shape="circle">
@@ -21,7 +21,7 @@
                 </t-radio-group>
             </t-card>
         </div>
-        <div style="width: 65%;">
+        <div style="width: 75%;">
             <t-card title="配置内容">
                 <!-- <template #actions>
                     <t-button theme="primary" @click="updateTestList">保存</t-button>
@@ -36,8 +36,15 @@
         </div>
         <t-dialog v-model:visible="configMoal" @confirm="updateConfig" header="配置编辑器" width="800">
             <t-form>
+                <t-form-item label="用户ID：">
+                    <t-input v-model="configItem.userId" />
+                </t-form-item>"
                 <t-form-item label="配置类型：">
-                    <t-input v-model="configItem.configType" />
+                    <!-- <t-input v-model="configItem.configType" /> -->
+                    <t-select v-model="configItem.configType" :options="confgTypeOptions" />
+                </t-form-item>
+                <t-form-item label="字段描述：">
+                    <t-input v-model="configItem.description" />
                 </t-form-item>
                 <t-form-item label="配置字段：">
                     <t-input v-model="configItem.configField" />
@@ -61,6 +68,7 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { RefreshIcon } from 'tdesign-icons-vue-next'
 
 const leftList = ref([])
+const confgTypeOptions = ref([])
 const queryParams = ref({
     userId: '',
     configType: '',
@@ -78,6 +86,9 @@ const columns = [{
     title: '配置类型',
     colKey: 'configType',
 }, {
+    title: '字段说明',
+    colKey: 'description'
+}, {
     title: '配置字段',
     colKey: 'configField',
 }, {
@@ -86,7 +97,11 @@ const columns = [{
 }, {
     title: '状态',
     colKey: 'status',
-    width: 100
+    width: 100,
+    cell: (h, { row }) => {
+        return h('t-tag', row.status == 1 ? '生效中' : '未生效')
+
+    }
 
 }, { title: '操作', colKey: 'operation', width: 200 }]
 const configMoal = ref(false)
@@ -94,6 +109,7 @@ const configList = ref([{
     id: 1,
     userId: '',
     configType: '',
+    description: '',
     configField: '',
     configValue: '',
     status: '1'
@@ -101,6 +117,7 @@ const configList = ref([{
 const configItem = ref({
     userId: '',
     configType: '',
+    description: '',
     configField: '',
     configValue: '',
     status: '1'
@@ -108,6 +125,7 @@ const configItem = ref({
 const AddConfigItem = ref({
     userId: '',
     configType: '',
+    description: '',
     configField: '',
     configValue: '',
     status: '1'
@@ -131,8 +149,7 @@ const showConfigModal = (row) => {
 }
 /* 更新配置信息 */
 const updateConfig = async () => {
-    var configArray = [configItem.value]
-    getAPI(ConfigcenterApi).apiConfigcenterConfigPut(configArray).then(res => {
+    getAPI(ConfigcenterApi).apiConfigcenterConfigPut(configItem.value).then(res => {
         if (res.data.statusCode == 200) {
             MessagePlugin.success('更新成功')
             getConfigInfo()
@@ -146,8 +163,7 @@ const updateConfig = async () => {
 }
 /* 添加配置信息 */
 const addConfig = async () => {
-    var configArray = [AddConfigItem.value]
-    getAPI(ConfigcenterApi).apiConfigcenterConfigPut(configArray).then(res => {
+    getAPI(ConfigcenterApi).apiConfigcenterConfigPut(AddConfigItem.value).then(res => {
         if (res.data.statusCode == 200) {
             MessagePlugin.success('添加成功')
             getConfigInfo()
@@ -175,6 +191,12 @@ const delteConfig = async (row) => {
 const getConfigType = async () => {
     getAPI(ListApi).apiListListitembylistnameListnameGet("配置类型").then(res => {
         leftList.value = res.data.data.map(item => {
+            return {
+                label: item.name,
+                value: item.name
+            }
+        })
+        confgTypeOptions.value = res.data.data.map(item => {
             return {
                 label: item.name,
                 value: item.name
