@@ -44,8 +44,8 @@ import { SysworkshopApi } from '@/api-services'
 import { MessagePlugin, Tag } from 'tdesign-vue-next'
 
 const workShopModal = ref(false)
-const workShopList = ref([{ id: -1, name: '', code: '', aliasName: '', active: 1 }])
-const workShopItem = ref({ id: -1, name: '', code: '', aliasName: '', active: 1 })
+const workShopList = ref([{ id: -1, name: '', code: '', aliasName: '', active: 1, deleted: 0 }])
+const workShopItem = ref({ id: -1, name: '', code: '', aliasName: '', active: 1, deleted: 0 })
 const AddWorkShopItem = ref({ name: '', code: '', aliasName: '', active: 1 })
 
 const columns = [{ title: 'ID', colKey: 'id', width: 100 }
@@ -58,6 +58,15 @@ const columns = [{ title: 'ID', colKey: 'id', width: 100 }
         return h(Tag, {
             theme: row.active == 1 ? 'success' : 'danger',
         }, () => row.active == 1 ? '启用' : '禁用')
+
+    }
+}
+    , {
+    title: '逻辑删除？', colKey: 'deleted', cell: (h, { row }) => {
+        //  return h('t-switch', row.active == 1 ? '启用' : '禁用')
+        return h(Tag, {
+            theme: row.deleted == 1 ? 'danger' : 'success',
+        }, () => row.deleted == 1 ? '已删除' : '未删除')
 
     }
 }
@@ -90,6 +99,15 @@ const updateWorkShop = async () => {
         }
         getWorkShopList();
         hideModal('workShop')
+    })
+}
+/* 删除公司信息 */
+const deleteWorkShop = async (row) => {
+    getAPI(SysworkshopApi).apiSysworkshopWrokshopIdDelete(row.id).then(res => {
+        if (res.data.statusCode == 200) {
+            MessagePlugin.success('删除成功')
+        }
+        getWorkShopList();
     })
 }
 /* 显示弹窗 */
