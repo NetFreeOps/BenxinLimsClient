@@ -20,7 +20,9 @@
                 <template #operation="{ row }">
                     <div v-if="row.deleted != 1">
                         <t-button theme="primary" variant="text" @click="showModal(row, 'group')">编辑</t-button>
-                        <t-button theme="danger" variant="text" @click="deleteGroup(row)">删除</t-button>
+                        <t-popconfirm theme="danger" content="删除前确认" @confirm="deleteGroup(row)">
+                            <t-button theme="danger" variant="text">删除</t-button>
+                        </t-popconfirm>
                     </div>
                     <div v-if="row.deleted == 1">
                         <t-button theme="danger">部门已删除</t-button>
@@ -152,6 +154,7 @@ const deleteGroup = async (row) => {
         if (res.data.statusCode == 200) {
             MessagePlugin.success("已删除")
         }
+        getGroupList()
     })
 }
 /* 公司选择变更 */

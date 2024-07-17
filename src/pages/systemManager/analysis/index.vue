@@ -136,7 +136,9 @@
                         @drag-sort="orderAnalysisItem" row-key="id">
                         <template #operation="{ row }">
                             <t-button theme="primary" variant="text" @click="showSubItemModal(row)">编辑</t-button>
-                            <t-button theme="danger" variant="text" @click="delteAnalysisItem(row)">删除</t-button>
+                            <t-popconfirm theme="danger" content="删除前确认" @confirm="delteAnalysisItem(row)">
+                                <t-button theme="danger" variant="text">删除</t-button>
+                            </t-popconfirm>
                         </template>
                     </t-table>
 

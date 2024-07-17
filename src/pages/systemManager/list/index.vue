@@ -21,7 +21,9 @@
                     <template #operation="{ row }">
                         <t-button theme="primary" variant="text" @click="() => handleEdit(row)">编辑列表</t-button>
                         <t-button theme="primary" variant="text" @click="() => handleEditItem(row)">编辑列表项</t-button>
-                        <t-button theme="primary" variant="text" @click="() => deleteList(row)">删除</t-button>
+                        <t-popconfirm theme="danger" content="删除前确认" @confirm="() => deleteList(row)">
+                            <t-button theme="danger" variant="text">删除</t-button>
+                        </t-popconfirm>
                     </template>
                 </t-table>
             </t-card>
@@ -74,7 +76,9 @@
             <t-table :columns="itemColumns" drag-sort="row" :data="listItemData" @drag-sort="orderListItem" row-key="id"
                 max-height="500">
                 <template #operation="{ row }">
-                    <t-button theme="primary" variant="text" @click="deltetListItem(row)">删除</t-button>
+                    <t-popconfirm theme="danger" content="删除前确认" @confirm="deltetListItem(row)">
+                        <t-button theme="danger" variant="text">删除</t-button>
+                    </t-popconfirm>
                 </template>
             </t-table>
         </t-dialog>

@@ -29,7 +29,9 @@
                 <t-table :columns="columns" row-key="id" :data="configList">
                     <template #operation="{ row }">
                         <t-button theme="primary" variant="text" @click="showConfigModal(row)">编辑</t-button>
-                        <t-button theme="danger" variant="text" @click="delteConfig(row)">删除</t-button>
+                        <t-popconfirm theme="danger" content="删除前确认" @confirm="delteConfig(row)">
+                            <t-button theme="danger" variant="text">删除</t-button>
+                        </t-popconfirm>
                     </template>
                 </t-table>
             </t-card>
@@ -163,7 +165,7 @@ const updateConfig = async () => {
 }
 /* 添加配置信息 */
 const addConfig = async () => {
-    getAPI(ConfigcenterApi).apiConfigcenterConfigPut(AddConfigItem.value).then(res => {
+    getAPI(ConfigcenterApi).apiConfigcenterConfigPost(AddConfigItem.value).then(res => {
         if (res.data.statusCode == 200) {
             MessagePlugin.success('添加成功')
             getConfigInfo()
