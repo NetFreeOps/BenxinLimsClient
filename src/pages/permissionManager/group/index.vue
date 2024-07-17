@@ -15,7 +15,8 @@
             </t-card>
         </div>
         <div style="width: 75%;">
-            <t-table :columns="columns" :data="groupList" row-key="id">
+            <t-enhanced-table :columns="columns" :data="groupList" row-key="id" :expandTreeNodeOnClick="false"
+                :tree="tableTreeConfig" :checkStrictly="true">
                 <template #operation="{ row }">
                     <div v-if="row.deleted != 1">
                         <t-button theme="primary" variant="text" @click="showModal(row, 'group')">编辑</t-button>
@@ -23,16 +24,17 @@
                     </div>
                     <div v-if="row.deleted == 1">
                         <t-button theme="danger">部门已删除</t-button>
-
                     </div>
-
                 </template>
-            </t-table>
+            </t-enhanced-table>
         </div>
         <t-dialog v-model:visible="groupMoal" @confirm="updateGroup" header="部门编辑器" width="800">
             <t-form>
                 <t-form-item label="ID" name="id">
                     <t-input v-model="groupItem.id" disabled />
+                </t-form-item>
+                <t-form-item label="上级部门ID" name="parentId">
+                    <t-tree-select v-model="groupItem.parentId" :data="treeGroup" :keys="treeKeys" />
                 </t-form-item>
                 <t-form-item label="部门名称" name="name">
                     <t-input v-model="groupItem.name" />
@@ -61,24 +63,30 @@ import { ref, onMounted } from 'vue'
 import { getAPI } from '@/axios-utils';
 import { SysworkshopApi, SysgroupApi } from '@/api-services';
 import { MessagePlugin, Tag } from 'tdesign-vue-next';
-const workShopList = ref([{ id: -1, name: '', code: '', aliasName: '', active: 1, deleted: 0 }])
+import { flatToTree } from '@/utils/common'
+
+
+const workShopList = ref([])
 const workShopOptions = ref([])
 const groupList = ref([])
 const groupItem = ref({ id: -1, parentId: 0, name: '', code: '', aliasName: '', workShop: '', isEnd: 0, active: 1, deleted: '0' })
 const AddGroupItem = ref({ parentId: 0, name: '', code: '', aliasName: '', workShop: '', isEnd: 0, active: 1 })
+const treeGroup = ref([])// treeselect所用数据
+const treeKeys = ref({ value: 'id', label: 'name', children: 'children' })
 const selectedWorkShop = ref("")
 
 const groupMoal = ref(false)
 
-const columns = [{ title: 'ID', colKey: 'id', width: 100 },
-{ title: '上级部门ID', colKey: 'parentId' },
+/* 表格配置 */
+const tableTreeConfig = ref({ childrenKey: 'children', expandAll: true, expandLevel: 1 })
+const columns = [{ title: 'ID', colKey: 'id', width: 150 },
+{ title: '上级部门', colKey: 'parentId' },
 { title: '部门名称', colKey: 'name' },
 { title: '部门编码', colKey: 'code' },
 { title: '部门别名', colKey: 'aliasName' },
 { title: '所属公司', colKey: 'workShop' },
 {
     title: '是否末级', colKey: 'isEnd', width: 100, cell: (h, { row }) => {
-        //  return h('t-switch', row.active == 1 ? '启用' : '禁用')
         return h(Tag, {
             theme: row.isEnd == 1 ? 'success' : 'danger',
         }, () => row.isEnd == 1 ? '是' : '否')
@@ -86,7 +94,6 @@ const columns = [{ title: 'ID', colKey: 'id', width: 100 },
 },
 {
     title: '状态', colKey: 'active', width: 100, cell: (h, { row }) => {
-        //  return h('t-switch', row.active == 1 ? '启用' : '禁用')
         return h(Tag, {
             theme: row.active == 1 ? 'success' : 'danger',
         }, () => row.active == 1 ? '启用' : '禁用')
@@ -113,7 +120,9 @@ const getWorkShopList = async () => {
 const getGroupList = async () => {
     getAPI(SysgroupApi).apiSysgroupGrouplistGet("", "", "", selectedWorkShop.value).then((res) => {
         groupList.value = res.data.data
-
+        groupList.value = flatToTree(res.data.data, 'id', 'parentId', 'children')
+        treeGroup.value = flatToTree(res.data.data, 'id', 'parentId', 'children')
+        console.warn(treeGroup.value)
     })
 }
 /* 添加新部门 */
