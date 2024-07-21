@@ -29,12 +29,12 @@ export default [
         component: () => import('@/pages/permissionManager/role/index.vue'),
         meta: { title: '角色管理' },
       },
-      {
-        path: 'post',
-        name: 'post',
-        component: () => import('@/pages/permissionManager/post/index.vue'),
-        meta: { title: '岗位管理' },
-      },
+      // {
+      //   path: 'post',
+      //   name: 'post',
+      //   component: () => import('@/pages/permissionManager/post/index.vue'),
+      //   meta: { title: '岗位管理' },
+      // },
       {
         path: 'analysis',
         name: 'analysis',

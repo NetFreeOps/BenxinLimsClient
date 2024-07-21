@@ -4,6 +4,7 @@ export * from './auth-entry';
 export * from './lims-list-entry';
 export * from './lims-list-item-entry';
 export * from './page-out-entity';
+export * from './post-entry';
 export * from './process-unit-entry';
 export * from './product-entry';
 export * from './restful-result-auth-entry';

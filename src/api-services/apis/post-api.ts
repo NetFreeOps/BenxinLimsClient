@@ -17,8 +17,10 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { PostEntry } from '../models';
 import { RESTfulResultInt32 } from '../models';
 import { RESTfulResultListUserPostEntry } from '../models';
+import { RESTfulResultObject } from '../models';
 import { UserPostEntry } from '../models';
 /**
  * PostApi - axios parameter creator
@@ -28,7 +30,7 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
-         * @summary 删除一条记录
+         * @summary 删除一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -42,6 +44,150 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
                 baseOptions = configuration.baseOptions;
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPostPostDelete: async (body?: PostEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/post/post`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 添加岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPostPostPost: async (body?: PostEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/post/post`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 更新岗位信息
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPostPostPut: async (body?: PostEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/post/post`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -129,6 +275,54 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary 获取所有岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPostPostslistGet: async (body?: PostEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/post/postslist`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 根据岗位查询岗位用户
          * @param {number} [postId] 
          * @param {string} [postName] 
@@ -182,7 +376,7 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @summary 添加一条记录
+         * @summary 添加一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -239,13 +433,55 @@ export const PostApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 删除一条记录
+         * @summary 删除一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async apiPostDelete(body?: UserPostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
             const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostDelete(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 删除岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostDelete(body?: PostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostDelete(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 添加岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostPost(body?: PostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新岗位信息
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostPut(body?: PostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultInt32>>> {
+            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostPut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -268,6 +504,20 @@ export const PostApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取所有岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultObject>>> {
+            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostslistGet(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 根据岗位查询岗位用户
          * @param {number} [postId] 
          * @param {string} [postName] 
@@ -283,7 +533,7 @@ export const PostApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 添加一条记录
+         * @summary 添加一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -306,13 +556,43 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
-         * @summary 删除一条记录
+         * @summary 删除一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async apiPostDelete(body?: UserPostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
             return PostApiFp(configuration).apiPostDelete(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 删除岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostDelete(body?: PostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return PostApiFp(configuration).apiPostPostDelete(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 添加岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostPost(body?: PostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return PostApiFp(configuration).apiPostPostPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新岗位信息
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostPut(body?: PostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultInt32>> {
+            return PostApiFp(configuration).apiPostPostPut(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -327,6 +607,16 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary 获取所有岗位
+         * @param {PostEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultObject>> {
+            return PostApiFp(configuration).apiPostPostslistGet(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 根据岗位查询岗位用户
          * @param {number} [postId] 
          * @param {string} [postName] 
@@ -338,7 +628,7 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @summary 添加一条记录
+         * @summary 添加一条岗位-人员分配，postid取postcode，userid取userid
          * @param {UserPostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -358,7 +648,7 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
 export class PostApi extends BaseAPI {
     /**
      * 
-     * @summary 删除一条记录
+     * @summary 删除一条岗位-人员分配，postid取postcode，userid取userid
      * @param {UserPostEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -366,6 +656,39 @@ export class PostApi extends BaseAPI {
      */
     public async apiPostDelete(body?: UserPostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
         return PostApiFp(this.configuration).apiPostDelete(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 删除岗位
+     * @param {PostEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostApi
+     */
+    public async apiPostPostDelete(body?: PostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return PostApiFp(this.configuration).apiPostPostDelete(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 添加岗位
+     * @param {PostEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostApi
+     */
+    public async apiPostPostPost(body?: PostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return PostApiFp(this.configuration).apiPostPostPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新岗位信息
+     * @param {PostEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostApi
+     */
+    public async apiPostPostPut(body?: PostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultInt32>> {
+        return PostApiFp(this.configuration).apiPostPostPut(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -381,6 +704,17 @@ export class PostApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取所有岗位
+     * @param {PostEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostApi
+     */
+    public async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultObject>> {
+        return PostApiFp(this.configuration).apiPostPostslistGet(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 根据岗位查询岗位用户
      * @param {number} [postId] 
      * @param {string} [postName] 
@@ -393,7 +727,7 @@ export class PostApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 添加一条记录
+     * @summary 添加一条岗位-人员分配，postid取postcode，userid取userid
      * @param {UserPostEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

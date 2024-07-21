@@ -40,6 +40,12 @@ export default [
         meta: { title: '配置中心' }
       },
       {
+        path: 'post',
+        name: 'post',
+        component: () => import('@/pages/systemManager/post/index.vue'),
+        meta: { title: '岗位管理' }
+      },
+      {
         path: 'analysis',
         name: 'analysis',
         component: () => import('@/pages/systemManager/analysis/index.vue'),
