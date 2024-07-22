@@ -33,6 +33,7 @@ export * from './sys-role-data-entry';
 export * from './sys-role-menu-entry';
 export * from './sys-roles-entry';
 export * from './sys-user-config-entry';
+export * from './sys-user-entry';
 export * from './sys-work-shop-entry';
 export * from './system-sub-entry';
 export * from './test-list-entry';

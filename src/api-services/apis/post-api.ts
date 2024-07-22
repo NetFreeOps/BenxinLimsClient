@@ -276,11 +276,10 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary 获取所有岗位
-         * @param {PostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPostPostslistGet: async (body?: PostEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPostPostslistGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/post/postslist`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -301,8 +300,6 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -313,8 +310,6 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -505,12 +500,11 @@ export const PostApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取所有岗位
-         * @param {PostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultObject>>> {
-            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostslistGet(body, options);
+        async apiPostPostslistGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultObject>>> {
+            const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostslistGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -608,12 +602,11 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary 获取所有岗位
-         * @param {PostEntry} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultObject>> {
-            return PostApiFp(configuration).apiPostPostslistGet(body, options).then((request) => request(axios, basePath));
+        async apiPostPostslistGet(options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultObject>> {
+            return PostApiFp(configuration).apiPostPostslistGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -705,13 +698,12 @@ export class PostApi extends BaseAPI {
     /**
      * 
      * @summary 获取所有岗位
-     * @param {PostEntry} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostApi
      */
-    public async apiPostPostslistGet(body?: PostEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultObject>> {
-        return PostApiFp(this.configuration).apiPostPostslistGet(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiPostPostslistGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultObject>> {
+        return PostApiFp(this.configuration).apiPostPostslistGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

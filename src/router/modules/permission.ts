@@ -29,16 +29,10 @@ export default [
         component: () => import('@/pages/permissionManager/role/index.vue'),
         meta: { title: '角色管理' },
       },
-      // {
-      //   path: 'post',
-      //   name: 'post',
-      //   component: () => import('@/pages/permissionManager/post/index.vue'),
-      //   meta: { title: '岗位管理' },
-      // },
       {
-        path: 'analysis',
-        name: 'analysis',
-        component: () => import('@/pages/permissionManager/user/index.vue'),
+        path: 'limsuser',
+        name: 'limsuser',
+        component: () => import('@/pages/permissionManager/limsuser/index.vue'),
         meta: { title: '用户管理' },
       },
 

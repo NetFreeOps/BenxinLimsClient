@@ -93,7 +93,7 @@ const updatepost = async () => {
         hideModal('post')
     })
 }
-/* 删除公司信息 */
+/* 删除岗位信息 */
 const deletepost = async (row) => {
     getAPI(PostApi).apiPostPostDelete(row).then(res => {
         if (res.data.statusCode == 200) {

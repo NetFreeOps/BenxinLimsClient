@@ -49,8 +49,8 @@
             </t-form>
         </t-dialog>
         <!-- 编辑列表弹窗 -->
-        <t-dialog v-model:visible="editListModal" header="编辑列表" @ok="editList" @cancel="hideModal('edit')"
-            @confirm="editList">
+        <t-dialog v-model:visible="editListModal" header="编辑列表" :draggable="true" ok="editList"
+            @cancel="hideModal('edit')" @confirm="editList">
             <t-form>
                 <t-form-item label="名称">
                     <t-input v-model="editModalData.name" placeholder="请输入名称" />
