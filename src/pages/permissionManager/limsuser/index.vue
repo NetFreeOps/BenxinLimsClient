@@ -1,8 +1,15 @@
 <template>
     <div style="display: flex;justify-content: space-around;">
         <div style="width:30%">
+
             <t-card title="部门列表">
-                <t-tree></t-tree>
+                <t-form style="border-bottom: 1px solid #ebebeb;">
+                    <t-form-item label="是否包含子级">
+                        <t-switch v-model="inSub"></t-switch>
+                    </t-form-item>
+                </t-form>
+                <t-tree :data="groupList" pand-all="true" :line="true" :expandMutex="true" checkable
+                    :keys="{ value: 'name', label: 'name', children: 'children' }" @click="treeSelectGroup"></t-tree>
             </t-card>
         </div>
         <div style="width:65%">
@@ -75,8 +82,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
-import { SysuserApi, ListApi, SysgroupApi } from '@/api-services';
+import { SysuserApi, ListApi, SysgroupApi, SysworkshopApi } from '@/api-services';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { flatToTree, extractNames } from '@/utils/common'
+
 
 const columns = [
     { title: '序号', colKey: 'id', width: 100 },
@@ -87,7 +96,8 @@ const columns = [
     { title: '操作', colKey: 'operation', width: 300 }
 ]
 const userEditModal = ref(false);
-const userQuery = {
+const inSub = ref(false)
+const userQuery = ref({
     userId: '',
     userName: '',
     userGroup: '',
@@ -95,12 +105,13 @@ const userQuery = {
     lastLoginIp: '',
     status: ''
 
-}
-const pageQuery = {
+})
+const pageQuery = ref({
     pageIndex: 1,
     pageSize: 10,
     total: 0
-}
+})
+const groupList = ref([])
 
 const userList = ref([{
     avatar: null,
@@ -161,10 +172,63 @@ const AddUserItem = ref({
 const userTypeList = ref([{}])
 
 onMounted(() => {
-    getSysUser();
+    getSysUserAndSetUI();
     getUserTypeList();
+    getGroupList();
 });
-/* 获取用户列表 */
+/* 获取部门列表 */
+const getGroupList = async () => {
+    const sysgroupApi = getAPI(SysgroupApi);
+    await sysgroupApi.apiSysgroupGrouplistGet().then((res) => {
+        // console.log(res.data.data);
+        groupList.value = flatToTree(res.data.data, 'id', 'parentId', 'children')
+        console.log(groupList.value)
+        // groupList.value = res.data.data;
+    });
+};
+/* 选中部门-tree发生变化激活 */
+const treeSelectGroup = (res) => {
+    console.log(res.node.value, res.node.checked)
+    // 暂定只能获取一个部门
+    if (!res.node.checked) {
+        userQuery.value.userGroup = res.node.value
+    }
+    else {
+        userQuery.value.userGroup = ''
+    }
+    // userQuery.value.userGroup = res.node.value;
+    getSysUserAndSetUI()
+
+    // console.log(res.node)
+    // // 初始化分页
+    // pageQuery.value.pageIndex = 1;
+    // pageQuery.value.pageSize = 10;
+    // const names = extractNames(res.node.data);
+    // if (!inSub.value) {
+    //     userQuery.value.userGroup = res.node.value;
+    //     getSysUserAndSetUI()
+    //     return
+    // }
+
+    // userList.value = []
+    // // 遍历names,获取用户列表
+    // names.forEach((name) => {
+    //     userQuery.value.userGroup = res.node.value;
+    //     const tmp = getSysUser();
+    //     tmp.then((res) => {
+    //         // userListArray.push(res.data.data.pageData)
+    //         if (res.data.data.pageData.length > 0) {
+    //             userList.value.push(res.data.data.pageData)
+
+    //         }
+
+    //     })
+    // })
+
+
+
+}
+/* 获取用户状态列表 */
 const getUserTypeList = async () => {
     const listApi = getAPI(ListApi);
     listApi.apiListListitembylistnameListnameGet("用户状态").then((res) => {
@@ -176,19 +240,35 @@ const getUserTypeList = async () => {
         })
     });
 }
-/* 获取用户列表 */
+/* 获取用户列表-仅获取 */
 const getSysUser = async () => {
     const nowDate = new Date();
     const sysuserApi = getAPI(SysuserApi);
-    await sysuserApi.apiSysuserUserlistGet(userQuery.userId, userQuery.userName, userQuery.userGroup, userQuery.userType, "", userQuery.lastLoginIp, nowDate, userQuery.status, pageQuery.pageIndex, pageQuery.pageSize).then((res) => {
-        console.log(res.data.data.pageData);
-        userList.value = res.data.data.pageData;
-        pageQuery.total = res.data.data.total;
-        pageQuery.pageIndex = res.data.data.pageIndex;
-        pageQuery.pageSize = res.data.data.pageSize;
-    });
+    const apiresult = await sysuserApi.apiSysuserUserlistGet(userQuery.value.userId, userQuery.value.userName, userQuery.value.userGroup, userQuery.value.userType, "", userQuery.value.lastLoginIp, nowDate, userQuery.value.status, pageQuery.value.pageIndex, pageQuery.value.pageSize)
+    return apiresult;
+    // .then((res) => {
+    //     console.log(res.data.data.pageData);
+    //     userList.value = res.data.data.pageData;
+    //     pageQuery.total = res.data.data.total;
+    //     pageQuery.pageIndex = res.data.data.pageIndex;
+    //     pageQuery.pageSize = res.data.data.pageSize;
+    // });
 
 };
+/* 获取用户列表-赋值 */
+const getSysUserAndSetUI = async () => {
+    const res = getSysUser();
+    res.then((res) => {
+        // console.log(res.data.data.pageData);
+        userList.value = res.data.data.pageData;
+        pageQuery.value.total = res.data.data.total;
+        pageQuery.value.pageIndex = res.data.data.pageIndex;
+        pageQuery.value.pageSize = res.data.data.pageSize;
+    });
+
+
+}
+
 /* 更新用户信息 */
 const updateUser = async () => {
     const sysuserApi = getAPI(SysuserApi);
@@ -239,4 +319,5 @@ const hideModal = (type) => {
             break;
     }
 };
+
 </script>

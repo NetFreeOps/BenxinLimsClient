@@ -7,6 +7,16 @@ export const randomString = (length: number) => {
     }
     return result;
 };
+/* 遍历树状数据，返回name */
+export const extractNames = (node, names = []) => {
+    if (node.name) {
+        names.push(node.name);
+    }
+    if (node.children && node.children.length > 0) {
+        node.children.forEach(child => extractNames(child, names));
+    }
+    return names;
+};
 /* 平状数据转换为树状数据 */
 export const flatToTree = (data: any[], id: string, parentId: string, children: string, maxDepth = 10): any[] => {
     const map: { [key: string]: any } = {};
