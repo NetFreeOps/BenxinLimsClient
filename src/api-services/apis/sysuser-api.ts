@@ -17,9 +17,11 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { RESTfulResultListSysUserGroupEntry } from '../models';
 import { RESTfulResultPageOutEntity } from '../models';
 import { RESTfulResultString } from '../models';
 import { SysUserEntry } from '../models';
+import { SysUserGroupEntry } from '../models';
 /**
  * SysuserApi - axios parameter creator
  * @export
@@ -116,6 +118,170 @@ export const SysuserApiAxiosParamCreator = function (configuration?: Configurati
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysuserUsergroupDelete: async (body?: SysUserGroupEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysuser/usergroup`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 添加一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysuserUsergroupPost: async (body?: SysUserGroupEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysuser/usergroup`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 查询一条记录
+         * @param {number} [id] 
+         * @param {string} [userId] 用工号
+         * @param {string} [userName] 
+         * @param {string} [groupId] 用岗位代码
+         * @param {string} [groupName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysuserUsergrouplistGet: async (id?: number, userId?: string, userName?: string, groupId?: string, groupName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysuser/usergrouplist`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (userId !== undefined) {
+                localVarQueryParameter['UserId'] = userId;
+            }
+
+            if (userName !== undefined) {
+                localVarQueryParameter['UserName'] = userName;
+            }
+
+            if (groupId !== undefined) {
+                localVarQueryParameter['GroupId'] = groupId;
+            }
+
+            if (groupName !== undefined) {
+                localVarQueryParameter['GroupName'] = groupName;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -261,6 +427,52 @@ export const SysuserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 删除一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergroupDelete(body?: SysUserGroupEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SysuserApiAxiosParamCreator(configuration).apiSysuserUsergroupDelete(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 添加一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergroupPost(body?: SysUserGroupEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultString>>> {
+            const localVarAxiosArgs = await SysuserApiAxiosParamCreator(configuration).apiSysuserUsergroupPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 查询一条记录
+         * @param {number} [id] 
+         * @param {string} [userId] 用工号
+         * @param {string} [userName] 
+         * @param {string} [groupId] 用岗位代码
+         * @param {string} [groupName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergrouplistGet(id?: number, userId?: string, userName?: string, groupId?: string, groupName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListSysUserGroupEntry>>> {
+            const localVarAxiosArgs = await SysuserApiAxiosParamCreator(configuration).apiSysuserUsergrouplistGet(id, userId, userName, groupId, groupName, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取用户列表
          * @param {string} [userId] 
          * @param {string} [userName] 
@@ -314,6 +526,40 @@ export const SysuserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 删除一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergroupDelete(body?: SysUserGroupEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SysuserApiFp(configuration).apiSysuserUsergroupDelete(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 添加一条用户部门记录
+         * @param {SysUserGroupEntry} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergroupPost(body?: SysUserGroupEntry, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultString>> {
+            return SysuserApiFp(configuration).apiSysuserUsergroupPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 查询一条记录
+         * @param {number} [id] 
+         * @param {string} [userId] 用工号
+         * @param {string} [userName] 
+         * @param {string} [groupId] 用岗位代码
+         * @param {string} [groupName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysuserUsergrouplistGet(id?: number, userId?: string, userName?: string, groupId?: string, groupName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListSysUserGroupEntry>> {
+            return SysuserApiFp(configuration).apiSysuserUsergrouplistGet(id, userId, userName, groupId, groupName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取用户列表
          * @param {string} [userId] 
          * @param {string} [userName] 
@@ -363,6 +609,43 @@ export class SysuserApi extends BaseAPI {
      */
     public async apiSysuserUserPut(body?: SysUserEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
         return SysuserApiFp(this.configuration).apiSysuserUserPut(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 删除一条用户部门记录
+     * @param {SysUserGroupEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysuserApi
+     */
+    public async apiSysuserUsergroupDelete(body?: SysUserGroupEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SysuserApiFp(this.configuration).apiSysuserUsergroupDelete(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 添加一条用户部门记录
+     * @param {SysUserGroupEntry} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysuserApi
+     */
+    public async apiSysuserUsergroupPost(body?: SysUserGroupEntry, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultString>> {
+        return SysuserApiFp(this.configuration).apiSysuserUsergroupPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 查询一条记录
+     * @param {number} [id] 
+     * @param {string} [userId] 用工号
+     * @param {string} [userName] 
+     * @param {string} [groupId] 用岗位代码
+     * @param {string} [groupName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysuserApi
+     */
+    public async apiSysuserUsergrouplistGet(id?: number, userId?: string, userName?: string, groupId?: string, groupName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListSysUserGroupEntry>> {
+        return SysuserApiFp(this.configuration).apiSysuserUsergrouplistGet(id, userId, userName, groupId, groupName, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
