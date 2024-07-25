@@ -37,7 +37,9 @@
                 </t-form-item>
             </t-form>
         </t-dialog>
-        <t-dialog v-model:visible="userModal" header="用户选择器"></t-dialog>
+        <t-dialog v-model:visible="userModal" header="用户选择器" width="1200">
+            <userSelect></userSelect>
+        </t-dialog>
     </div>
 </template>
 
@@ -45,7 +47,8 @@
 import { ref, onMounted } from 'vue'
 import { getAPI } from '@/axios-utils';
 import { PostApi } from '@/api-services'
-import { MessagePlugin, Tag } from 'tdesign-vue-next'
+import { MessagePlugin, Tag } from 'tdesign-vue-next';
+import userSelect from '@/components/user-select/index.vue';
 
 const postModal = ref(false)
 const userModal = ref(false)
