@@ -3,12 +3,12 @@
         <div style="width:30%">
 
             <t-card title="部门列表">
-                <t-form style="border-bottom: 1px solid #ebebeb;">
+                <!-- <t-form style="border-bottom: 1px solid #ebebeb;">
                     <t-form-item label="是否包含子级">
                         <t-switch v-model="inSub"></t-switch>
                     </t-form-item>
-                </t-form>
-                <t-tree :data="groupList" pand-all="true" :line="true" :expandMutex="true" checkable
+                </t-form> -->
+                <t-tree :data="groupList" pand-all="true" :line="true" :expandMutex="true" checkable checkStrictly
                     :keys="{ value: 'name', label: 'name', children: 'children' }" @click="treeSelectGroup"></t-tree>
             </t-card>
         </div>
@@ -20,7 +20,7 @@
                 <t-table :columns="columns" :data="userList" row-key="id">
                     <template #operation="{ row }">
                         <t-button variant="text" theme="primary" @click="showModal(row, 'user')">编辑</t-button>
-                        <t-button variant="text" theme="primary" @click="showModal(row, 'user')">分配部门</t-button>
+                        <!-- <t-button variant="text" theme="primary" @click="showModal(row, 'post')">分配岗位</t-button> -->
                         <t-button variant="text" theme="primary" @click="showModal(row, 'user')">分配角色</t-button>
 
                     </template>
@@ -77,14 +77,20 @@
             </div>
 
         </t-dialog>
+        <t-dialog v-model:visible="groupSelectModal" header="部门选择器" @confirm="addUserGroup">
+            <group-select ref="groupBuild" v-model:selected-group="selectedGroup"
+                v-model:selected-status="groupSelectModal"></group-select>
+        </t-dialog>
+
     </div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
-import { SysuserApi, ListApi, SysgroupApi, SysworkshopApi } from '@/api-services';
+import { SysuserApi, ListApi, SysgroupApi, SysUserGroupEntry } from '@/api-services';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { flatToTree, extractNames } from '@/utils/common'
+import groupSelect from '@/components/group-select/index.vue'
 
 
 const columns = [
@@ -96,6 +102,9 @@ const columns = [
     { title: '操作', colKey: 'operation', width: 300 }
 ]
 const userEditModal = ref(false);
+const groupSelectModal = ref(false);
+const selectedGroup = ref({ label: '', value: '' })
+const groupBuild = ref(null)
 const inSub = ref(false)
 const userQuery = ref({
     userId: '',
@@ -170,6 +179,7 @@ const AddUserItem = ref({
     userType: ""
 })
 const userTypeList = ref([{}])
+const usergroup = ref<SysUserGroupEntry>({})
 
 onMounted(() => {
     getSysUserAndSetUI();
@@ -295,6 +305,32 @@ const addUser = async () => {
         getSysUser();
     })
 }
+/* 添加用户部门记录 */
+const addUserGroup = async () => {
+    usergroup.value.userId = userItem.value.userId;
+    usergroup.value.userName = userItem.value.userName;
+    usergroup.value.groupId = selectedGroup.value.value;
+    usergroup.value.groupName = selectedGroup.value.label;
+    console.log(selectedGroup.value)
+    if (selectedGroup.value.value == '' || selectedGroup.value.label == '') {
+        MessagePlugin.error('请选择部门');
+        return
+    }
+
+    const sysuserApi = getAPI(SysuserApi);
+    await sysuserApi.apiSysuserUsergroupPost(usergroup.value).then((res) => {
+        console.log(res.data.data);
+        if (res.data.data == '添加成功') {
+            MessagePlugin.success('添加成功');
+        }
+        else {
+            MessagePlugin.error(res.data.data);
+        }
+
+        hideModal('group');
+        getSysUser();
+    })
+}
 /* 显示弹窗 */
 const showModal = (row, type) => {
     switch (type) {
@@ -302,7 +338,15 @@ const showModal = (row, type) => {
             userEditModal.value = true;
             userItem.value = row;
             break;
-
+        case 'group':
+            groupSelectModal.value = true;
+            userItem.value = row;
+            selectedGroup.value = {
+                label: '',
+                value: ''
+            }
+            groupBuild.value.init()
+            break;
         default:
             break;
     }
@@ -314,7 +358,9 @@ const hideModal = (type) => {
         case 'user':
             userEditModal.value = false;
             break;
-
+        case 'group':
+            groupSelectModal.value = false;
+            break;
         default:
             break;
     }
