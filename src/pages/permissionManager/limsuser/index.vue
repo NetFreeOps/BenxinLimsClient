@@ -42,7 +42,8 @@
                             <t-input v-model="userItem.userGroup" />
                         </t-form-item>
                         <t-form-item label="用户岗位：" name="userType">
-                            <t-input v-model="userItem.userType" />
+                            <t-select v-model="userItem.userType" :options="postOptions"></t-select>
+                            <!-- <t-input v-model="userItem.userType" /> -->
                         </t-form-item>
                         <t-form-item label="状态：" name="status">
                             <t-select v-model="userItem.status" :options="userTypeList" />
@@ -64,7 +65,7 @@
                             <t-input v-model="userItem.userGroup" />
                         </t-form-item>
                         <t-form-item label="用户岗位：" name="userType">
-                            <t-input v-model="userItem.userType" />
+                            <t-select v-model="userItem.userType" :options="postOptions"></t-select>
                         </t-form-item>
                         <t-form-item label="状态：" name="status">
                             <t-select v-model="userItem.status" :options="userTypeList" />
@@ -87,7 +88,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { getAPI } from '@/axios-utils';
-import { SysuserApi, ListApi, SysgroupApi, SysUserGroupEntry } from '@/api-services';
+import { SysuserApi, ListApi, SysgroupApi, SysUserGroupEntry, PostApi } from '@/api-services';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { flatToTree, extractNames } from '@/utils/common'
 import groupSelect from '@/components/group-select/index.vue'
@@ -180,11 +181,12 @@ const AddUserItem = ref({
 })
 const userTypeList = ref([{}])
 const usergroup = ref<SysUserGroupEntry>({})
-
+const postOptions = ref([])
 onMounted(() => {
     getSysUserAndSetUI();
     getUserTypeList();
     getGroupList();
+    getPostList();
 });
 /* 获取部门列表 */
 const getGroupList = async () => {
@@ -196,6 +198,18 @@ const getGroupList = async () => {
         // groupList.value = res.data.data;
     });
 };
+/* 获取岗位列表 */
+const getPostList = async () => {
+    getAPI(PostApi).apiPostPostslistGet().then((res) => {
+        // console.log(res.data.data);
+        postOptions.value = res.data.data.map((item) => {
+            return {
+                label: item.postName,
+                value: item.postName
+            }
+        })
+    });
+}
 /* 选中部门-tree发生变化激活 */
 const treeSelectGroup = (res) => {
     console.log(res.node.value, res.node.checked)
