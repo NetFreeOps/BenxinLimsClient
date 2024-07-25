@@ -28,7 +28,7 @@
             </t-card>
 
         </div>
-        <t-dialog v-model:visible="userEditModal" header="用户编辑器" @confirm="updateUser" width="1200">
+        <t-dialog v-model:visible="userEditModal" header="用户编辑器" @confirm="updateUser" width="800">
             <div style="display: flex;justify-content: space-around;">
                 <t-card title="基础信息">
                     <t-form style="max-height: 600px;width:500px; overflow-y: auto;">
@@ -38,8 +38,10 @@
                         <t-form-item label="用户名：" name="userName">
                             <t-input v-model="userItem.userName" />
                         </t-form-item>
-                        <t-form-item label="用户组：" name="userGroup">
-                            <t-input v-model="userItem.userGroup" />
+                        <t-form-item label="部门" name="userGroup">
+                            <!-- <t-input v-model="userItem.userGroup" /> -->
+                            <t-tree-select :data="groupList" v-model="userItem.userGroup"
+                                :keys="treeKeys"></t-tree-select>
                         </t-form-item>
                         <t-form-item label="用户岗位：" name="userType">
                             <t-select v-model="userItem.userType" :options="postOptions"></t-select>
@@ -53,7 +55,7 @@
                         </t-form-item> -->
                     </t-form>
                 </t-card>
-                <t-card title="扩展信息">
+                <!-- <t-card title="扩展信息">
                     <t-form style="max-height: 600px;width:500px; overflow-y: auto;">
                         <t-form-item label="用户编号：" name="userId">
                             <t-input v-model="userItem.userId" />
@@ -70,11 +72,9 @@
                         <t-form-item label="状态：" name="status">
                             <t-select v-model="userItem.status" :options="userTypeList" />
                         </t-form-item>
-                        <!-- <t-form-item>
-                            <t-button>保存</t-button>
-                        </t-form-item> -->
+                      
                     </t-form>
-                </t-card>
+                </t-card> -->
             </div>
 
         </t-dialog>
@@ -102,6 +102,8 @@ const columns = [
     { title: '状态', colKey: 'status' },
     { title: '操作', colKey: 'operation', width: 300 }
 ]
+const treeKeys = ref({ value: 'name', label: 'name', children: 'children' })
+
 const userEditModal = ref(false);
 const groupSelectModal = ref(false);
 const selectedGroup = ref({ label: '', value: '' })

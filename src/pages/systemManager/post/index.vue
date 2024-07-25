@@ -14,8 +14,10 @@
             <t-table :columns="columns" row-key="id" :data="postList">
                 <template #operation="{ row }">
                     <t-button theme="primary" variant="text" @click="showModal(row, 'post')">编辑</t-button>
-                    <t-button theme="primary" variant="text" @click="deletepost(row)">人员</t-button>
-                    <t-button theme="danger" variant="text" @click="deletepost(row)">删除</t-button>
+                    <t-button theme="primary" variant="text" @click="showModal(row, 'user')">分配人员</t-button>
+                    <t-popconfirm theme="danger" content="删除前确认" @confirm="deletepost(row)">
+                        <t-button theme="danger" variant="text">删除</t-button>
+                    </t-popconfirm>
                 </template>
             </t-table>
         </t-card>
@@ -35,6 +37,7 @@
                 </t-form-item>
             </t-form>
         </t-dialog>
+        <t-dialog v-model:visible="userModal" header="用户选择器"></t-dialog>
     </div>
 </template>
 
@@ -45,6 +48,7 @@ import { PostApi } from '@/api-services'
 import { MessagePlugin, Tag } from 'tdesign-vue-next'
 
 const postModal = ref(false)
+const userModal = ref(false)
 const postList = ref([{ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 }])
 const postItem = ref({ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 })
 const AddpostItem = ref({ postName: '', code: '', postCode: '', description: '', active: 1 })
@@ -110,7 +114,8 @@ const showModal = (row, res) => {
             postItem.value = row
             console.warn(postItem.value)
             break;
-
+        case 'user':
+            userModal.value = true
         default:
             break;
     }
@@ -122,7 +127,8 @@ const hideModal = (res) => {
         case 'post':
             postModal.value = false
             break;
-
+        case 'user':
+            userModal.value = false
         default:
             break;
     }
