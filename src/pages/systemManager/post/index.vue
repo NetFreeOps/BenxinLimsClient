@@ -38,7 +38,7 @@
             </t-form>
         </t-dialog>
         <t-dialog v-model:visible="userModal" header="用户选择器" width="1200">
-            <userSelect></userSelect>
+            <userSelect v-model:selected-user-list="selectedUserLData" ref="userBuild"></userSelect>
         </t-dialog>
     </div>
 </template>
@@ -55,6 +55,8 @@ const userModal = ref(false)
 const postList = ref([{ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 }])
 const postItem = ref({ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 })
 const AddpostItem = ref({ postName: '', code: '', postCode: '', description: '', active: 1 })
+const selectedUserLData = ref([])
+const userBuild = ref(null)
 
 const columns = [{ title: 'ID', colKey: 'id', width: 100 }
     , { title: '岗位名称', colKey: 'postName' }
@@ -119,6 +121,8 @@ const showModal = (row, res) => {
             break;
         case 'user':
             userModal.value = true
+            userBuild.value.init()
+            break;
         default:
             break;
     }
