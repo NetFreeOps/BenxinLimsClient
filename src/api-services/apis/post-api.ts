@@ -223,12 +223,12 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary 根据用户查询用户岗位
-         * @param {number} [userId] 
+         * @param {string} [userId] 
          * @param {string} [userName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPostPostbyuserGet: async (userId?: number, userName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPostPostbyuserGet: async (userId?: string, userName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/post/postbyuser`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -319,12 +319,12 @@ export const PostApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary 根据岗位查询岗位用户
-         * @param {number} [postId] 
+         * @param {string} [postId] 
          * @param {string} [postName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPostUserbypostGet: async (postId?: number, postName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPostUserbypostGet: async (postId?: string, postName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/post/userbypost`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -485,12 +485,12 @@ export const PostApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 根据用户查询用户岗位
-         * @param {number} [userId] 
+         * @param {string} [userId] 
          * @param {string} [userName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostPostbyuserGet(userId?: number, userName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListUserPostEntry>>> {
+        async apiPostPostbyuserGet(userId?: string, userName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListUserPostEntry>>> {
             const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostPostbyuserGet(userId, userName, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -513,12 +513,12 @@ export const PostApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 根据岗位查询岗位用户
-         * @param {number} [postId] 
+         * @param {string} [postId] 
          * @param {string} [postName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostUserbypostGet(postId?: number, postName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListUserPostEntry>>> {
+        async apiPostUserbypostGet(postId?: string, postName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<RESTfulResultListUserPostEntry>>> {
             const localVarAxiosArgs = await PostApiAxiosParamCreator(configuration).apiPostUserbypostGet(postId, postName, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -591,12 +591,12 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary 根据用户查询用户岗位
-         * @param {number} [userId] 
+         * @param {string} [userId] 
          * @param {string} [userName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostPostbyuserGet(userId?: number, userName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
+        async apiPostPostbyuserGet(userId?: string, userName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
             return PostApiFp(configuration).apiPostPostbyuserGet(userId, userName, options).then((request) => request(axios, basePath));
         },
         /**
@@ -611,12 +611,12 @@ export const PostApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary 根据岗位查询岗位用户
-         * @param {number} [postId] 
+         * @param {string} [postId] 
          * @param {string} [postName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPostUserbypostGet(postId?: number, postName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
+        async apiPostUserbypostGet(postId?: string, postName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
             return PostApiFp(configuration).apiPostUserbypostGet(postId, postName, options).then((request) => request(axios, basePath));
         },
         /**
@@ -686,13 +686,13 @@ export class PostApi extends BaseAPI {
     /**
      * 
      * @summary 根据用户查询用户岗位
-     * @param {number} [userId] 
+     * @param {string} [userId] 
      * @param {string} [userName] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostApi
      */
-    public async apiPostPostbyuserGet(userId?: number, userName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
+    public async apiPostPostbyuserGet(userId?: string, userName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
         return PostApiFp(this.configuration).apiPostPostbyuserGet(userId, userName, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -708,13 +708,13 @@ export class PostApi extends BaseAPI {
     /**
      * 
      * @summary 根据岗位查询岗位用户
-     * @param {number} [postId] 
+     * @param {string} [postId] 
      * @param {string} [postName] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostApi
      */
-    public async apiPostUserbypostGet(postId?: number, postName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
+    public async apiPostUserbypostGet(postId?: string, postName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<RESTfulResultListUserPostEntry>> {
         return PostApiFp(this.configuration).apiPostUserbypostGet(postId, postName, options).then((request) => request(this.axios, this.basePath));
     }
     /**

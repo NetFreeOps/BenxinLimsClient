@@ -10,7 +10,7 @@
             <t-card title="用户信息">
 
                 <t-table :columns="columns" :data="userList" row-key="id" :pagination="pageQuery" @change="pageChange"
-                    :selected-row-keys="selectedRowKeys" @select-change="tableSelectChange">
+                    v-model:selected-row-keys="selectedRowKeys" @select-change="tableSelectChange">
                 </t-table>
             </t-card>
         </div>
@@ -27,7 +27,7 @@ const props = defineProps({
 })
 
 const columns = [
-    { colKey: 'row-select', type: 'multiple' },
+    { colKey: 'row-select', type: 'single' },
     { title: '序号', colKey: 'id', width: 100 },
     { title: '用户名', colKey: 'userName' },
     { title: '用户组', colKey: 'userGroup' },
@@ -82,6 +82,7 @@ const init = () => {
     getSysUserAndSetUI();
     getGroupList();
 }
+const emit = defineEmits(['update:selected-user-list']);
 /* 获取部门列表 */
 const getGroupList = async () => {
     const sysgroupApi = getAPI(SysgroupApi);
@@ -94,6 +95,14 @@ const getGroupList = async () => {
 };
 /* 表格选中 */
 const tableSelectChange = (res) => {
+    //console.warn(selectedRowKeys.value)
+    console.warn(res)
+    // 遍历选中的id数组，找出userlist中符合条件的数据，赋值给selectedUserlist
+    const tmp = userList.value.filter((item) => {
+        return res.includes(item.id)
+    })
+    console.warn(tmp)
+    emit('update:selected-user-list', tmp)
 
 }
 

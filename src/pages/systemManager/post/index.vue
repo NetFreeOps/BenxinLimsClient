@@ -37,7 +37,7 @@
                 </t-form-item>
             </t-form>
         </t-dialog>
-        <t-dialog v-model:visible="userModal" header="用户选择器" width="1200">
+        <t-dialog v-model:visible="userModal" header="用户选择器" width="1200" @confirm="updateUserPost">
             <userSelect v-model:selected-user-list="selectedUserLData" ref="userBuild"></userSelect>
         </t-dialog>
     </div>
@@ -111,6 +111,24 @@ const deletepost = async (row) => {
         getpostList();
     })
 }
+/* 添加岗位-人员信息 */
+const updateUserPost = async () => {
+    console.warn(selectedUserLData.value)
+    const tmp = {
+        userId: selectedUserLData.value[0].userId,
+        userName: selectedUserLData.value[0].userName,
+        postId: postItem.value.postCode,
+        postName: postItem.value.postName
+    }
+    getAPI(PostApi).apiPostUserpostPost(tmp).then(res => {
+        if (res.data.statusCode == 200) {
+            MessagePlugin.success('添加成功');
+        } else {
+            MessagePlugin.error(res.data.errors);
+        }
+    })
+    hideModal('user')
+}
 /* 显示弹窗 */
 const showModal = (row, res) => {
     switch (res) {
@@ -120,6 +138,7 @@ const showModal = (row, res) => {
             console.warn(postItem.value)
             break;
         case 'user':
+            postItem.value = row
             userModal.value = true
             userBuild.value.init()
             break;

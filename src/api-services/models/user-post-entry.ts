@@ -27,10 +27,10 @@ export interface UserPostEntry {
     id?: number;
 
     /**
-     * @type {number}
+     * @type {string}
      * @memberof UserPostEntry
      */
-    userId?: number | null;
+    userId?: string | null;
 
     /**
      * @type {string}
@@ -39,10 +39,10 @@ export interface UserPostEntry {
     userName?: string | null;
 
     /**
-     * @type {number}
+     * @type {string}
      * @memberof UserPostEntry
      */
-    postId?: number | null;
+    postId?: string | null;
 
     /**
      * @type {string}
