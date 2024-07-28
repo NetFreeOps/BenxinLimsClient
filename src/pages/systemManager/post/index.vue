@@ -14,7 +14,7 @@
             <t-table :columns="columns" row-key="id" :data="postList">
                 <template #operation="{ row }">
                     <t-button theme="primary" variant="text" @click="showModal(row, 'post')">编辑</t-button>
-                    <t-button theme="primary" variant="text" @click="showModal(row, 'user')">分配人员</t-button>
+                    <t-button theme="primary" variant="text" @click="showModal(row, 'userpost')">编辑人员</t-button>
                     <t-popconfirm theme="danger" content="删除前确认" @confirm="deletepost(row)">
                         <t-button theme="danger" variant="text">删除</t-button>
                     </t-popconfirm>
@@ -40,6 +40,23 @@
         <t-dialog v-model:visible="userModal" header="用户选择器" width="1200" @confirm="updateUserPost">
             <userSelect v-model:selected-user-list="selectedUserLData" ref="userBuild"></userSelect>
         </t-dialog>
+        <!-- 岗位用户列表 -->
+        <t-dialog v-model:visible="userPostModal" :header="postItem.postName" @confirm="hideModal('userpost')"
+            @cancel="showModal('', 'user')" cancelBtn="添加用户">
+            <div style="max-height: 300px;">
+                <t-list>
+                    <t-list-item v-for="(item, index) in userpostList" :key="index">
+                        <template #content>
+                            {{ item.userId }}-{{ item.userName }}
+                        </template>
+                        <template #action>
+                            <t-button theme="danger" variant="text" @click="deleteUserPost(item)">删除</t-button>
+                        </template>
+                    </t-list-item>
+                </t-list>
+            </div>
+
+        </t-dialog>
     </div>
 </template>
 
@@ -52,7 +69,9 @@ import userSelect from '@/components/user-select/index.vue';
 
 const postModal = ref(false)
 const userModal = ref(false)
+const userPostModal = ref(false)
 const postList = ref([{ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 }])
+const userpostList = ref([])
 const postItem = ref({ id: -1, postName: '', code: '', postCode: '', description: '', active: 1 })
 const AddpostItem = ref({ postName: '', code: '', postCode: '', description: '', active: 1 })
 const selectedUserLData = ref([])
@@ -111,6 +130,12 @@ const deletepost = async (row) => {
         getpostList();
     })
 }
+/* 获取岗位-人员信息 */
+const getUserPost = async (row) => {
+    getAPI(PostApi).apiPostUserbypostGet('-1', row.postName).then(res => {
+        userpostList.value = res.data.data
+    })
+}
 /* 添加岗位-人员信息 */
 const updateUserPost = async () => {
     console.warn(selectedUserLData.value)
@@ -126,8 +151,21 @@ const updateUserPost = async () => {
         } else {
             MessagePlugin.error(res.data.errors);
         }
+    }).finally(() => {
+        userModal.value = false
+        getUserPost(postItem.value)
+        showModal(postItem.value, 'userpost')
     })
-    hideModal('user')
+
+}
+/* 删除岗位-人员信息 */
+const deleteUserPost = async (row) => {
+    getAPI(PostApi).apiPostDelete(row).then(res => {
+        if (res.data.statusCode == 200) {
+            MessagePlugin.success('删除成功')
+        }
+        getUserPost(postItem.value)
+    })
 }
 /* 显示弹窗 */
 const showModal = (row, res) => {
@@ -138,23 +176,30 @@ const showModal = (row, res) => {
             console.warn(postItem.value)
             break;
         case 'user':
-            postItem.value = row
+            // postItem.value = row
             userModal.value = true
             userBuild.value.init()
             break;
+        case 'userpost':
+            getUserPost(row);
+            postItem.value = row
+            userPostModal.value = true
         default:
             break;
     }
 
 }
 /* 隐藏弹窗 */
-const hideModal = (res) => {
+const hideModal = async (res) => {
     switch (res) {
         case 'post':
             postModal.value = false
             break;
         case 'user':
             userModal.value = false
+            break;
+        case 'userpost':
+            userPostModal.value = false
         default:
             break;
     }
