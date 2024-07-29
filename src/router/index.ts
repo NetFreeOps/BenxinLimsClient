@@ -12,12 +12,14 @@ const homepageModules = import.meta.glob('./modules/**/homepage.ts', { eager: tr
 const result = import.meta.glob('./modules/result.ts', { eager: true });
 const permission = import.meta.glob('./modules/permission.ts', { eager: true });
 const system = import.meta.glob('./modules/system.ts', { eager: true });
+const template = import.meta.glob('./modules/template.ts', { eager: true });
 const user = import.meta.glob('./modules/user.ts', { eager: true });
 
- export const fixedModules = {
+export const fixedModules = {
   ...result,
   ...permission,
   ...system,
+  ...template,
   ...user,
 };
 
@@ -37,12 +39,12 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     path: '/',
     redirect: '/dashboard/base',
   },
-];  
+];
 // 存放固定路由
 export const homepageRouterList: Array<RouteRecordRaw> = mapModuleRouterList(homepageModules);
 export const fixedRouterList: Array<RouteRecordRaw> = mapModuleRouterList(fixedModules);
 
-export const allRoutes = [...fixedRouterList,...homepageRouterList,  ...defaultRouterList];
+export const allRoutes = [...fixedRouterList, ...homepageRouterList, ...defaultRouterList];
 console.warn('allRoutes', allRoutes);
 // 固定路由模块转换为路由
 export function mapModuleRouterList(modules: Record<string, unknown>): Array<RouteRecordRaw> {
