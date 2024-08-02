@@ -24,5 +24,10 @@ select  查询字段 from 表名 where 查询条件 orrder by 排序字段 排�
 | output | array | 返回字段 | 否 | [] | 默认返回全部查询字段，组合成数组，如：['id','name'] |
 
 ### 动态表单
-Vform
+Vform，这个地方有点比较难搞，要给用户足够的自由度，但是又不能影响系统，只能做一些限制
+1 提供的SQL不能是删除、更新、插入语句
+2 提供的SQL不能是select * from 表名
+3 提供的SQL不能是select * from 表名 where 1=1
+
+
 
