@@ -25,6 +25,7 @@ export * from './apis/sysrole-api';
 export * from './apis/system-api';
 export * from './apis/sysuser-api';
 export * from './apis/sysworkshop-api';
+export * from './apis/template-api';
 export * from './apis/test-api';
 export * from './apis/testlist-api';
 
