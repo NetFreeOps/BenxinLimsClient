@@ -30,7 +30,7 @@
             <!-- 上半部分：分析基础信息的变更 -->
             <div style="flex: 1;">
                 <t-card title="分析基础信息">
-                    <t-form>
+                    <t-form :label-width="120">
                         <div style="display: flex; flex-wrap: wrap;">
                             <div style="width: 50%;border-bottom:1px solid #e5e5e5;">
                                 <t-form-item label="分析名称：" name="name">
