@@ -15,7 +15,7 @@
 | sort | string | 排序方式 | 否 | desc | asc或desc |
 
 ``
-select  查询字段 from 表名 where 查询条件 orrder by 排序字段 排序方式 limit 查询数量
+select  查询字段 from 表名 where 查询条件 order by 排序字段 排序方式 limit 查询数量
 ``
 
 ### 出参
@@ -28,6 +28,5 @@ Vform，这个地方有点比较难搞，要给用户足够的自由度，但是
 1 提供的SQL不能是删除、更新、插入语句
 2 提供的SQL不能是select * from 表名
 3 提供的SQL不能是select * from 表名 where 1=1
-
 
 
