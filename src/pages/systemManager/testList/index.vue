@@ -35,7 +35,7 @@
                         <t-switch v-model="testList.active" :custom-value="[1, 0]" />
                     </t-form-item>
                     <t-form-item label="描述信息">
-                        <t-textarea type="textera" v-model="testList.description" />
+                        <t-textarea type="textarea" v-model="testList.description" />
                     </t-form-item>
                     <t-form-item label="检测单类型">
                         <t-select v-model="testList.type" :options="testListTypeOptions" clearable
@@ -44,7 +44,7 @@
                     <t-form-item label="产品名称">
                         <!-- <t-input v-model="testList.productName" /> -->
                         <t-select v-model="testList.productName" :options="productOptions" clearable
-                            filterable></t-select>"
+                            filterable></t-select>
                     </t-form-item>
                 </t-form>
             </t-card>
@@ -146,7 +146,7 @@ const updateTestList = () => {
 /* 获取检测单详细信息 */
 const changeListSelect = (res) => {
     console.log(res)
-    // 获取指定id的testlistlist的值，赋值给testlist
+    // 根据当前选择的列表顺序取值，赋值给testlist
     testList.value = testListList.value[res - 1]
 }
 const filterTestList = (res) => {
